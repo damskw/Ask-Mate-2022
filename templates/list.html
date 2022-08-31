@@ -6,5 +6,28 @@
 </head>
 <body>
 <h1>Ask mate</h1>
+
+<a href="/">Add question</a>
+
+<table>
+    <tr>
+        {% for key in questions[0] %}
+            <th>
+                {{ key|title }}
+            </th>
+        {% endfor %}
+    </tr>
+    {% for question in questions %}
+        <tr>
+            {% for key in question %}
+                <td>
+                        {{ question[key] }}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+</table>
+
 </body>
 </html>
