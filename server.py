@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 
 import data_handler
 
@@ -21,6 +21,24 @@ def display_question(id):
     return render_template('display_question.html', question=question,
                            questions=all_questions, answers=all_answers,
                            desired_answers=desired_answers)
+
+
+@app.route("/add-question", methods=['GET', 'POST'])
+def add_question():
+    if request.method == 'POST':
+        title = '"' + request.form['title'] + '"'
+        question = '"' + request.form['question'] + '"'
+        index = len(data_handler.get_questions()) + 1
+        data_handler.save_question({'id': index,
+                                    'submission time': 0,
+                                    'view number': 0,
+                                    'vote number': 0,
+                                    'title': title,
+                                    'message': question,
+                                    'image': 'None'
+                                    })
+        return redirect(f'/question/{index}')
+    return render_template('add_question.html')
 
 
 if __name__ == "__main__":

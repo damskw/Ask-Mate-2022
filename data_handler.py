@@ -48,5 +48,16 @@ def find_a_question(id):
     return desired_question
 
 
+def save_question(question):
+    with open(QUESTIONS_FILE_PATH, "a") as file:
+        file.write("\n"
+                   f"{question['id']},"
+                   f"{question['submission time']},"
+                   f"{question['view number']},"
+                   f"{question['vote number']},"
+                   f"{question['title']},"
+                   f"{question['message']},"
+                   f"{question['image']}")
+
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))
