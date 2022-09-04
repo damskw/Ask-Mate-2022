@@ -57,5 +57,19 @@ def add_answer(id):
     return render_template('add_answer.html', question_id=id)
 
 
+@app.route("/question/<id>/delete", methods=['GET', 'POST'])
+def delete_question(id):
+    all_questions = data_handler.get_questions()
+    for question in all_questions:
+        if question['id'] == id:
+            all_questions.remove(question)
+    index = 1
+    for question in all_questions:
+        question['id'] = str(index)
+        index += 1
+    data_handler.update_questions(all_questions)
+    return redirect('/list')
+
+
 if __name__ == "__main__":
     app.run()

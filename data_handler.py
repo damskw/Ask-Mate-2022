@@ -70,5 +70,20 @@ def save_answer(answer):
                    f"{answer['message']},"
                    f"{answer['image']}")
 
+
+def update_questions(questions):
+    with open(QUESTIONS_FILE_PATH, "w") as file:
+        file.write("id,submission time,view number,vote number,title,message,image\n")
+        for question in questions:
+            question['title'] = '"' + question['title'] + '"'
+            question['message'] = '"' + question['message'] + '"'
+            question['image'] = '"' + question['image'] + '"'
+            file.write(f"{question['id']},"
+                       f"{question['submission time']},"
+                       f"{question['view number']},"
+                       f"{question['vote number']},"
+                       f"{question['title']},"
+                       f"{question['message']},"
+                       f"{question['image']}\n")
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))
