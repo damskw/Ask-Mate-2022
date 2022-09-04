@@ -99,5 +99,25 @@ def update_questions(questions):
                        f"{question['image']}\n")
 
 
+def edit_question(new_question):
+    questions = get_questions()
+    with open(QUESTIONS_FILE_PATH, "w") as file:
+        file.write("id,submission time,view number,vote number,title,message,image\n")
+        for question in questions:
+            if new_question['id'] == question['id']:
+                question['message'] = new_question['message']
+                question['title'] = new_question['title']
+            question['message'] = '"' + question['message'] + '"'
+            question['title'] = '"' + question['title'] + '"'
+            question['image'] = '"' + question['image'] + '"'
+            file.write(f"{question['id']},"
+                       f"{question['submission time']},"
+                       f"{question['view number']},"
+                       f"{question['vote number']},"
+                       f"{question['title']},"
+                       f"{question['message']},"
+                       f"{question['image']}\n")
+
+
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))

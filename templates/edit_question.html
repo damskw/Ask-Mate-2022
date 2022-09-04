@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit a question</title>
+</head>
+<body>
+<h1>Add your question here</h1>
+<form action="/question/{{ question['id'] }}/edit" method="POST">
+    <label for="title">Question's title:<br></label>
+    <input name="title" id="title" type="text" value="{{ question['title'] }}">
+    <br><br>
+    <label for="question">Your question's text:<br></label>
+    <textarea type="text" id="question" name="question">{{ question['message'] }}</textarea>
+    <br><br>
+    <label for="image">Add an image:<br></label>
+    <input name='image' id="title" type="file">
+    <br><br>
+    <input type="submit" value="Edit a question">
+</body>
+</html>
