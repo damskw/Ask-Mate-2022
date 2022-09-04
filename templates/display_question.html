@@ -2,13 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ask Mate</title>
+    <title>Display question</title>
 </head>
 <body>
-<h1>Ask mate</h1>
-
-<a href="/">Add question</a>
-
 <table>
     <tr>
         {% for key in questions[0] %}
@@ -17,21 +13,14 @@
             </th>
         {% endfor %}
     </tr>
-    {% for question in questions %}
         <tr>
             {% for key in question %}
                 <td>
-                    {% if key == "id" %}
-                        <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
-                    {% else %}
                         {{ question[key] }}
-                    {% endif %}
                 </td>
             {% endfor %}
         </tr>
-    {% endfor %}
 
 </table>
-
 </body>
 </html>

@@ -9,10 +9,13 @@ app = Flask(__name__)
 @app.route("/list")
 def list_questions():
     questions = data_handler.get_questions()
-    # for question in questions:
-    #     question["message"] = data_handler.convert_line_brakes_to_br(question["message"])
     return render_template('list.html', questions=questions)
 
+@app.route("/question/<id>", methods = ['GET', 'POST'])
+def display_question(id):
+    all_questions = data_handler.get_questions()
+    question = data_handler.find_a_question(id)
+    return render_template('display_question.html', question=question, questions=all_questions)
 
 if __name__ == "__main__":
     app.run()
