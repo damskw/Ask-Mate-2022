@@ -5,6 +5,7 @@
     <title>Display question</title>
 </head>
 <body>
+<h1>Question:</h1>
 <table>
     <tr>
         {% for key in questions[0] %}
@@ -13,13 +14,41 @@
             </th>
         {% endfor %}
     </tr>
+    <tr>
+        {% for key in question %}
+            <td>
+                {{ question[key] }}
+            </td>
+        {% endfor %}
+    </tr>
+</table>
+<h1>Answers:</h1>
+<table>
+    {% if desired_answers != "" %}
         <tr>
-            {% for key in question %}
-                <td>
-                        {{ question[key] }}
-                </td>
+            {% for key in answers[0] %}
+                <th>
+                {% if key != "question id" %}
+                    {{ key|title }}
+                {% endif %}
+                </th>
             {% endfor %}
         </tr>
+        {% for answer in desired_answers %}
+            <tr>
+                {% for key in answer %}
+                    <td>
+                    {% if key != "question id" %}
+                        {{ answer[key] }}
+                    {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <h2>There are no answers to that question!</h2>
+    {% endif %}
+
 
 </table>
 </body>
