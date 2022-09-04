@@ -69,7 +69,6 @@
 <body>
 <main>
     <h1>Ask mate</h1>
-
     <a href="/add-question">Add question</a>
 
     <table class="greyGridTable">
@@ -86,6 +85,8 @@
                     <td>
                         {% if key == "id" %}
                             <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
+                        {% elif key == 'image' %}
+                            <img src="/static/{{ question['image'] }}" alt="No image" style="width:60px;height:50px;"/>
                         {% else %}
                             {{ question[key] }}
                         {% endif %}
