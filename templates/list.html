@@ -68,33 +68,33 @@
 </style>
 <body>
 <main>
-<h1>Ask mate</h1>
+    <h1>Ask mate</h1>
 
-<a href="/add-question">Add question</a>
+    <a href="/add-question">Add question</a>
 
-<table class="greyGridTable">
-    <tr>
-        {% for key in questions[0] %}
-            <th>
-                {{ key|title }}
-            </th>
-        {% endfor %}
-    </tr>
-    {% for question in questions %}
+    <table class="greyGridTable">
         <tr>
-            {% for key in question %}
-                <td>
-                    {% if key == "id" %}
-                        <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
-                    {% else %}
-                        {{ question[key] }}
-                    {% endif %}
-                </td>
+            {% for key in questions[0] %}
+                <th>
+                    {{ key|title }}
+                </th>
             {% endfor %}
         </tr>
-    {% endfor %}
+        {% for question in questions %}
+            <tr>
+                {% for key in question %}
+                    <td>
+                        {% if key == "id" %}
+                            <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
+                        {% else %}
+                            {{ question[key] }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
 
-</table>
+    </table>
 </main>
 </body>
 </html>

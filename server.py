@@ -60,6 +60,7 @@ def add_answer(id):
 @app.route("/question/<id>/delete", methods=['GET', 'POST'])
 def delete_question(id):
     all_questions = data_handler.get_questions()
+    all_answers = data_handler.get_answers()
     for question in all_questions:
         if question['id'] == id:
             all_questions.remove(question)
@@ -67,6 +68,14 @@ def delete_question(id):
     for question in all_questions:
         question['id'] = str(index)
         index += 1
+    for answer in all_answers:
+        if answer['question id'] == id:
+            all_answers.remove(answer)
+    index = 1
+    for answer in all_answers:
+        answer['id'] = str(index)
+        index += 1
+    data_handler.update_answers(all_answers)
     data_handler.update_questions(all_questions)
     return redirect('/list')
 

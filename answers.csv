@@ -1,7 +1,5 @@
 id,submission time,vote number,question id,message,image
-1,1493398154,4,1,"You need to use brackets: my_list = []",
-2,1493088154,35,1,"Look it up in the Python docs",
-3,0,0,2,"test",None
-4,0,0,2,"Jakas tam odpowiedz",None
-5,0,0,2,"kolejna odpowiedz",None
-6,0,0,4,"dasdas",None
+
+1,1493398154,4,1,"You need to use brackets: my_list = []",""
+2,1493088154,35,1,"Look it up in the Python docs",""
+3,0,0,2,"answer2","None"

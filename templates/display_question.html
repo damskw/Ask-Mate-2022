@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <title>Display question</title>
 </head>
+<style>
+    h1 {
+        color: black;
+        border-bottom: 1px dotted darkgreen;
+        font-family: sans-serif;
+        text-align: center;
+    }
+</style>
 <body>
-<h1>Question:</h1>
+<h1><a href="/list">Ask Mate</a></h1>
+<h2>Question:</h2>
 <table>
     <tr>
         {% for key in questions[0] %}
@@ -23,15 +32,15 @@
     </tr>
 </table>
 <a href="/question/{{ question['id'] }}/delete">Delete this question</a>
-<h1>Answers:</h1>
+<h2>Answers:</h2>
 <table>
     {% if desired_answers != "" %}
         <tr>
             {% for key in answers[0] %}
                 <th>
-                {% if key != "question id" %}
-                    {{ key|title }}
-                {% endif %}
+                    {% if key != "question id" %}
+                        {{ key|title }}
+                    {% endif %}
                 </th>
             {% endfor %}
         </tr>
@@ -39,9 +48,9 @@
             <tr>
                 {% for key in answer %}
                     <td>
-                    {% if key != "question id" %}
-                        {{ answer[key] }}
-                    {% endif %}
+                        {% if key != "question id" %}
+                            {{ answer[key] }}
+                        {% endif %}
                     </td>
                 {% endfor %}
             </tr>
@@ -50,7 +59,7 @@
         <h2>There are no answers to that question!</h2>
     {% endif %}
 
-<a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
+    <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
 
 </table>
 </body>
