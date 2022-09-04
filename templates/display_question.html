@@ -33,6 +33,7 @@
 </table>
 <a href="/question/{{ question['id'] }}/delete">Delete this question</a>
 <h2>Answers:</h2>
+<a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
 <table>
     {% if desired_answers != "" %}
         <tr>
@@ -50,6 +51,12 @@
                     <td>
                         {% if key != "question id" %}
                             {{ answer[key] }}
+                            {% if key == "image" %}
+                                <form action="/answer/{{ answer['id'] }}/delete" method="GET">
+                                <br>
+                                <input type="submit" value="Delete this answer">
+                                </form>
+                            {% endif %}
                         {% endif %}
                     </td>
                 {% endfor %}
@@ -59,7 +66,6 @@
         <h2>There are no answers to that question!</h2>
     {% endif %}
 
-    <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
 
 </table>
 </body>

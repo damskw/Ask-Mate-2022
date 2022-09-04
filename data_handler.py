@@ -27,12 +27,10 @@ def get_answers():
 
 def find_an_answer(question_id):
     answers = get_answers()
-    desired_answer = {}
     all_desired_answers = []
     for answer in answers:
         if answer["question id"] == question_id:
-            desired_answer = answer
-            all_desired_answers.append(desired_answer)
+            all_desired_answers.append(answer)
     if len(all_desired_answers) == 0:
         all_desired_answers = ""
         return all_desired_answers
@@ -82,7 +80,7 @@ def update_answers(answers):
                        f"{answer['vote number']},"
                        f"{answer['question id']},"
                        f"{answer['message']},"
-                       f"{answer['image']}")
+                       f"{answer['image']}\n")
 
 
 def update_questions(questions):

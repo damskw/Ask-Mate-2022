@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-
+from datetime import date
 import data_handler
 
 app = Flask(__name__)
@@ -29,8 +29,10 @@ def add_question():
         title = '"' + request.form['title'] + '"'
         question = '"' + request.form['question'] + '"'
         index = len(data_handler.get_questions()) + 1
+        today = date.today()
+        final_date = today.strftime("%d/%m/%Y")
         data_handler.save_question({'id': index,
-                                    'submission time': 0,
+                                    'submission time': final_date,
                                     'view number': 0,
                                     'vote number': 0,
                                     'title': title,
@@ -45,13 +47,16 @@ def add_question():
 def add_answer(id):
     if request.method == 'POST':
         answer = '"' + request.form['answer'] + '"'
+        image = '"' + "None" + '"'
         index = len(data_handler.get_answers()) + 1
+        today = date.today()
+        final_date = today.strftime("%d/%m/%Y")
         data_handler.save_answer({'id': index,
-                                  'submission time': 0,
+                                  'submission time': final_date,
                                   'vote number': 0,
                                   'question id': id,
                                   'message': answer,
-                                  'image': 'None',
+                                  'image': image,
                                   })
         return redirect(f'/question/{id}')
     return render_template('add_answer.html', question_id=id)
@@ -78,6 +83,22 @@ def delete_question(id):
     data_handler.update_answers(all_answers)
     data_handler.update_questions(all_questions)
     return redirect('/list')
+
+
+@app.route("/answer/<answer_id>/delete", methods=['GET', 'POST'])
+def delete_answer(answer_id):
+    question_id = 0
+    all_answers = data_handler.get_answers()
+    for answer in all_answers:
+        if answer['id'] == answer_id:
+            all_answers.remove(answer)
+            question_id = answer['question id']
+    index = 1
+    for answer in all_answers:
+        answer['id'] = str(index)
+        index += 1
+    data_handler.update_answers(all_answers)
+    return redirect(f'/question/{question_id}')
 
 
 if __name__ == "__main__":
