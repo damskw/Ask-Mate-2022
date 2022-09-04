@@ -41,5 +41,21 @@ def add_question():
     return render_template('add_question.html')
 
 
+@app.route("/question/<id>/add-answer", methods=['GET', 'POST'])
+def add_answer(id):
+    if request.method == 'POST':
+        answer = '"' + request.form['answer'] + '"'
+        index = len(data_handler.get_answers()) + 1
+        data_handler.save_answer({'id': index,
+                                  'submission time': 0,
+                                  'vote number': 0,
+                                  'question id': id,
+                                  'message': answer,
+                                  'image': 'None',
+                                  })
+        return redirect(f'/question/{id}')
+    return render_template('add_answer.html', question_id=id)
+
+
 if __name__ == "__main__":
     app.run()

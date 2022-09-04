@@ -59,5 +59,16 @@ def save_question(question):
                    f"{question['message']},"
                    f"{question['image']}")
 
+
+def save_answer(answer):
+    with open(ANSWERS_FILE_PATH, "a") as file:
+        file.write("\n"
+                   f"{answer['id']},"
+                   f"{answer['submission time']},"
+                   f"{answer['vote number']},"
+                   f"{answer['question id']},"
+                   f"{answer['message']},"
+                   f"{answer['image']}")
+
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))

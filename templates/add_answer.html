@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add an answer</title>
+</head>
+<body>
+<h1>Add your answer here</h1>
+<form action="/question/{{ question_id }}/add-answer" method="POST">
+    <label for="answer">Your answer:<br></label>
+    <textarea id="answer" name="answer"></textarea>
+    <br><br>
+    <label for="image">Add an image:<br></label>
+    <input name='image' id="title" type="file">
+    <br><br>
+    <input type="submit" value="Add an answer">
+</form>
+</body>
+</html>
