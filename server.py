@@ -105,11 +105,16 @@ def delete_answer(answer_id):
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
     if request.method == 'POST':
-        title = request.form['title']
-        question = request.form['question']
+        print("aaa")
+        title = '"' + request.form['title'] + '"'
+        print("bbb")
+        question = '"' + request.form['question'] + '"'
+        print("ccc")
         image = '"' + request.form['img'] + '"'
+        print("ddd")
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
+        print("eee")
         data_handler.edit_question({'id': question_id,
                                     'submission time': final_date,
                                     'view number': 0,
@@ -118,6 +123,7 @@ def edit_question(question_id):
                                     'message': question,
                                     'image': image
                                     })
+        print("fff")
         return redirect(f'/question/{question_id}')
     all_questions = data_handler.get_questions()
     editable_question = {}
