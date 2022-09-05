@@ -14,11 +14,11 @@ def list_questions():
 
 @app.route("/question/<id>", methods=['GET', 'POST'])
 def display_question(id):
+    data_handler.higher_question_view_number(id)
     all_questions = data_handler.get_questions()
     question = data_handler.find_a_question(id)
     all_answers = data_handler.get_answers()
     desired_answers = data_handler.find_an_answer(id)
-    data_handler.higher_question_view_number(id)
     return render_template('display_question.html', question=question,
                            questions=all_questions, answers=all_answers,
                            desired_answers=desired_answers)

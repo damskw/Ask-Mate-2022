@@ -10,4 +10,4 @@ jquery
 booklet
 app.js (bundled file with webpack, including jquery)","images/image1.png"
 3,04/09/2022,10,11,"Some question's title","Example of question text","None"
-4,06/09/2022,0,0,"Pytanie","Testowe?",""
+4,06/09/2022,12,0,"Pytanie","Testowe?",""
