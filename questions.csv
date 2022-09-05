@@ -1,6 +1,6 @@
 id,submission time,view number,vote number,title,message,image
-1,1493368154,29,17,"How to make lists in Python?","I am totally new to this, any hints?",""
-2,1493068124,15,10,"Wordpress loading multiple jQuery Versions","I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
+1,1493368154,34,17,"How to make lists in Python?","I am totally new to this, any hints?",""
+2,1493068124,26,10,"Wordpress loading multiple jQuery Versions","I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
 
@@ -9,7 +9,5 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 jquery
 booklet
 app.js (bundled file with webpack, including jquery)","images/image1.png"
-3,04/09/2022,0,11,"Some question's title","Example of question text","None"
-4,04/09/2022,0,4,"sdfsd","sdfsd","image1.jpg"
-
-5,06/09/2022,0,0,"Pytanie","Testowe?",""
+3,04/09/2022,10,11,"Some question's title","Example of question text","None"
+4,06/09/2022,0,0,"Pytanie","Testowe?",""
