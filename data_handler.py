@@ -119,5 +119,43 @@ def edit_question(new_question):
                        f"{question['image']}\n")
 
 
+def change_question_vote(question_id, direction):
+    questions = get_questions()
+    if direction == "UP":
+        with open(QUESTIONS_FILE_PATH, "w") as file:
+            file.write("id,submission time,view number,vote number,title,message,image\n")
+            for question in questions:
+                if question['id'] == question_id:
+                    vote_number = int(question['vote number']) + 1
+                    question['vote number'] = vote_number
+                question['message'] = '"' + question['message'] + '"'
+                question['title'] = '"' + question['title'] + '"'
+                question['image'] = '"' + question['image'] + '"'
+                file.write(f"{question['id']},"
+                           f"{question['submission time']},"
+                           f"{question['view number']},"
+                           f"{question['vote number']},"
+                           f"{question['title']},"
+                           f"{question['message']},"
+                           f"{question['image']}\n")
+    elif direction == "DOWN":
+        with open(QUESTIONS_FILE_PATH, "w") as file:
+            file.write("id,submission time,view number,vote number,title,message,image\n")
+            for question in questions:
+                if question['id'] == question_id:
+                    vote_number = int(question['vote number']) - 1
+                    question['vote number'] = vote_number
+                question['message'] = '"' + question['message'] + '"'
+                question['title'] = '"' + question['title'] + '"'
+                question['image'] = '"' + question['image'] + '"'
+                file.write(f"{question['id']},"
+                           f"{question['submission time']},"
+                           f"{question['view number']},"
+                           f"{question['vote number']},"
+                           f"{question['title']},"
+                           f"{question['message']},"
+                           f"{question['image']}\n")
+
+
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))

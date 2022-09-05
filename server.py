@@ -29,6 +29,7 @@ def add_question():
         title = '"' + request.form['title'] + '"'
         question = '"' + request.form['question'] + '"'
         index = len(data_handler.get_questions()) + 1
+        image = '"' + request.form['img'] + '"'
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
         data_handler.save_question({'id': index,
@@ -37,7 +38,7 @@ def add_question():
                                     'vote number': 0,
                                     'title': title,
                                     'message': question,
-                                    'image': 'None'
+                                    'image': image
                                     })
         return redirect(f'/question/{index}')
     return render_template('add_question.html')
@@ -106,7 +107,7 @@ def edit_question(question_id):
     if request.method == 'POST':
         title = request.form['title']
         question = request.form['question']
-        image = "None"
+        image = '"' + request.form['img'] + '"'
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
         data_handler.edit_question({'id': question_id,
@@ -124,6 +125,18 @@ def edit_question(question_id):
         if question['id'] == question_id:
             editable_question = question
     return render_template('edit_question.html', question=editable_question)
+
+
+@app.route("/question/<question_id>/vote-up", methods=['GET', 'POST'])
+def vote_up(question_id):
+    data_handler.change_question_vote(question_id, "UP")
+    return redirect("/list")
+
+
+@app.route("/question/<question_id>/vote-down", methods=['GET', 'POST'])
+def vote_down(question_id):
+    data_handler.change_question_vote(question_id, "DOWN")
+    return redirect("/list")
 
 
 if __name__ == "__main__":

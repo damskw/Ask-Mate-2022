@@ -87,6 +87,8 @@
                             <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
                         {% elif key == 'image' %}
                             <img src="/static/{{ question['image'] }}" alt="No image" style="width:60px;height:50px;"/>
+                        {% elif key == 'vote number' %}
+                            <a href="/question/{{ question['id'] }}/vote-up">UP</a> {{ question[key] }} <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
                         {% else %}
                             {{ question[key] }}
                         {% endif %}
