@@ -157,5 +157,37 @@ def change_question_vote(question_id, direction):
                            f"{question['image']}\n")
 
 
+def change_answer_vote(answer_id, direction):
+    answers = get_answers()
+    if direction == "UP":
+        with open(ANSWERS_FILE_PATH, "w") as file:
+            file.write("id,submission time,vote number,question id,message,image\n")
+            for answer in answers:
+                if answer['id'] == answer_id:
+                    vote_number = int(answer['vote number']) + 1
+                    answer['vote number'] = vote_number
+                    file.write(f"{answer['id']},"
+                               f"{answer['submission time']},"
+                               f"{answer['vote number']},"
+                               f"{answer['question id']},"
+                               f"{answer['message']},"
+                               f"{answer['image']}\n")
+    if direction == "DOWN":
+        with open(ANSWERS_FILE_PATH, "w") as file:
+            file.write("id,submission time,vote number,question id,message,image\n")
+            for answer in answers:
+                if answer['id'] == answer_id:
+                    vote_number = int(answer['vote number']) - 1
+                    answer['vote number'] = vote_number
+                answer['message'] = '"' + answer['message'] + '"'
+                answer['image'] = '"' + answer['image'] + '"'
+                file.write(f"{answer['id']},"
+                           f"{answer['submission time']},"
+                           f"{answer['vote number']},"
+                           f"{answer['question id']},"
+                           f"{answer['message']},"
+                           f"{answer['image']}\n")
+
+
 def convert_line_brakes_to_br(text):
     return "\n".join(text.split("<br>"))

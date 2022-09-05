@@ -128,15 +128,35 @@ def edit_question(question_id):
 
 
 @app.route("/question/<question_id>/vote-up", methods=['GET', 'POST'])
-def vote_up(question_id):
+def vote_question_up(question_id):
     data_handler.change_question_vote(question_id, "UP")
     return redirect("/list")
 
 
 @app.route("/question/<question_id>/vote-down", methods=['GET', 'POST'])
-def vote_down(question_id):
+def vote_question_down(question_id):
     data_handler.change_question_vote(question_id, "DOWN")
     return redirect("/list")
+
+
+@app.route("/answer/<answer_id>/vote-up", methods=['GET', 'POST'])
+def vote_answer_up(answer_id):
+    all_answers = data_handler.get_answers()
+    for answer in all_answers:
+        if answer['id'] == answer_id:
+            question_id = answer['question id']
+    data_handler.change_answer_vote(answer_id, "UP")
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/answer/<answer_id>/vote-down", methods=['GET', 'POST'])
+def vote_answer_down(answer_id):
+    all_answers = data_handler.get_answers()
+    for answer in all_answers:
+        if answer['id'] == answer_id:
+            question_id = answer['question id']
+    data_handler.change_answer_vote(answer_id, "DOWN")
+    return redirect(f'/question/{question_id}')
 
 
 if __name__ == "__main__":

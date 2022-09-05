@@ -13,4 +13,4 @@ app.js (bundled file with webpack, including jquery)","images/image1.png"
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",""
 4,04/09/2022,0,0,"Some question's title","Example of question text","None"
-5,04/09/2022,0,2,"sdfsd","sdfsd","image1.jpg"
+5,04/09/2022,0,3,"sdfsd","sdfsd","image1.jpg"

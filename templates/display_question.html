@@ -55,9 +55,11 @@
                             {{ answer[key] }}
                             {% if key == "image" %}
                                 <form action="/answer/{{ answer['id'] }}/delete" method="GET">
-                                <br>
-                                <input type="submit" value="Delete this answer">
+                                    <br>
+                                    <input type="submit" value="Delete this answer">
                                 </form>
+                            {% elif key == "vote number" %}
+                                <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>  <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
                             {% endif %}
                         {% endif %}
                     </td>
