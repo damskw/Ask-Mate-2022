@@ -4,19 +4,36 @@
     <meta charset="UTF-8">
     <title>Add question</title>
 </head>
+<style>
+    main {
+        padding: 10px;
+        background: lightblue;
+        alignment: center;
+    }
+
+    h1 {
+        color: black;
+        border-bottom: 1px dotted darkgreen;
+        font-family: sans-serif;
+        text-align: center;
+    }
+</style>
 <body>
-<h1>Add your question here</h1>
-<form action="/add-question" method="POST">
-    <label for="title">Question's title:<br></label>
-    <input name="title" id="title" type="text">
-    <br><br>
-    <label for="question">Your question's text:<br></label>
-    <textarea type="text" id="question" name="question"></textarea>
-    <br><br>
-    <label for="image">Add an image:<br></label>
-    <input type="file" id="img" name="img" accept="image/*">
-    <br><br>
-    <input type="submit" value="Add a question">
-</form>
+<main>
+    <h1><a href="/list">Ask Mate</a></h1>
+    <h1>Add your question here</h1>
+    <form action="/add-question" method="POST">
+        <label for="title">Question's title:<br></label>
+        <input name="title" id="title" type="text">
+        <br><br>
+        <label for="question">Your question's text:<br></label>
+        <textarea type="text" id="question" name="question"></textarea>
+        <br><br>
+        <label for="image">Add an image:<br></label>
+        <input type="file" id="img" name="img" accept="image/*">
+        <br><br>
+        <input type="submit" value="Add a question">
+    </form>
+</main>
 </body>
 </html>

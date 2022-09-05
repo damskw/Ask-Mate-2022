@@ -5,6 +5,60 @@
     <title>Display question</title>
 </head>
 <style>
+    table.greyGridTable {
+        border: 2px solid #FFFFFF;
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    table.greyGridTable td, table.greyGridTable th {
+        border: 1px solid #FFFFFF;
+        padding: 3px 4px;
+    }
+
+    table.greyGridTable tbody td {
+        font-size: 13px;
+    }
+
+    table.greyGridTable td:nth-child(even) {
+        background: #EBEBEB;
+    }
+
+    table.greyGridTable thead {
+        background: #FFFFFF;
+        border-bottom: 4px solid #333333;
+    }
+
+    table.greyGridTable thead th {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333333;
+        text-align: center;
+        border-left: 2px solid #333333;
+    }
+
+    table.greyGridTable thead th:first-child {
+        border-left: none;
+    }
+
+    table.greyGridTable tfoot {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333333;
+        border-top: 4px solid #333333;
+    }
+
+    table.greyGridTable tfoot td {
+        font-size: 14px;
+    }
+
+    main {
+        padding: 10px;
+        background: lightblue;
+        alignment: center;
+    }
+
     h1 {
         color: black;
         border-bottom: 1px dotted darkgreen;
@@ -13,64 +67,67 @@
     }
 </style>
 <body>
-<h1><a href="/list">Ask Mate</a></h1>
-<h2>Question:</h2>
-<table>
-    <tr>
-        {% for key in questions[0] %}
-            <th>
-                {{ key|title }}
-            </th>
-        {% endfor %}
-    </tr>
-    <tr>
-        {% for key in question %}
-            <td>
-                {{ question[key] }}
-            </td>
-        {% endfor %}
-    </tr>
-</table>
-<a href="/question/{{ question['id'] }}/delete">Delete this question</a>
-<br>
-<a href="/question/{{ question['id'] }}/edit">Edit this question</a>
-<h2>Answers:</h2>
-<a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
-<table>
-    {% if desired_answers != "" %}
+<main>
+    <h1><a href="/list">Ask Mate</a></h1>
+    <h2>Question:</h2>
+    <table class="greyGridTable">
         <tr>
-            {% for key in answers[0] %}
+            {% for key in questions[0] %}
                 <th>
-                    {% if key != "question id" %}
-                        {{ key|title }}
-                    {% endif %}
+                    {{ key|title }}
                 </th>
             {% endfor %}
         </tr>
-        {% for answer in desired_answers %}
+        <tr>
+            {% for key in question %}
+                <td>
+                    {{ question[key] }}
+                </td>
+            {% endfor %}
+        </tr>
+    </table class="greyGridTable">
+    <a href="/question/{{ question['id'] }}/delete">Delete this question</a>
+    <br>
+    <a href="/question/{{ question['id'] }}/edit">Edit this question</a>
+    <h2>Answers:</h2>
+    <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
+    <table class="greyGridTable">
+        {% if desired_answers != "" %}
             <tr>
-                {% for key in answer %}
-                    <td>
+                {% for key in answers[0] %}
+                    <th>
                         {% if key != "question id" %}
-                            {{ answer[key] }}
-                            {% if key == "image" %}
-                                <form action="/answer/{{ answer['id'] }}/delete" method="GET">
-                                    <br>
-                                    <input type="submit" value="Delete this answer">
-                                </form>
-                            {% elif key == "vote number" %}
-                                <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>  <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
-                            {% endif %}
+                            {{ key|title }}
                         {% endif %}
-                    </td>
+                    </th>
                 {% endfor %}
             </tr>
-        {% endfor %}
-    {% else %}
-        <h2>There are no answers to that question!</h2>
-    {% endif %}
+            {% for answer in desired_answers %}
+                <tr>
+                    {% for key in answer %}
+                        <td>
+                            {% if key != "question id" %}
+                                {{ answer[key] }}
+                                {% if key == "image" %}
+                                    <form action="/answer/{{ answer['id'] }}/delete" method="GET">
+                                        <br>
+                                        <input type="submit" value="Delete this answer">
+                                    </form>
+                                {% elif key == "vote number" %}
+                                    <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
+                                    <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <h2>There are no answers to that question!</h2>
+        {% endif %}
 
 
-</table>
+    </table>
+</main>
 </body>
 </html>
