@@ -142,7 +142,7 @@ def change_question_vote(question_id, direction):
         with open(QUESTIONS_FILE_PATH, "w") as file:
             file.write("id,submission time,view number,vote number,title,message,image\n")
             for question in questions:
-                if question['id'] == question_id:
+                if question['id'] == question_id and int(question['vote number']) > 0:
                     vote_number = int(question['vote number']) - 1
                     question['vote number'] = vote_number
                 question['message'] = '"' + question['message'] + '"'
@@ -178,7 +178,7 @@ def change_answer_vote(answer_id, direction):
         with open(ANSWERS_FILE_PATH, "w") as file:
             file.write("id,submission time,vote number,question id,message,image\n")
             for answer in answers:
-                if answer['id'] == answer_id:
+                if answer['id'] == answer_id and int(answer['vote number']) > 0:
                     vote_number = int(answer['vote number']) - 1
                     answer['vote number'] = vote_number
                 answer['message'] = '"' + answer['message'] + '"'
