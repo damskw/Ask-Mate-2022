@@ -22,7 +22,7 @@
 <main>
     <h1><a href="/list">Ask Mate</a></h1>
     <h1>Add your question here</h1>
-    <main action="/question/{{ question['id'] }}/edit" method="POST">
+    <form action="/question/{{ question['id'] }}/edit" method="POST">
         <label for="title">Question's title:<br></label>
         <input name="title" id="title" type="text" value="{{ question['title'] }}">
         <br><br>
@@ -33,6 +33,7 @@
         <input name='image' id="title" type="file">
         <br><br>
         <input type="submit" value="Edit a question">
-    </main>
+    </form>
+</main>
 </body>
 </html>
