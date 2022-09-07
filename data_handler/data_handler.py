@@ -4,24 +4,16 @@ import os
 QUESTIONS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'questions.csv'
 ANSWERS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'answers.csv'
 
-
-def get_questions():
-    questions = []
-    with open(QUESTIONS_FILE_PATH, "r") as file:
-        reader = csv.DictReader(file)
-        for line in reader:
-            data = dict(line)
-            questions.append(data)
+def get_questions() -> list:
+    with open(QUESTIONS_FILE_PATH, "r", encoding='utf-8') as file:
+        questions = list(csv.DictReader(file))
+        print(questions)
     return questions
 
 
-def get_answers():
-    answers = []
-    with open(ANSWERS_FILE_PATH, "r") as file:
-        reader = csv.DictReader(file)
-        for line in reader:
-            data = dict(line)
-            answers.append(data)
+def get_answers() -> list:
+    with open(ANSWERS_FILE_PATH, "r", encoding='utf-8') as file:
+        answers = list(csv.DictReader(file))
     return answers
 
 
@@ -47,7 +39,7 @@ def find_a_question(id):
 
 
 def save_question(question):
-    with open(QUESTIONS_FILE_PATH, "a") as file:
+    with open(QUESTIONS_FILE_PATH, "a", encoding='utf-8') as file:
         file.write("\n"
                    f"{question['id']},"
                    f"{question['submission time']},"
@@ -59,7 +51,7 @@ def save_question(question):
 
 
 def save_answer(answer):
-    with open(ANSWERS_FILE_PATH, "a") as file:
+    with open(ANSWERS_FILE_PATH, "a", encoding='utf-8') as file:
         file.write("\n"
                    f"{answer['id']},"
                    f"{answer['submission time']},"
@@ -70,7 +62,7 @@ def save_answer(answer):
 
 
 def update_answers(answers):
-    with open(ANSWERS_FILE_PATH, "w") as file:
+    with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,vote number,question id,message,image\n")
         for answer in answers:
             answer['message'] = '"' + answer['message'] + '"'
@@ -84,7 +76,7 @@ def update_answers(answers):
 
 
 def update_questions(questions):
-    with open(QUESTIONS_FILE_PATH, "w") as file:
+    with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,view number,vote number,title,message,image\n")
         for question in questions:
             question['title'] = '"' + question['title'] + '"'
@@ -101,7 +93,7 @@ def update_questions(questions):
 
 def edit_question(new_question):
     questions = get_questions()
-    with open(QUESTIONS_FILE_PATH, "w") as file:
+    with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,view number,vote number,title,message,image\n")
         for question in questions:
             if new_question['id'] == question['id']:
@@ -123,7 +115,7 @@ def edit_question(new_question):
 def change_question_vote(question_id, direction):
     questions = get_questions()
     if direction == "UP":
-        with open(QUESTIONS_FILE_PATH, "w") as file:
+        with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
             file.write("id,submission time,view number,vote number,title,message,image\n")
             for question in questions:
                 if question['id'] == question_id:
@@ -140,7 +132,7 @@ def change_question_vote(question_id, direction):
                            f"{question['message']},"
                            f"{question['image']}\n")
     elif direction == "DOWN":
-        with open(QUESTIONS_FILE_PATH, "w") as file:
+        with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
             file.write("id,submission time,view number,vote number,title,message,image\n")
             for question in questions:
                 if question['id'] == question_id and int(question['vote number']) > 0:
@@ -160,7 +152,7 @@ def change_question_vote(question_id, direction):
 
 def higher_question_view_number(question_id):
     questions = get_questions()
-    with open(QUESTIONS_FILE_PATH, "w") as file:
+    with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,view number,vote number,title,message,image\n")
         for question in questions:
             if question['id'] == question_id:
@@ -179,7 +171,7 @@ def higher_question_view_number(question_id):
 def change_answer_vote(answer_id, direction):
     answers = get_answers()
     if direction == "UP":
-        with open(ANSWERS_FILE_PATH, "w") as file:
+        with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
             file.write("id,submission time,vote number,question id,message,image\n")
             for answer in answers:
                 if answer['id'] == answer_id:
@@ -194,7 +186,7 @@ def change_answer_vote(answer_id, direction):
                            f"{answer['message']},"
                            f"{answer['image']}\n")
     if direction == "DOWN":
-        with open(ANSWERS_FILE_PATH, "w") as file:
+        with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
             file.write("id,submission time,vote number,question id,message,image\n")
             for answer in answers:
                 if answer['id'] == answer_id and int(answer['vote number']) > 0:
