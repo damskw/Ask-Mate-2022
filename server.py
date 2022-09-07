@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import date
+from werkzeug.utils import secure_filename
+import os
 import data_handler
 
+UPLOAD_FOLDER = 'static'
 app = Flask(__name__, static_url_path='/static')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -30,16 +34,21 @@ def add_question():
         title = '"' + request.form['title'] + '"'
         question = '"' + request.form['question'] + '"'
         index = len(data_handler.get_questions()) + 1
-        image = '"' + request.form['img'] + '"'
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
+        file = request.files['img']
+        if 'img' in request.files and file.filename != '':
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        else:
+            filename = "no image"
         data_handler.save_question({'id': index,
                                     'submission time': final_date,
                                     'view number': 0,
                                     'vote number': 0,
                                     'title': title,
                                     'message': question,
-                                    'image': image
+                                    'image': filename
                                     })
         return redirect(f'/question/{index}')
     return render_template('add_question.html')

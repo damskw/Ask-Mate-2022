@@ -22,7 +22,7 @@
 <main>
     <h1><a href="/list">Ask Mate</a></h1>
     <h1>Add your question here</h1>
-    <form action="/add-question" method="POST">
+    <form action="/add-question" method="POST" enctype=multipart/form-data>
         <label for="title">Question's title:<br></label>
         <input name="title" id="title" type="text">
         <br><br>
@@ -30,7 +30,7 @@
         <textarea type="text" id="question" name="question"></textarea>
         <br><br>
         <label for="image">Add an image:<br></label>
-        <input type="file" id="img" name="img" accept="image/*">
+        <input type="file" name="img">
         <br><br>
         <input type="submit" value="Add a question">
     </form>
