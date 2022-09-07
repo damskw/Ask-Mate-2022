@@ -84,7 +84,9 @@ def delete_question(id):
     all_answers = data_handler.get_answers()
     for question in all_questions:
         if question['id'] == id:
+            image = question['image']
             all_questions.remove(question)
+            os.remove(f"static/{image}")
     index = 1
     for question in all_questions:
         question['id'] = str(index)
@@ -98,6 +100,7 @@ def delete_question(id):
         index += 1
     data_handler.update_answers(all_answers)
     data_handler.update_questions(all_questions)
+
     return redirect('/list')
 
 
