@@ -81,7 +81,11 @@
         <tr>
             {% for key in question %}
                 <td>
-                    {{ question[key] }}
+                    {% if key == "image" %}
+                        <img src="/static/{{ question['image'] }}" alt="No image" style="width:60px;height:50px;"/>
+                    {% else %}
+                        {{ question[key] }}
+                    {% endif %}
                 </td>
             {% endfor %}
         </tr>
