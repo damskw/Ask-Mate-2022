@@ -11,4 +11,7 @@ booklet
 app.js (bundled file with webpack, including jquery)","images/image1.png"
 3,04/09/2022,10,11,"Some question's title","Example of question text","None"
 4,06/09/2022,12,0,"Pytanie","Testowe?",""
-13,07/09/2022,2,0,"dasdas","dasdas","Skanowanie_Zapraszamy.jpg"
+5,07/09/2022,8,0,"ggfgf","gfgfg","no image"
+6,07/09/2022,1,0,"cc","ccc","Skanowanie_Zapraszamy.jpg"
+7,07/09/2022,1,0,"test","test","Skanowanie_Zapraszamy.jpg"
+8,07/09/2022,3,0,"fgbhfg","fghrfg","Obraz.png"

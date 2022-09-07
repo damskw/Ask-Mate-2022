@@ -37,11 +37,7 @@ def add_question():
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
         file = request.files['img']
-        if 'img' in request.files and file.filename != '':
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        else:
-            filename = "no image"
+        filename = save_file(file)
         data_handler.save_question({'id': index,
                                     'submission time': final_date,
                                     'view number': 0,
@@ -52,6 +48,15 @@ def add_question():
                                     })
         return redirect(f'/question/{index}')
     return render_template('add_question.html')
+
+
+def save_file(file):
+    if 'img' in request.files and file.filename != '':
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    else:
+        filename = "no image"
+    return filename
 
 
 @app.route("/question/<id>/add-answer", methods=['GET', 'POST'])
@@ -117,18 +122,18 @@ def edit_question(question_id):
     if request.method == 'POST':
         title = request.form['title']
         question = request.form['question']
-        image = '"' + request.form['img'] + '"'
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
+        file = request.files['img']
+        filename = save_file(file)
         data_handler.edit_question({'id': question_id,
                                     'submission time': final_date,
                                     'view number': 0,
                                     'vote number': 0,
                                     'title': title,
                                     'message': question,
-                                    'image': image
+                                    'image': filename
                                     })
-        print("fff")
         return redirect(f'/question/{question_id}')
     all_questions = data_handler.get_questions()
     editable_question = {}

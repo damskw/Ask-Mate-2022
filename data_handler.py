@@ -107,6 +107,7 @@ def edit_question(new_question):
             if new_question['id'] == question['id']:
                 question['message'] = new_question['message']
                 question['title'] = new_question['title']
+                question['image'] = new_question['image']
             question['message'] = '"' + question['message'] + '"'
             question['title'] = '"' + question['title'] + '"'
             question['image'] = '"' + question['image'] + '"'
