@@ -112,43 +112,28 @@ def edit_question(new_question):
                        f"{question['image']}\n")
 
 
-def change_question_vote(question_id, direction):
+def change_question_vote(question_id, direction) -> None:
     questions = get_questions()
-    if direction == "UP":
-        with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
-            file.write("id,submission time,view number,vote number,title,message,image\n")
-            for question in questions:
-                if question['id'] == question_id:
-                    vote_number = int(question['vote number']) + 1
-                    question['vote number'] = vote_number
-                question['message'] = '"' + question['message'] + '"'
-                question['title'] = '"' + question['title'] + '"'
-                question['image'] = '"' + question['image'] + '"'
-                file.write(f"{question['id']},"
-                           f"{question['submission time']},"
-                           f"{question['view number']},"
-                           f"{question['vote number']},"
-                           f"{question['title']},"
-                           f"{question['message']},"
-                           f"{question['image']}\n")
-    elif direction == "DOWN":
-        with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
-            file.write("id,submission time,view number,vote number,title,message,image\n")
-            for question in questions:
-                if question['id'] == question_id and int(question['vote number']) > 0:
-                    vote_number = int(question['vote number']) - 1
-                    question['vote number'] = vote_number
-                question['message'] = '"' + question['message'] + '"'
-                question['title'] = '"' + question['title'] + '"'
-                question['image'] = '"' + question['image'] + '"'
-                file.write(f"{question['id']},"
-                           f"{question['submission time']},"
-                           f"{question['view number']},"
-                           f"{question['vote number']},"
-                           f"{question['title']},"
-                           f"{question['message']},"
-                           f"{question['image']}\n")
-
+    with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
+        file.write("id,submission time,view number,vote number,title,message,image\n")
+        for question in questions:
+            if question['id'] == question_id:
+                vote_number = int(question['vote number'])
+                if direction == "UP":
+                    question['vote number'] = vote_number + 1
+                elif direction == "DOWN":
+                    question['vote number'] = vote_number - 1
+            question['message'] = '"' + question['message'] + '"'
+            question['title'] = '"' + question['title'] + '"'
+            question['image'] = '"' + question['image'] + '"'
+            file.write(f"{question['id']},"
+                       f"{question['submission time']},"
+                       f"{question['view number']},"
+                       f"{question['vote number']},"
+                       f"{question['title']},"
+                       f"{question['message']},"
+                       f"{question['image']}\n")
+    return None
 
 def higher_question_view_number(question_id):
     questions = get_questions()
@@ -170,36 +155,24 @@ def higher_question_view_number(question_id):
                        f"{question['image']}\n")
 def change_answer_vote(answer_id, direction):
     answers = get_answers()
-    if direction == "UP":
-        with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
-            file.write("id,submission time,vote number,question id,message,image\n")
-            for answer in answers:
-                if answer['id'] == answer_id:
-                    vote_number = int(answer['vote number']) + 1
-                    answer['vote number'] = vote_number
-                answer['message'] = '"' + answer['message'] + '"'
-                answer['image'] = '"' + answer['image'] + '"'
-                file.write(f"{answer['id']},"
-                           f"{answer['submission time']},"
-                           f"{answer['vote number']},"
-                           f"{answer['question id']},"
-                           f"{answer['message']},"
-                           f"{answer['image']}\n")
-    if direction == "DOWN":
-        with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
-            file.write("id,submission time,vote number,question id,message,image\n")
-            for answer in answers:
-                if answer['id'] == answer_id and int(answer['vote number']) > 0:
-                    vote_number = int(answer['vote number']) - 1
-                    answer['vote number'] = vote_number
-                answer['message'] = '"' + answer['message'] + '"'
-                answer['image'] = '"' + answer['image'] + '"'
-                file.write(f"{answer['id']},"
-                           f"{answer['submission time']},"
-                           f"{answer['vote number']},"
-                           f"{answer['question id']},"
-                           f"{answer['message']},"
-                           f"{answer['image']}\n")
+    with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
+        file.write("id,submission time,vote number,question id,message,image\n")
+        for answer in answers:
+            if answer['id'] == answer_id:
+                vote_number = int(answer['vote number'])
+                if direction == "UP":
+                    answer['vote number'] = vote_number + 1
+                elif direction == "DOWN":
+                    answer['vote number'] = vote_number - 1
+            answer['message'] = '"' + answer['message'] + '"'
+            answer['image'] = '"' + answer['image'] + '"'
+            file.write(f"{answer['id']},"
+                       f"{answer['submission time']},"
+                       f"{answer['vote number']},"
+                       f"{answer['question id']},"
+                       f"{answer['message']},"
+                       f"{answer['image']}\n")
+    return None
 
 
 def convert_line_brakes_to_br(text):
