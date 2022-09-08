@@ -86,11 +86,8 @@ def delete_question(id):
     for question in all_questions:
         if question['id'] == id:
             image = question['image']
-            try:
-                if image != "":
-                    os.remove(f"static/{image}")
-            except FileNotFoundError as err:
-                print(err)
+            if os.path.exists(f"static/{image}"):
+                os.remove(f"static/{image}")
             all_questions.remove(question)
     for answer in all_answers:
         if answer['question id'] == id:
