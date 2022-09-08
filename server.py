@@ -19,12 +19,9 @@ def list_questions():
 @app.route("/question/<id>", methods=['GET', 'POST'])
 def display_question(id):
     data_handler.higher_question_view_number(id)
-    all_questions = data_handler.get_questions()
     question = data_handler.find_a_question(id)
-    all_answers = data_handler.get_answers()
-    desired_answers = data_handler.find_an_answer(id)
+    desired_answers = data_handler.find_answers(id)  # id is question's id
     return render_template('display_question.html', question=question,
-                           questions=all_questions, answers=all_answers,
                            desired_answers=desired_answers)
 
 
@@ -62,7 +59,7 @@ def save_image_file(request):
 
 
 @app.route("/question/<id>/add-answer", methods=['GET', 'POST'])
-def add_answer(id):
+def add_answer(id):  # id is question id
     if request.method == 'POST':
         answer = '"' + request.form['answer'] + '"'
         image = '"' + "None" + '"'
@@ -106,10 +103,11 @@ def delete_question(id):
 
 @app.route("/answer/<answer_id>/delete", methods=['GET', 'POST'])
 def delete_answer(answer_id):
-    question_id = 0
+    question_id = None
     all_answers = data_handler.get_answers()
     for answer in all_answers:
         if answer['id'] == answer_id:
+            question_id = answer['question id']
             all_answers.remove(answer)
     data_handler.update_answers(all_answers)
     if question_id is not None:
@@ -122,14 +120,13 @@ def edit_question(question_id):
     if request.method == 'POST':
         title = request.form['title']
         question = request.form['question']
-        today = date.today()
-        final_date = today.strftime("%d/%m/%Y")
-        file = request.files['img']
-        filename = save_file(file)
+        # do not change the submission date/time (I need to sort based on submission time),
+        # we may create and use "last-modified" field instead for all the questions
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        # today = date.today()
+        # final_date = today.strftime("%d/%m/%Y")
+        img_filename = save_image_file(request)
         data_handler.edit_question({'id': question_id,
-                                    'submission time': final_date,
-                                    'view number': 0,
-                                    'vote number': 0,
                                     'title': title,
                                     'message': question,
                                     'image': img_filename

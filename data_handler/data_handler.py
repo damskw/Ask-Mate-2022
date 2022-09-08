@@ -4,6 +4,7 @@ import os
 QUESTIONS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'questions.csv'
 ANSWERS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'answers.csv'
 
+
 def get_questions() -> list:
     with open(QUESTIONS_FILE_PATH, "r", encoding='utf-8') as file:
         questions = list(csv.DictReader(file))
@@ -17,24 +18,20 @@ def get_answers() -> list:
     return answers
 
 
-def find_an_answer(question_id):
+def find_answers(question_id) -> list or None:
     answers = get_answers()
     all_desired_answers = []
     for answer in answers:
         if answer["question id"] == question_id:
             all_desired_answers.append(answer)
     if len(all_desired_answers) == 0:
-        all_desired_answers = ""
-        return all_desired_answers
+        return None
     return all_desired_answers
 
 
-def find_a_question(id):
+def find_a_question(question_id) -> dict:
     questions = get_questions()
-    desired_question = {}
-    for question in questions:
-        if question["id"] == id:
-            desired_question = question
+    desired_question = next(filter(lambda question: question['id'] == question_id, questions))
     return desired_question
 
 
@@ -91,7 +88,7 @@ def update_questions(questions):
                        f"{question['image']}\n")
 
 
-def edit_question(new_question):
+def edit_question(new_question) -> bool:
     questions = get_questions()
     with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,view number,vote number,title,message,image\n")
@@ -113,6 +110,7 @@ def edit_question(new_question):
                        f"{question['title']},"
                        f"{question['message']},"
                        f"{question['image']}\n")
+    return True
 
 
 def change_question_vote(question_id, direction) -> None:
@@ -138,7 +136,8 @@ def change_question_vote(question_id, direction) -> None:
                        f"{question['image']}\n")
     return None
 
-def higher_question_view_number(question_id):
+
+def higher_question_view_number(question_id) -> None:
     questions = get_questions()
     with open(QUESTIONS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,view number,vote number,title,message,image\n")
@@ -156,7 +155,10 @@ def higher_question_view_number(question_id):
                        f"{question['title']},"
                        f"{question['message']},"
                        f"{question['image']}\n")
-def change_answer_vote(answer_id, direction):
+    return None
+
+
+def change_answer_vote(answer_id, direction) -> None:
     answers = get_answers()
     with open(ANSWERS_FILE_PATH, "w", encoding='utf-8') as file:
         file.write("id,submission time,vote number,question id,message,image\n")

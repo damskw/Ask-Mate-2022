@@ -72,7 +72,7 @@
     <h2>Question:</h2>
     <table class="greyGridTable">
         <tr>
-            {% for key in questions[0] %}
+            {% for key in question %}
                 <th>
                     {{ key|title }}
                 </th>
@@ -90,47 +90,41 @@
             {% endfor %}
         </tr>
     </table class="greyGridTable">
-    <a href="/question/{{ question['id'] }}/delete">Delete this question</a>
-    <br>
-    <a href="/question/{{ question['id'] }}/edit">Edit this question</a>
-    <h2>Answers:</h2>
-    <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a>
+    <nav><a href="/question/{{ question['id'] }}/delete">Delete this question</a>
+        <br>
+        <a href="/question/{{ question['id'] }}/edit">Edit this question</a>
+        <h2>Answers:</h2>
+        <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a></nav>
     <table class="greyGridTable">
-        {% if desired_answers != "" %}
+        {% if desired_answers is not none %}
             <tr>
-                {% for key in answers[0] %}
+                {% for key in desired_answers[0] %}
                     <th>
-                        {% if key != "question id" %}
-                            {{ key|title }}
-                        {% endif %}
+                        {{ key|title }}
                     </th>
                 {% endfor %}
             </tr>
             {% for answer in desired_answers %}
                 <tr>
-                    {% for key in answer %}
+                    {% for key, value in answer.items() %}
                         <td>
-                            {% if key != "question id" %}
-                                {{ answer[key] }}
-                                {% if key == "image" %}
-                                    <form action="/answer/{{ answer['id'] }}/delete" method="GET">
-                                        <br>
-                                        <input type="submit" value="Delete this answer">
-                                    </form>
-                                {% elif key == "vote number" %}
-                                    <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
-                                    <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
-                                {% endif %}
+                            {{ value }}
+                            {% if key == "vote number" %}
+                                <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
+                                <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
                             {% endif %}
                         </td>
                     {% endfor %}
+                    <td>
+                        <form action="/answer/{{ answer['id'] }}/delete" method="GET">
+                            <input type="submit" value="Delete this answer">
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         {% else %}
             <h2>There are no answers to that question!</h2>
         {% endif %}
-
-
     </table>
 </main>
 </body>
