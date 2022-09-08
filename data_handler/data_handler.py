@@ -97,8 +97,11 @@ def edit_question(new_question):
         file.write("id,submission time,view number,vote number,title,message,image\n")
         for question in questions:
             if new_question['id'] == question['id']:
+                if new_question.get('title'):
+                    new_title = new_question['title']
+                    if len(new_title) >= 10:
+                        question['title'] = new_title
                 question['message'] = new_question['message']
-                question['title'] = new_question['title']
                 question['image'] = new_question['image']
             question['message'] = '"' + question['message'] + '"'
             question['title'] = '"' + question['title'] + '"'
