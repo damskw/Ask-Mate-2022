@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import date
 from werkzeug.utils import secure_filename
 import os
-import data_handler
+from data_handler import data_handler, id_generator
 
 UPLOAD_FOLDER = 'static'
 app = Flask(__name__, static_url_path='/static')
@@ -33,30 +33,32 @@ def add_question():
     if request.method == 'POST':
         title = '"' + request.form['title'] + '"'
         question = '"' + request.form['question'] + '"'
-        index = len(data_handler.get_questions()) + 1
+        # question_id = len(data_handler.get_questions()) + 1
+        question_ids = list(map(lambda question: question["id"], data_handler.get_questions()))
+        print(question_ids)
+        question_id = id_generator.generate_unique_id(question_ids, 3, 3, 3, 3)
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
-        file = request.files['img']
-        filename = save_file(file)
-        data_handler.save_question({'id': index,
+        img_filename = save_image_file(request)
+        data_handler.save_question({'id': question_id,
                                     'submission time': final_date,
                                     'view number': 0,
                                     'vote number': 0,
                                     'title': title,
                                     'message': question,
-                                    'image': filename
+                                    'image': img_filename
                                     })
-        return redirect(f'/question/{index}')
+        return redirect(f'/question/{question_id}')
     return render_template('add_question.html')
 
 
-def save_file(file):
-    if 'img' in request.files and file.filename != '':
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    else:
-        filename = "no image"
-    return filename
+def save_image_file(request):
+    img_filename = "no image"
+    if 'img' in request.files and request.files['img'].filename != '':
+        img_filename = secure_filename(request.files['img'].filename)
+        image = request.files['img']
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+    return img_filename
 
 
 @app.route("/question/<id>/add-answer", methods=['GET', 'POST'])
@@ -64,10 +66,12 @@ def add_answer(id):
     if request.method == 'POST':
         answer = '"' + request.form['answer'] + '"'
         image = '"' + "None" + '"'
-        index = len(data_handler.get_answers()) + 1
+        answer_ids = list(map(lambda question: question["id"], data_handler.get_questions()))
+        answer_id = id_generator.generate_unique_id(answer_ids, 2, 2, 2, 2)
+        # TODO: save in epoch
         today = date.today()
         final_date = today.strftime("%d/%m/%Y")
-        data_handler.save_answer({'id': index,
+        data_handler.save_answer({'id': answer_id,
                                   'submission time': final_date,
                                   'vote number': 0,
                                   'question id': id,
@@ -91,17 +95,9 @@ def delete_question(id):
             except FileNotFoundError as err:
                 print(err)
             all_questions.remove(question)
-    index = 1
-    for question in all_questions:
-        question['id'] = str(index)
-        index += 1
     for answer in all_answers:
         if answer['question id'] == id:
             all_answers.remove(answer)
-    index = 1
-    for answer in all_answers:
-        answer['id'] = str(index)
-        index += 1
     data_handler.update_answers(all_answers)
     data_handler.update_questions(all_questions)
 
@@ -115,14 +111,11 @@ def delete_answer(answer_id):
     for answer in all_answers:
         if answer['id'] == answer_id:
             all_answers.remove(answer)
-            question_id = answer['question id']
-    index = 1
-    for answer in all_answers:
-        answer['id'] = str(index)
-        index += 1
     data_handler.update_answers(all_answers)
-    return redirect(f'/question/{question_id}')
-
+    if question_id is not None:
+        return redirect(f'/question/{question_id}')
+    else:
+        return redirect('/')
 
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
@@ -139,7 +132,7 @@ def edit_question(question_id):
                                     'vote number': 0,
                                     'title': title,
                                     'message': question,
-                                    'image': filename
+                                    'image': img_filename
                                     })
         return redirect(f'/question/{question_id}')
     all_questions = data_handler.get_questions()
