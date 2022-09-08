@@ -86,7 +86,7 @@ def delete_question(id):
     for question in all_questions:
         if question['id'] == id:
             image = question['image']
-            if os.path.exists(f"static/{image}"):
+            if image != "" and os.path.exists(f"static/{image}"):
                 os.remove(f"static/{image}")
             all_questions.remove(question)
     for answer in all_answers:
@@ -111,6 +111,7 @@ def delete_answer(answer_id):
         return redirect(f'/question/{question_id}')
     else:
         return redirect('/')
+
 
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
