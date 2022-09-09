@@ -10,7 +10,6 @@ ANSWERS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.enviro
 def get_questions() -> list:
     with open(QUESTIONS_FILE_PATH, config.READ, encoding=config.UTF_8) as file:
         questions = list(csv.DictReader(file))
-        print(questions)
     return questions
 
 
@@ -30,9 +29,13 @@ def get_answers() -> list:
 
 def get_answers_to_question(question_id) -> list or None:
     answers = get_answers()
-    answers_to_question = list(filter(lambda answer: answer[config.QUESTION_ID] == question_id, answers))
-    if len(answers_to_question) == 0:
-        return None
+    answers_to_question = []
+    for answer in answers:
+        if answer[config.QUESTION_ID] == question_id:
+            answers_to_question.append(answer)
+    # answers_to_question = filter(lambda answer: answer[config.QUESTION_ID] == question_id, answers)
+    # if len(answers_to_question) == 0:
+    #     return None
     return answers_to_question
 
 
