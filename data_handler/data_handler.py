@@ -1,6 +1,7 @@
 import csv
 import os
 import config
+from utils import quote
 
 QUESTIONS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'questions.csv'
 ANSWERS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'answers.csv'
@@ -13,26 +14,34 @@ def get_questions() -> list:
     return questions
 
 
+def get_answer(answer_id) -> dict or None:
+    try:
+        answer = next(filter(lambda item: item[config.ID] == answer_id, get_answers()))
+    except StopIteration:
+        return None
+    return answer
+
+
 def get_answers() -> list:
     with open(ANSWERS_FILE_PATH, config.READ, encoding=config.UTF_8) as file:
         answers = list(csv.DictReader(file))
     return answers
 
 
-def find_answers(question_id) -> list or None:
+def get_answers_to_question(question_id) -> list or None:
     answers = get_answers()
-    all_desired_answers = []
-    for answer in answers:
-        if answer[config.QUESTION_ID] == question_id:
-            all_desired_answers.append(answer)
-    if len(all_desired_answers) == 0:
+    answers_to_question = list(filter(lambda answer: answer[config.QUESTION_ID] == question_id, answers))
+    if len(answers_to_question) == 0:
         return None
-    return all_desired_answers
+    return answers_to_question
 
 
-def find_a_question(question_id) -> dict:
+def get_question(question_id) -> dict or None:
     questions = get_questions()
-    desired_question = next(filter(lambda question: question[config.ID] == question_id, questions))
+    try:
+        desired_question = next(filter(lambda question: question[config.ID] == question_id, questions))
+    except StopIteration:
+        return None
     return desired_question
 
 
@@ -63,8 +72,8 @@ def update_answers(answers):
     with open(ANSWERS_FILE_PATH, config.WRITE, encoding=config.UTF_8) as file:
         file.write(config.ANSWER_HEADER)
         for answer in answers:
-            answer[config.MESSAGE] = config.QUOTATION_MARK + answer[config.MESSAGE] + config.QUOTATION_MARK
-            answer[config.IMAGE] = config.QUOTATION_MARK + answer[config.IMAGE] + config.QUOTATION_MARK
+            answer[config.MESSAGE] = quote(answer[config.MESSAGE])
+            answer[config.IMAGE] = quote(answer[config.IMAGE])
             file.write(f"{answer[config.ID]},"
                        f"{answer[config.SUBMISSION_TIME]},"
                        f"{answer[config.VOTE_NUMBER]},"
@@ -77,9 +86,9 @@ def update_questions(questions):
     with open(QUESTIONS_FILE_PATH, config.WRITE, encoding=config.UTF_8) as file:
         file.write(config.QUESTION_HEADER)
         for question in questions:
-            question[config.TITLE] = config.QUOTATION_MARK + question[config.TITLE] + config.QUOTATION_MARK
-            question[config.MESSAGE] = config.QUOTATION_MARK + question[config.MESSAGE] + config.QUOTATION_MARK
-            question[config.IMAGE] = config.QUOTATION_MARK + question[config.IMAGE] + config.QUOTATION_MARK
+            question[config.TITLE] = quote(question[config.TITLE])
+            question[config.MESSAGE] = quote(question[config.MESSAGE])
+            question[config.IMAGE] = quote(question[config.IMAGE])
             file.write(f"{question[config.ID]},"
                        f"{question[config.SUBMISSION_TIME]},"
                        f"{question[config.VIEW_NUMBER]},"
@@ -101,9 +110,9 @@ def edit_question(new_question) -> bool:
                         question[config.TITLE] = new_title
                 question[config.MESSAGE] = new_question[config.MESSAGE]
                 question[config.IMAGE] = new_question[config.IMAGE]
-            question[config.MESSAGE] = config.QUOTATION_MARK + question[config.MESSAGE] + config.QUOTATION_MARK
-            question[config.TITLE] = config.QUOTATION_MARK + question[config.TITLE] + config.QUOTATION_MARK
-            question[config.IMAGE] = config.QUOTATION_MARK + question[config.IMAGE] + config.QUOTATION_MARK
+            question[config.MESSAGE] = quote(question[config.MESSAGE])
+            question[config.TITLE] = quote(question[config.TITLE])
+            question[config.IMAGE] = quote(question[config.IMAGE])
             file.write(f"{question[config.ID]},"
                        f"{question[config.SUBMISSION_TIME]},"
                        f"{question[config.VIEW_NUMBER]},"
@@ -125,9 +134,9 @@ def change_question_vote(question_id, direction) -> None:
                     question[config.VOTE_NUMBER] = vote_number + 1
                 elif direction == config.DOWN:
                     question[config.VOTE_NUMBER] = vote_number - 1
-            question[config.MESSAGE] = config.QUOTATION_MARK + question[config.MESSAGE] + config.QUOTATION_MARK
-            question[config.TITLE] = config.QUOTATION_MARK + question[config.TITLE] + config.QUOTATION_MARK
-            question[config.IMAGE] = config.QUOTATION_MARK + question[config.IMAGE] + config.QUOTATION_MARK
+            question[config.MESSAGE] = quote(question[config.MESSAGE])
+            question[config.TITLE] = quote(question[config.TITLE])
+            question[config.IMAGE] = quote(question[config.IMAGE])
             file.write(f"{question[config.ID]},"
                        f"{question[config.SUBMISSION_TIME]},"
                        f"{question[config.VIEW_NUMBER]},"
@@ -138,7 +147,7 @@ def change_question_vote(question_id, direction) -> None:
     return None
 
 
-def higher_question_view_number(question_id) -> None:
+def increment_question_view_number(question_id) -> None:
     questions = get_questions()
     with open(QUESTIONS_FILE_PATH, config.WRITE, encoding=config.UTF_8) as file:
         file.write(config.QUESTION_HEADER)
@@ -146,9 +155,9 @@ def higher_question_view_number(question_id) -> None:
             if question[config.ID] == question_id:
                 view_number = int(question[config.VIEW_NUMBER]) + 1
                 question[config.VIEW_NUMBER] = view_number
-            question[config.MESSAGE] = config.QUOTATION_MARK + question[config.MESSAGE] + config.QUOTATION_MARK
-            question[config.TITLE] = config.QUOTATION_MARK + question[config.TITLE] + config.QUOTATION_MARK
-            question[config.IMAGE] = config.QUOTATION_MARK + question[config.IMAGE] + config.QUOTATION_MARK
+            question[config.MESSAGE] = quote(question[config.MESSAGE])
+            question[config.TITLE] = quote(question[config.TITLE])
+            question[config.IMAGE] = quote(question[config.IMAGE])
             file.write(f"{question[config.ID]},"
                        f"{question[config.SUBMISSION_TIME]},"
                        f"{question[config.VIEW_NUMBER]},"
@@ -170,8 +179,8 @@ def change_answer_vote(answer_id, direction) -> None:
                     answer[config.VOTE_NUMBER] = vote_number + 1
                 elif direction == config.DOWN:
                     answer[config.VOTE_NUMBER] = vote_number - 1
-            answer[config.MESSAGE] = config.QUOTATION_MARK + answer[config.MESSAGE] + config.QUOTATION_MARK
-            answer[config.IMAGE] = config.QUOTATION_MARK + answer[config.IMAGE] + config.QUOTATION_MARK
+            answer[config.MESSAGE] = quote(answer[config.MESSAGE])
+            answer[config.IMAGE] = quote(answer[config.IMAGE])
             file.write(f"{answer[config.ID]},"
                        f"{answer[config.SUBMISSION_TIME]},"
                        f"{answer[config.VOTE_NUMBER]},"

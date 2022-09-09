@@ -97,16 +97,16 @@
 <div class="w3-top">
     <div class="w3-row w3-padding w3-black">
         <div class="w3-col s3">
-            <a href="#" class="w3-button w3-block w3-black">HOME</a>
+            <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
         </div>
         <div class="w3-col s3">
-            <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+            <a href="/filter" class="w3-button w3-block w3-black">FILTERS</a>
         </div>
         <div class="w3-col s3">
-            <a href="#menu" class="w3-button w3-block w3-black">MENU</a>
+            <a href="/search" class="w3-button w3-block w3-black">SEARCH</a>
         </div>
         <div class="w3-col s3">
-            <a href="#where" class="w3-button w3-block w3-black">WHERE</a>
+            <a href="/add-question" class="w3-button w3-block w3-black">ADD QUESTION</a>
         </div>
     </div>
 </div>
@@ -118,10 +118,10 @@
     </div>
     <div class="w3-display-middle w3-center">
         <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
-        {#  </div>#}
-        {#  <div class="w3-display-bottomright w3-center w3-padding-large">#}
-        {#    <span class="w3-text-black"></span>#}
-        {#  </div>#}
+    </div>
+    {#  <div class="w3-display-bottomright w3-center w3-padding-large">#}
+    {#    <span class="w3-text-black"></span>#}
+    {#  </div>#}
 </header>
 
 <!-- Add a background color and large text to the whole page -->
@@ -131,27 +131,45 @@
         <table class="greyGridTable">
             <tr>
                 {% for key in questions[0] %}
-                    <th>
-                        {{ key|title }}
-                    </th>
+                    {% if key != "id" %}
+
+
+
+                        <th>
+                            {% if key == 'submission time' %}
+                                Added
+                            {% elif key == "view number" %}
+                                Views
+                            {% elif key == "vote number" %}
+                                Score
+                            {% elif key == "title" %}
+                                Question
+                            {% elif key == "message" %}
+                                Description
+                            {% else %}
+                                {{ key|title }}
+                            {% endif %}
+                        </th>
+                    {% endif %}
                 {% endfor %}
             </tr>
             {% for question in questions %}
                 <tr>
-                    {% for key in question %}
-                        <td>
-                            {% if key == "id" %}
-                                <a href="/question/{{ question['id'] }}">{{ question[key] }}</a>
-                            {% elif key == 'image' %}
-                                <img src="/static/{{ question['image'] }}" alt="No image"
-                                     style="width:60px;height:50px;"/>
-                            {% elif key == 'vote number' %}
-                                <a href="/question/{{ question['id'] }}/vote-up">UP</a> {{ question[key] }}
-                                <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
-                            {% else %}
-                                {{ question[key] }}
-                            {% endif %}
-                        </td>
+                    {% for key, value in question.items() %}
+                        {% if key != "id" %}
+                            <td>
+
+
+                                {% if key == 'image' %}
+                                    <img src="/static/{{ question['image'] }}" alt="No image"
+                                         style="width:60px;height:50px;"/>
+                                {% elif key == 'title' %}
+                                    <a href="/question/{{ question['id'] }}">{{ value }}</a>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}

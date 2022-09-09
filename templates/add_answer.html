@@ -22,12 +22,12 @@
 <main>
     <h1><a href="/list">Ask Mate</a></h1>
     <h1>Add your answer here</h1>
-    <form action="/question/{{ question_id }}/add-answer" method="POST">
+    <form action="/question/{{ question_id }}/add-answer" method="POST" enctype=multipart/form-data>
         <label for="answer">Your answer:<br></label>
         <textarea id="answer" name="answer"></textarea>
         <br><br>
         <label for="image">Add an image:<br></label>
-        <input name='image' id="title" type="file">
+        <input name='img' id="title" type="file">
         <br><br>
         <input type="submit" value="Add an answer">
     </form>

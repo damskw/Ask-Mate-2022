@@ -73,23 +73,43 @@
     <table class="greyGridTable">
         <tr>
             {% for key in question %}
-                <th>
-                    {{ key|title }}
-                </th>
+                {% if key != "id" %}
+                    <th>
+                        {% if key == "submission time" %}
+                            Added
+                        {% elif key == "view number" %}
+                            Views
+                        {% elif key == "vote number" %}
+                            Votes
+                        {% elif key == "message" %}
+                            Description
+                        {% else %}
+                            {{ key|title }}
+                        {% endif %}
+                    </th>
+                {% endif %}
             {% endfor %}
         </tr>
         <tr>
-            {% for key in question %}
-                <td>
-                    {% if key == "image" %}
-                        <img src="/static/{{ question['image'] }}" alt="No image" style="width:60px;height:50px;"/>
-                    {% else %}
-                        {{ question[key] }}
-                    {% endif %}
-                </td>
+            {% for key, value in question.items() %}
+                {% if key != "id" %}
+
+
+                    <td>
+                        {% if key == "image" %}
+                            <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                        {% else %}
+                            {% if key == "vote number" %}
+                                <a href="/question/{{ question['id'] }}/vote-up">UP</a>
+                                <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
+                            {% endif %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                {% endif %}
             {% endfor %}
         </tr>
-    </table class="greyGridTable">
+    </table>
     <nav><a href="/question/{{ question['id'] }}/delete">Delete this question</a>
         <br>
         <a href="/question/{{ question['id'] }}/edit">Edit this question</a>
@@ -108,10 +128,14 @@
                 <tr>
                     {% for key, value in answer.items() %}
                         <td>
-                            {{ value }}
-                            {% if key == "vote number" %}
-                                <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
-                                <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
+                            {% if key == "image" %}
+                                <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                            {% else %}
+                                {% if key == "vote number" %}
+                                    <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
+                                    <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
+                                {% endif %}
+                                {{ value }}
                             {% endif %}
                         </td>
                     {% endfor %}
