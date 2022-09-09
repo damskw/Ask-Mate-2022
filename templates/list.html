@@ -87,6 +87,54 @@
             font-family: sans-serif;
             text-align: center;
         }
+
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: #000000;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #000000;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: grey;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: grey;
+        }
     </style>
 </head>
 
@@ -114,7 +162,11 @@
 <!-- Header -->
 <header class="main-header w3-display-container w3-grayscale-min" id="home">
     <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-        <a href="/add-question"><p><button class="w3-button w3-black" type="submit">ADD QUESTION</button></p></a>
+        <a href="/add-question">
+            <p>
+                <button class="w3-button w3-black" type="submit">ADD QUESTION</button>
+            </p>
+        </a>
     </div>
     <div class="w3-display-middle w3-center">
         <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
@@ -123,10 +175,18 @@
     {#    <span class="w3-text-black"></span>#}
     {#  </div>#}
 </header>
-
+    <div class="w3-padding-large w3-hide-small">
+        <div class="dropdown">
+            <button class="dropbtn">Dropdown</button>
+            <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+        </div>
+    </div>
 <!-- Add a background color and large text to the whole page -->
 <div class="w3-sand w3-grayscale w3-large">
-
     <main>
         <table class="greyGridTable">
             <tr>
@@ -136,7 +196,8 @@
                             {% if key == 'submission time' %}
                                 Added
                             {% elif key == "view number" %}
-                                Views <a href="/list?order_by=view%20number">ASC</a> <a href="/list?order_by=view%20number&order_direction=desc">DESC</a>
+                                Views <a href="/list?order_by=view%20number">ASC</a>
+                                <a href="/list?order_by=view%20number&order_direction=desc">DESC</a>
                             {% elif key == "vote number" %}
                                 Score
                             {% elif key == "title" %}
