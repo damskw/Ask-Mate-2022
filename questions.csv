@@ -9,5 +9,5 @@ BUT in my theme i also use jquery via webpack so the loading order is now follow
 jquery
 booklet
 app.js (bundled file with webpack, including jquery).",""
-6,1662696913,85,4,"Ciocia Cecylia","Gdzie ona jest?",""
+6,1662696913,86,4,"Ciocia Cecylia","Gdzie ona jest?",""
 Y+0z_P18Wk_c,1662735463,2,0,"Pytanie","Pytanie","1662735463Skanowanie_Zapraszamy.jpg"

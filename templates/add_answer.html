@@ -4,7 +4,78 @@
     <meta charset="UTF-8">
     <title>Add an answer</title>
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <style>
+    body, html {
+        height: 100%;
+        font-family: "Inconsolata", sans-serif;
+    }
+
+    .bgimg {
+        background-position: center;
+        background-size: cover;
+        background-image: url("/w3images/coffeehouse.jpg");
+        min-height: 75%;
+    }
+
+    .main-header {
+        min-height: 40%;
+    }
+
+    .menu {
+        display: none;
+    }
+
+    table.greyGridTable {
+        border: 2px solid #FFFFFF;
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+    table.greyGridTable td, table.greyGridTable th {
+        border: 1px solid #FFFFFF;
+        padding: 3px 4px;
+    }
+
+    table.greyGridTable tbody td {
+        font-size: 13px;
+    }
+
+    table.greyGridTable td:nth-child(even) {
+        background: #EBEBEB;
+    }
+
+    table.greyGridTable thead {
+        background: #FFFFFF;
+        border-bottom: 4px solid #333333;
+    }
+
+    table.greyGridTable thead th {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333333;
+        text-align: center;
+        border-left: 2px solid #333333;
+    }
+
+    table.greyGridTable thead th:first-child {
+        border-left: none;
+    }
+
+    table.greyGridTable tfoot {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333333;
+        border-top: 4px solid #333333;
+    }
+
+    table.greyGridTable tfoot td {
+        font-size: 14px;
+    }
+
     main {
         padding: 10px;
         background: lightblue;
@@ -19,18 +90,67 @@
     }
 </style>
 <body>
-<main>
-    <h1><a href="/list">Ask Mate</a></h1>
-    <h1>Add your answer here</h1>
-    <form action="/question/{{ question_id }}/add-answer" method="POST" enctype=multipart/form-data>
-        <label for="answer">Your answer:<br></label>
-        <textarea id="answer" name="answer"></textarea>
-        <br><br>
-        <label for="image">Add an image:<br></label>
-        <input name='img' id="title" type="file">
-        <br><br>
-        <input type="submit" value="Add an answer">
-    </form>
-</main>
+<!-- Links (sit on top) -->
+<div class="w3-top">
+    <div class="w3-row w3-padding w3-black">
+        <div class="w3-col s3">
+            <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/" class="w3-button w3-block w3-black">FILTERS</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/" class="w3-button w3-block w3-black">SEARCH</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/" class="w3-button w3-block w3-black">ADD QUESTION</a>
+        </div>
+    </div>
+</div>
+<!-- Header -->
+<header class="main-header w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-middle w3-center">
+        <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
+    </div>
+</header>
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
+    <main>
+        <h1>Add your answer here</h1>
+        <div class="w3-center">
+            <form action="/question/{{ question_id }}/add-answer" method="POST" enctype=multipart/form-data>
+                <label for="answer">Your answer:<br></label>
+                <textarea id="answer" name="answer" cols="80" rows="10"></textarea>
+                <br><br>
+                <label for="image">Add an image:<br></label>
+                <input name='img' id="title" type="file">
+                <br><br>
+                <input type="submit" value="Add an answer">
+            </form>
+        </div>
+    </main>
+</div>
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-48 w3-large">
+    <p>Made with &#x1F496; by Damian, Ola and Jakub</p>
+</footer>
+<script>
+    // Tabbed Menu
+    function openMenu(evt, menuName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("menu");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
+        }
+        document.getElementById(menuName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-dark-grey";
+    }
+
+    document.getElementById("myLink").click();
+</script>
 </body>
 </html>
