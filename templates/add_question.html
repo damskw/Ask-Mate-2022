@@ -119,18 +119,20 @@
 
     <main>
         <h1>Add your question here</h1>
+        <div class="w3-center">
         <form action="/add-question" method="POST" enctype=multipart/form-data>
             <label for="title">Question's title:<br></label>
             <input name="title" id="title" type="text">
             <br><br>
             <label for="question">Your question's text:<br></label>
-            <textarea type="text" id="question" name="question"></textarea>
+            <textarea type="text" id="question" name="question" cols="80" rows="10"></textarea>
             <br><br>
             <label for="image">Add an image:<br></label>
             <input type="file" name="img">
             <br><br>
             <input type="submit" value="Add a question">
         </form>
+        </div>
     </main>
 
     <!-- End page content -->
