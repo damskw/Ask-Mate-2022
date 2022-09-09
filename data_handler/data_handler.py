@@ -1,4 +1,5 @@
 import csv
+import datetime
 import os
 import config
 from utils import quote
@@ -10,6 +11,9 @@ ANSWERS_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.enviro
 def get_questions() -> list:
     with open(QUESTIONS_FILE_PATH, config.READ, encoding=config.UTF_8) as file:
         questions = list(csv.DictReader(file))
+        for question in questions:
+            question[config.VIEW_NUMBER] = int(question[config.VIEW_NUMBER])
+            question[config.SUBMISSION_TIME] = int(question[config.SUBMISSION_TIME])
     return questions
 
 

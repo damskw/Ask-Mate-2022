@@ -14,12 +14,15 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/")
 @app.route("/list")
 def list_questions():
+    order_by = request.args.get("order_by", "title")
+    order_direction = request.args.get("order_direction", "asc")
     questions = data_handler.get_questions()
     for question in questions:
         try:
             question[config.SUBMISSION_TIME] = convert_timestamp_to_utc(question.get(config.SUBMISSION_TIME))
         except ValueError:
             question[config.SUBMISSION_TIME] = ""
+    questions.sort(key=lambda q: q[order_by], reverse=(order_direction == "desc"))
     return render_template('list.html', questions=questions)
 
 
