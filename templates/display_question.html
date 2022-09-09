@@ -3,153 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <title>Display question</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <style>
+        body, html {
+            height: 100%;
+            font-family: "Inconsolata", sans-serif;
+        }
+
+        .bgimg {
+            background-position: center;
+            background-size: cover;
+            background-image: url("/w3images/coffeehouse.jpg");
+            min-height: 75%;
+        }
+
+        .main-header {
+            min-height: 40%;
+        }
+
+        .menu {
+            display: none;
+        }
+
+        table.greyGridTable {
+            border: 2px solid #FFFFFF;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        table.greyGridTable td, table.greyGridTable th {
+            border: 1px solid #FFFFFF;
+            padding: 3px 4px;
+        }
+
+        table.greyGridTable tbody td {
+            font-size: 13px;
+        }
+
+        table.greyGridTable td:nth-child(even) {
+            background: #EBEBEB;
+        }
+
+        table.greyGridTable thead {
+            background: #FFFFFF;
+            border-bottom: 4px solid #333333;
+        }
+
+        table.greyGridTable thead th {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333333;
+            text-align: center;
+            border-left: 2px solid #333333;
+        }
+
+        table.greyGridTable thead th:first-child {
+            border-left: none;
+        }
+
+        table.greyGridTable tfoot {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+            border-top: 4px solid #333333;
+        }
+
+        table.greyGridTable tfoot td {
+            font-size: 14px;
+        }
+
+        main {
+            padding: 10px;
+            background: lightblue;
+            alignment: center;
+        }
+
+        h1 {
+            color: black;
+            border-bottom: 1px dotted darkgreen;
+            font-family: sans-serif;
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    table.greyGridTable {
-        border: 2px solid #FFFFFF;
-        width: 100%;
-        text-align: center;
-        border-collapse: collapse;
-    }
 
-    table.greyGridTable td, table.greyGridTable th {
-        border: 1px solid #FFFFFF;
-        padding: 3px 4px;
-    }
-
-    table.greyGridTable tbody td {
-        font-size: 13px;
-    }
-
-    table.greyGridTable td:nth-child(even) {
-        background: #EBEBEB;
-    }
-
-    table.greyGridTable thead {
-        background: #FFFFFF;
-        border-bottom: 4px solid #333333;
-    }
-
-    table.greyGridTable thead th {
-        font-size: 15px;
-        font-weight: bold;
-        color: #333333;
-        text-align: center;
-        border-left: 2px solid #333333;
-    }
-
-    table.greyGridTable thead th:first-child {
-        border-left: none;
-    }
-
-    table.greyGridTable tfoot {
-        font-size: 14px;
-        font-weight: bold;
-        color: #333333;
-        border-top: 4px solid #333333;
-    }
-
-    table.greyGridTable tfoot td {
-        font-size: 14px;
-    }
-
-    main {
-        padding: 10px;
-        background: lightblue;
-        alignment: center;
-    }
-
-    h1 {
-        color: black;
-        border-bottom: 1px dotted darkgreen;
-        font-family: sans-serif;
-        text-align: center;
-    }
-</style>
 <body>
-<main>
-    <h1><a href="/list">Ask Mate</a></h1>
-    <h2>Question:</h2>
-    <table class="greyGridTable">
-        <tr>
-            {% for key in question %}
-                {% if key != "id" %}
-                    <th>
-                        {% if key == "submission time" %}
-                            Added
-                        {% elif key == "view number" %}
-                            Views
-                        {% elif key == "vote number" %}
-                            Votes
-                        {% elif key == "message" %}
-                            Description
-                        {% else %}
-                            {{ key|title }}
-                        {% endif %}
-                    </th>
-                {% endif %}
-            {% endfor %}
-        </tr>
-        <tr>
-            {% for key, value in question.items() %}
-                {% if key != "id" %}
-
-
-                    <td>
-                        {% if key == "image" %}
-                            <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
-                        {% else %}
-                            {% if key == "vote number" %}
-                                <a href="/question/{{ question['id'] }}/vote-up">UP</a>
-                                <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
-                            {% endif %}
-                            {{ value }}
-                        {% endif %}
-                    </td>
-                {% endif %}
-            {% endfor %}
-        </tr>
-    </table>
-    <nav><a href="/question/{{ question['id'] }}/delete">Delete this question</a>
-        <br>
-        <a href="/question/{{ question['id'] }}/edit">Edit this question</a>
-        <h2>Answers:</h2>
-        <a href="/question/{{ question['id'] }}/add-answer">Add answer to that question</a></nav>
-    <table class="greyGridTable">
-        {% if desired_answers is not none %}
+<!-- Links (sit on top) -->
+<div class="w3-top">
+    <div class="w3-row w3-padding w3-black">
+        <div class="w3-col s3">
+            <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/filter" class="w3-button w3-block w3-black">FILTERS</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/search" class="w3-button w3-block w3-black">SEARCH</a>
+        </div>
+        <div class="w3-col s3">
+            <a href="/add-question" class="w3-button w3-block w3-black">ADD QUESTION</a>
+        </div>
+    </div>
+</div>
+<!-- Header -->
+<header class="main-header w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-middle w3-center">
+        <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
+    </div>
+</header>
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
+    <main>
+        <table class="greyGridTable">
             <tr>
-                {% for key in desired_answers[0] %}
-                    <th>
-                        {{ key|title }}
-                    </th>
+                {% for key in question %}
+                    {% if key != "id" %}
+                        <th>
+                            {% if key == "submission time" %}
+                                Added
+                            {% elif key == "view number" %}
+                                Views
+                            {% elif key == "vote number" %}
+                                Votes
+                            {% elif key == "message" %}
+                                Description
+                            {% else %}
+                                {{ key|title }}
+                            {% endif %}
+                        </th>
+                    {% endif %}
                 {% endfor %}
             </tr>
-            {% for answer in desired_answers %}
-                <tr>
-                    {% for key, value in answer.items() %}
+            <tr>
+                {% for key, value in question.items() %}
+                    {% if key != "id" %}
+
+
                         <td>
                             {% if key == "image" %}
                                 <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
                             {% else %}
                                 {% if key == "vote number" %}
-                                    <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
-                                    <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
+                                    <a href="/question/{{ question['id'] }}/vote-up">UP</a>
+                                    <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
                                 {% endif %}
                                 {{ value }}
                             {% endif %}
                         </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+    </main>
+    <nav>
+        <div class="w3-small">
+            <a href="/question/{{ question['id'] }}/delete">
+                <p>
+                    <button class="w3-button w3-black" type="submit">DELETE THIS QUESTION</button>
+                </p>
+            </a>
+            <a href="/question/{{ question['id'] }}/edit">
+                <p>
+                    <button class="w3-button w3-black" type="submit">EDIT THIS QUESTION</button>
+                </p>
+            </a>
+        <h2>Answers:</h2>
+        <a href="/question/{{ question['id'] }}/add-answer">
+            <p>
+                <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
+            </p>
+        </a>
+        </div>
+    </nav>
+    <main>
+        <table class="greyGridTable">
+            {% if desired_answers is defined %}
+                <tr>
+                    {% for key in desired_answers[0] %}
+                        {% if key != "id" and key != "question id" %}
+                            <th>
+                                {% if key == 'submission time' %}
+                                    Added
+                                {% elif key == "vote number" %}
+                                    Score
+                                {% elif key == "message" %}
+                                    Description
+                                {% elif key == "image" %}
+                                    Image
+                                {% endif %}
+                            </th>
+                        {% endif %}
                     {% endfor %}
-                    <td>
-                        <form action="/answer/{{ answer['id'] }}/delete" method="GET">
-                            <input type="submit" value="Delete this answer">
-                        </form>
-                    </td>
                 </tr>
-            {% endfor %}
-        {% else %}
-            <h2>There are no answers to that question!</h2>
-        {% endif %}
-    </table>
-</main>
+                {% for answer in desired_answers %}
+                    <tr>
+                        {% for key, value in answer.items() %}
+                            {% if key != "id" and key != "question id" %}
+                                <td>
+                                    {% if key == 'submission time' %}
+                                        {{ value }}
+                                    {% elif key == "vote number" %}
+                                        <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
+                                        {{ value }}
+                                        <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
+                                    {% elif key == "message" %}
+                                        {{ value }}
+                                    {% elif key == "image" %}
+                                        <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                                        </td>
+                                    {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            <form action="/answer/{{ answer['id'] }}/delete" method="GET">
+                                <input type="submit" value="DELETE ANSWER" class="w3-button w3-black">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <h1>There are no answers.</h1>
+            {% endif %}
+        </table>
+    </main>
+
+</div>
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-48 w3-large">
+    <p>Made with &#x1F496; by Damian, Ola and Jakub</p>
+</footer>
+<script>
+    // Tabbed Menu
+    function openMenu(evt, menuName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("menu");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
+        }
+        document.getElementById(menuName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-dark-grey";
+    }
+
+    document.getElementById("myLink").click();
+</script>
 </body>
 </html>

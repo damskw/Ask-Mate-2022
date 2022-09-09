@@ -100,10 +100,10 @@
             <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/filter" class="w3-button w3-block w3-black">FILTERS</a>
+            <a href="/" class="w3-button w3-block w3-black">FILTERS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/search" class="w3-button w3-block w3-black">SEARCH</a>
+            <a href="/" class="w3-button w3-block w3-black">SEARCH</a>
         </div>
         <div class="w3-col s3">
             <a href="/add-question" class="w3-button w3-block w3-black">ADD QUESTION</a>
@@ -114,7 +114,7 @@
 <!-- Header -->
 <header class="main-header w3-display-container w3-grayscale-min" id="home">
     <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-        <span class="w3-tag"><a href="/add-question">Add question</a></span>
+        <a href="/add-question"><p><button class="w3-button w3-black" type="submit">ADD QUESTION</button></p></a>
     </div>
     <div class="w3-display-middle w3-center">
         <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
@@ -132,9 +132,6 @@
             <tr>
                 {% for key in questions[0] %}
                     {% if key != "id" %}
-
-
-
                         <th>
                             {% if key == 'submission time' %}
                                 Added
