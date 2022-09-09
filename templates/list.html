@@ -92,8 +92,8 @@
         .dropbtn {
             background-color: #000000;
             color: white;
-            padding: 16px;
-            font-size: 16px;
+            padding: 9px 36px;
+            font-size: 14px;
             border: none;
         }
 
@@ -175,16 +175,20 @@
     {#    <span class="w3-text-black"></span>#}
     {#  </div>#}
 </header>
-    <div class="w3-padding-large w3-hide-small">
-        <div class="dropdown">
-            <button class="dropbtn">Dropdown</button>
-            <div class="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
-            </div>
+<div class="w3-padding-large w3-hide-small">
+    <div class="dropdown">
+        <button class="dropbtn">SORT BY</button>
+        <div class="dropdown-content">
+            <a href="/list?order_by=title">Title</a>
+            <a href="/list?order_by=view%20number">Most viewed</a>
+            <a href="/list?order_by=view%20number&order_direction=asc">Least viewed</a>
+            <a href="/list?order_by=vote%20number">Highest score</a>
+            <a href="/list?order_by=vote%20number&order_direction=asc">Lowest score</a>
+            <a href="/list?order_by=submission%20time">Newest</a>
+            <a href="/list?order_by=submission%20time&order_direction=asc">Oldest</a>
         </div>
     </div>
+</div>
 <!-- Add a background color and large text to the whole page -->
 <div class="w3-sand w3-grayscale w3-large">
     <main>
@@ -196,8 +200,7 @@
                             {% if key == 'submission time' %}
                                 Added
                             {% elif key == "view number" %}
-                                Views <a href="/list?order_by=view%20number">ASC</a>
-                                <a href="/list?order_by=view%20number&order_direction=desc">DESC</a>
+                                Views
                             {% elif key == "vote number" %}
                                 Score
                             {% elif key == "title" %}
@@ -216,11 +219,13 @@
                     {% for key, value in question.items() %}
                         {% if key != "id" %}
                             <td>
-
-
                                 {% if key == 'image' %}
-                                    <img src="/static/{{ question['image'] }}" alt="No image"
-                                         style="width:60px;height:50px;"/>
+                                    {% if value != '' %}
+                                        <img src="/static/{{ question['image'] }}" alt="No image"
+                                             style="width:60px;height:50px;"/>
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
                                 {% elif key == 'title' %}
                                     <a href="/question/{{ question['id'] }}">{{ value }}</a>
                                 {% else %}

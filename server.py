@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/list")
 def list_questions():
     order_by = request.args.get("order_by", "title")
-    order_direction = request.args.get("order_direction", "asc")
+    order_direction = request.args.get("order_direction", "desc")
     questions = data_handler.get_questions()
     for question in questions:
         try:

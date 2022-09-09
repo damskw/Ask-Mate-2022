@@ -96,10 +96,10 @@
             <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/filter" class="w3-button w3-block w3-black">FILTERS</a>
+            <a href="/" class="w3-button w3-block w3-black">FILTERS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/search" class="w3-button w3-block w3-black">SEARCH</a>
+            <a href="/" class="w3-button w3-block w3-black">SEARCH</a>
         </div>
         <div class="w3-col s3">
             <a href="/add-question" class="w3-button w3-block w3-black">ADD QUESTION</a>
@@ -122,12 +122,12 @@
                 <input name="title" id="title" type="text" value="{{ question['title'] }}">
                 <br><br>
                 <label for="question">Your question's text:<br></label>
-                <textarea type="text" id="question" name="question">{{ question['message'] }}</textarea>
+                <textarea type="text" id="question" name="question" cols="80" rows="10">{{ question['message'] }}</textarea>
                 <br><br>
                 <label for="image">Add an image:<br></label>
-                <input type="file" name="img">
+                <input type="file" name="img" class="w3-button w3-white">
                 <br><br>
-                <input type="submit" value="Edit a question">
+                <input type="submit" value="Edit this question" class="w3-button w3-black">
             </form>
         </div>
     </main>

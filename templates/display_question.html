@@ -98,10 +98,10 @@
             <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/filter" class="w3-button w3-block w3-black">FILTERS</a>
+            <a href="/" class="w3-button w3-block w3-black">FILTERS</a>
         </div>
         <div class="w3-col s3">
-            <a href="/search" class="w3-button w3-block w3-black">SEARCH</a>
+            <a href="/" class="w3-button w3-block w3-black">SEARCH</a>
         </div>
         <div class="w3-col s3">
             <a href="/add-question" class="w3-button w3-block w3-black">ADD QUESTION</a>
@@ -140,11 +140,13 @@
             <tr>
                 {% for key, value in question.items() %}
                     {% if key != "id" %}
-
-
                         <td>
                             {% if key == "image" %}
-                                <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                                {% if value != '' %}
+                                    <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
                             {% else %}
                                 {% if key == "vote number" %}
                                     <a href="/question/{{ question['id'] }}/vote-up">UP</a>
@@ -170,12 +172,12 @@
                     <button class="w3-button w3-black" type="submit">EDIT THIS QUESTION</button>
                 </p>
             </a>
-        <h2>Answers:</h2>
-        <a href="/question/{{ question['id'] }}/add-answer">
-            <p>
-                <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
-            </p>
-        </a>
+            <h2>Answers:</h2>
+            <a href="/question/{{ question['id'] }}/add-answer">
+                <p>
+                    <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
+                </p>
+            </a>
         </div>
     </nav>
     <main>
@@ -212,7 +214,12 @@
                                     {% elif key == "message" %}
                                         {{ value }}
                                     {% elif key == "image" %}
-                                        <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
+                                        {% if value != '' %}
+                                            <img src="/static/{{ value }}" alt="No image"
+                                                 style="width:60px;height:50px;"/>
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
                                         </td>
                                     {% endif %}
                             {% endif %}

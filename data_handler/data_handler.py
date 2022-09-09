@@ -13,6 +13,7 @@ def get_questions() -> list:
         questions = list(csv.DictReader(file))
         for question in questions:
             question[config.VIEW_NUMBER] = int(question[config.VIEW_NUMBER])
+            question[config.VOTE_NUMBER] = int(question[config.VOTE_NUMBER])
             question[config.SUBMISSION_TIME] = int(question[config.SUBMISSION_TIME])
     return questions
 
