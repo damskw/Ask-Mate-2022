@@ -26,6 +26,11 @@ def list_questions():
     return render_template('list.html', questions=questions)
 
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
 @app.route("/question/<question_id>", methods=[config.GET, config.POST])
 def display_question(question_id):
     data_handler.increment_question_view_number(question_id)
