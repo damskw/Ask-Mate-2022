@@ -82,22 +82,23 @@ def save_image_file(request, timestamp: int = None) -> str:
 
 @app.route("/question/<question_id>/add-answer", methods=[config.GET, config.POST])
 def add_answer(question_id):
-    if request.method == config.POST:
-        answer = quote(request.form[config.ANSWER])
-        answer_ids = list(map(lambda question: question[config.ID], data_handler.get_questions()))
-        answer_id = id_generator.generate_unique_id(answer_ids, 2, 2, 2, 2)
-        now = datetime.now()
-        timestamp = int(datetime.timestamp(now))
-        img_filename = save_image_file(request, timestamp)
-        data_handler.save_answer({config.ID: answer_id,
-                                  config.SUBMISSION_TIME: timestamp,
-                                  config.VOTE_NUMBER: 0,
-                                  config.QUESTION_ID: question_id,
-                                  config.MESSAGE: answer,
-                                  config.IMAGE: img_filename,
-                                  })
-        return redirect(f'/question/{question_id}')
-    return render_template('add_answer.html', question_id=question_id)
+    if request.method == config.GET:
+        return render_template('add_answer.html', question_id=question_id)
+    
+    answer = quote(request.form[config.ANSWER])
+    answer_ids = list(map(lambda question: question[config.ID], data_handler.get_questions()))
+    answer_id = id_generator.generate_unique_id(answer_ids, 2, 2, 2, 2)
+    now = datetime.now()
+    timestamp = int(datetime.timestamp(now))
+    img_filename = save_image_file(request, timestamp)
+    data_handler.save_answer({config.ID: answer_id,
+                                config.SUBMISSION_TIME: timestamp,
+                                config.VOTE_NUMBER: 0,
+                                config.QUESTION_ID: question_id,
+                                config.MESSAGE: answer,
+                                config.IMAGE: img_filename,
+                                })
+    return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/delete", methods=[config.GET, config.POST])
@@ -135,10 +136,9 @@ def delete_answer(answer_id):
     question = data_handler.get_question(question_id)
     all_answers.remove(answer)
     data_handler.update_answers(all_answers)
-    if question is not None:
-        return redirect(f'/question/{question_id}')
-    else:
-        return redirect('/')
+    
+    result = f'/question/{question_id}' if question is not None else '/'
+    return redirect(result)
 
 
 @app.route("/question/<question_id>/edit", methods=[config.GET, config.POST])

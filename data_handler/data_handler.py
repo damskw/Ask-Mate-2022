@@ -97,13 +97,8 @@ def update_questions(questions):
             question[config.TITLE] = quote(question[config.TITLE])
             question[config.MESSAGE] = quote(question[config.MESSAGE])
             question[config.IMAGE] = quote(question[config.IMAGE])
-            file.write(f"{question[config.ID]},"
-                       f"{question[config.SUBMISSION_TIME]},"
-                       f"{question[config.VIEW_NUMBER]},"
-                       f"{question[config.VOTE_NUMBER]},"
-                       f"{question[config.TITLE]},"
-                       f"{question[config.MESSAGE]},"
-                       f"{question[config.IMAGE]}\n")
+            
+            file.write(f"{','.join(question.values())}\n")
 
 
 def edit_question(new_question) -> bool:
@@ -138,6 +133,7 @@ def change_question_vote(question_id, direction) -> None:
         for question in questions:
             if question[config.ID] == question_id:
                 vote_number = int(question[config.VOTE_NUMBER])
+                # TODO move to separate def
                 if direction == config.UP:
                     question[config.VOTE_NUMBER] = vote_number + 1
                 elif direction == config.DOWN:
@@ -183,6 +179,7 @@ def change_answer_vote(answer_id, direction) -> None:
         for answer in answers:
             if answer[config.ID] == answer_id:
                 vote_number = int(answer[config.VOTE_NUMBER])
+                # TODO 
                 if direction == config.UP:
                     answer[config.VOTE_NUMBER] = vote_number + 1
                 elif direction == config.DOWN:
