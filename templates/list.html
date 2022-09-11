@@ -21,21 +21,26 @@
             <table class="greyGridTable">
                 <tr>
                     {% for key in questions[0] %} {% if key != "id" %}
-                    <th>
-                        {% if key == 'submission time' %} Added {% elif key == "view number" %} Views {% elif key == "vote number" %} Score {% elif key == "title" %} Question {% elif key == "message" %} Description {% else %} {{ key|title }} {% endif %}
-                    </th>
+                        <th>
+                            {% if key == 'submission time' %} Added {% elif key == "view number" %}
+                                Views {% elif key == "vote number" %} Score {% elif key == "title" %}
+                                Question {% elif key == "message" %} Description {% else %} {{ key|title }} {% endif %}
+                        </th>
                     {% endif %} {% endfor %}
                 </tr>
                 {% for question in questions %}
-                <tr>
-                    {% for key, value in question.items() %} {% if key != "id" %}
-                    <td>
-                        {% if key == 'image' %} {% if value != '' %}
-                        <img src="/static/{{ question['image'] }}" alt="No image" style="width:60px;height:50px;" /> {% else %} {{ value }} {% endif %} {% elif key == 'title' %}
-                        <a href="/question/{{ question['id'] }}">{{ value }}</a> {% else %} {{ value }} {% endif %}
-                    </td>
-                    {% endif %} {% endfor %}
-                </tr>
+                    <tr>
+                        {% for key, value in question.items() %} {% if key != "id" %}
+                            <td>
+                                {% if key == 'image' %} {% if value != '' %}
+                                    <img src="/static/{{ question['image'] }}" alt="No image"
+                                         style="width:60px;height:50px;"/> {% else %} {{ value }}
+                                {% endif %} {% elif key == 'title' %}
+                                    <a href="/question/{{ question['id'] }}">{{ value }}</a> {% else %}
+                                    {{ value }} {% endif %}
+                            </td>
+                        {% endif %} {% endfor %}
+                    </tr>
                 {% endfor %}
             </table>
         </main>
