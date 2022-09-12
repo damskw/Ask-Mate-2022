@@ -4,15 +4,17 @@
     <div class="questions-all">
         <div class="single-question">
             <h1 id="question-title">{{ question.title }}</h1>
-            Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote Number: {{ question.vote_number }}
+            Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
+            Number: {{ question.vote_number }}
             <br>
             <a href='/question/{{ question.id }}/vote-up'><i id="circle-up" class="fa-sharp fa-solid fa-circle-up"></i></a>
-            <a href='/question/{{ question.id }}/vote-down'><i id="circle-down" class="fa-sharp fa-solid fa-circle-down"></i></a>
+            <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
+                                                               class="fa-sharp fa-solid fa-circle-down"></i></a>
             <div class="question-message">{{ question.message }}</div>
             <br><br>
             {% if question.image != None %}
                 <h3>Attachements:</h3>
-            <img src="/static/images/{{ question.image }}" alt="No image" style="width:60px;height:50px;"/>
+                <img src="/static/images/{{ question.image }}" alt="No image" style="width:60px;height:50px;"/>
                 <br><br>
             {% endif %}
             <div class="w3-small">
@@ -27,34 +29,52 @@
         </div>
     </div>
 
-    <h1>Answers:</h1>
-    <a href="/question/{{ question.id }}/add-answer">
-        <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
-    </a>
+    {% if answers|length > 0 %}
+        <h1 style="width:60%;">{{ answers|length }} Answers:</h1>
+    {% else %}
+        <h1 style="width:60%;">Answers:</h1>
+    {% endif %}
+    {#    <a href="/question/{{ question.id }}/add-answer">#}
+    {#        <button class="w3-button w3-black" type="submit">ADD ANSWER</button>#}
+    {#    </a>#}
     {% if answers|length > 0 %}
         <div class="questions-all">
             {% for answer in answers %}
                 <div class="single-question">
                     Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
                     <br>
-                    <a href='/answer/{{ answer.id }}/vote-up'><i id="circle-up" class="fa-sharp fa-solid fa-circle-up"></i></a>
-                    <a href='/answer/{{ answer.id }}/vote-down'><i id="circle-down" class="fa-sharp fa-solid fa-circle-down"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-up'><i id="circle-up"
+                                                                 class="fa-sharp fa-solid fa-circle-up"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-down'><i id="circle-down"
+                                                                   class="fa-sharp fa-solid fa-circle-down"></i></a>
                     <br>
-                    <p>{{ answer.message }}</p>
-                {{ answer.image }}
+                    <p style="font-size: 20px;">{{ answer.message }}</p>
+                    {{ answer.image }}
                     {% if answer.image != '' %}
                         <h4>Attachements:</h4>
                         <img src="/static/images/{{ answer.image }}" alt="No image" style="width:60px;height:50px;"/>
                     {% endif %}
                     <br><br>
                     <a href="/answer/{{ answer.id }}/delete">
-                        <button class="w3-button w3-black" type="submit">DELETE THIS ANSWER</button>
+                        <button class="w3-button w3-black" type="submit" id="small-delete-button">DELETE THIS ANSWER</button>
                     </a>
-                <br><br>
+                    <br><br>
                 </div>
             {% endfor %}
         </div>
     {% else %}
         <h1>No answers</h1>
     {% endif %}
+    <br><br>
+    <div class="w3-center">
+        <form action="/question/{{ question.id }}/add-answer" method="POST" enctype=multipart/form-data>
+            <label for="answer">Your answer:<br></label>
+            <textarea id="answer" name="answer" cols="80" rows="10"></textarea>
+            <br><br>
+            <label for="image">Add an image:<br></label>
+            <input name='img' id="image" type="file" class="w3-button w3-white">
+            <br><br>
+            <input type="submit" value="Post an answer" class="w3-button w3-black">
+        </form>
+    </div>
 {% endblock %}

@@ -113,3 +113,12 @@ h1 {
 #circle-down, #circle-up {
     font-size: 1.5em;
 }
+
+.single-question {
+    border-bottom-style: groove;
+}
+
+#small-delete-button {
+    padding: 5px 10px;
+    font-size: 13px;
+}
