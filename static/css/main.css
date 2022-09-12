@@ -1,4 +1,17 @@
 
+.questions-all {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.h1#question-title {
+    display: flex;
+    justify-content: center;
+    font-size: 41px;
+}
+
 body, html {
     height: 100%;
     font-family: "Inconsolata", sans-serif;
@@ -74,7 +87,6 @@ main {
 
 h1 {
     color: black;
-    border-bottom: 1px dotted darkgreen;
     font-family: sans-serif;
     text-align: center;
 }
@@ -132,4 +144,8 @@ h1 {
 
 .dropdown:hover .dropbtn {
     background-color: grey;
+}
+
+.question-message {
+    font-size: 21px;
 }

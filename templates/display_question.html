@@ -1,126 +1,60 @@
 {% extends "layout.html" %}
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
-<div class="w3-sand w3-grayscale w3-large">
-    <main>
-        <table class="greyGridTable">
-            <tr>
-                {% for key in question %}
-                    {% if key != "id" %}
-                        <th>
-                            {% if key == "submission time" %}
-                                Added
-                            {% elif key == "view number" %}
-                                Views
-                            {% elif key == "vote number" %}
-                                Votes
-                            {% elif key == "message" %}
-                                Description
-                            {% else %}
-                                {{ key|title }}
-                            {% endif %}
-                        </th>
-                    {% endif %}
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in question.items() %}
-                    {% if key != "id" %}
-                        <td>
-                            {% if key == "image" %}
-                                {% if value != '' %}
-                                    <img src="/static/{{ value }}" alt="No image" style="width:60px;height:50px;"/>
-                                {% else %}
-                                    {{ value }}
-                                {% endif %}
-                            {% else %}
-                                {% if key == "vote number" %}
-                                    <a href="/question/{{ question['id'] }}/vote-up">UP</a>
-                                    <a href="/question/{{ question['id'] }}/vote-down">DOWN</a>
-                                {% endif %}
-                                {{ value }}
-                            {% endif %}
-                        </td>
-                    {% endif %}
-                {% endfor %}
-            </tr>
-        </table>
-    </main>
-    <nav>
-        <div class="w3-small">
-            <a href="/question/{{ question['id'] }}/delete">
-                <p>
-                    <button class="w3-button w3-black" type="submit">DELETE THIS QUESTION</button>
-                </p>
-            </a>
-            <a href="/question/{{ question['id'] }}/edit">
-                <p>
-                    <button class="w3-button w3-black" type="submit">EDIT THIS QUESTION</button>
-                </p>
-            </a>
-            <h2>Answers:</h2>
-            <a href="/question/{{ question['id'] }}/add-answer">
-                <p>
-                    <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
-                </p>
-            </a>
-        </div>
-    </nav>
-    <main>
-        <table class="greyGridTable">
-            {% if desired_answers is defined %}
-                <tr>
-                    {% for key in desired_answers[0] %}
-                        {% if key != "id" and key != "question id" %}
-                            <th>
-                                {% if key == 'submission time' %}
-                                    Added
-                                {% elif key == "vote number" %}
-                                    Score
-                                {% elif key == "message" %}
-                                    Description
-                                {% elif key == "image" %}
-                                    Image
-                                {% endif %}
-                            </th>
-                        {% endif %}
-                    {% endfor %}
-                </tr>
-                {% for answer in desired_answers %}
-                    <tr>
-                        {% for key, value in answer.items() %}
-                            {% if key != "id" and key != "question id" %}
-                                <td>
-                                    {% if key == 'submission time' %}
-                                        {{ value }}
-                                    {% elif key == "vote number" %}
-                                        <a href="/answer/{{ answer['id'] }}/vote-up">UP</a>
-                                        {{ value }}
-                                        <a href="/answer/{{ answer['id'] }}/vote-down">DOWN</a>
-                                    {% elif key == "message" %}
-                                        {{ value }}
-                                    {% elif key == "image" %}
-                                        {% if value != '' %}
-                                            <img src="/static/{{ value }}" alt="No image"
-                                                 style="width:60px;height:50px;"/>
-                                        {% else %}
-                                            {{ value }}
-                                        {% endif %}
-                                        </td>
-                                    {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                        <td>
-                            <form action="/answer/{{ answer['id'] }}/delete" method="GET">
-                                <input type="submit" value="DELETE ANSWER" class="w3-button w3-black">
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <h1>There are no answers.</h1>
+    <div class="questions-all">
+        <div class="single-question">
+            <h1 id="question-title">{{ question.title }}</h1>
+            Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote Number: {{ question.vote_number }}
+            <br>
+            <a href='/question/{{ question.id }}/vote-up'><i class="fa-sharp fa-solid fa-circle-up"></i></a>
+            <a href='/question/{{ question.id }}/vote-down'><i class="fa-sharp fa-solid fa-circle-down"></i></a>
+            <div class="question-message">{{ question.message }}</div>
+            <br><br>
+            {% if question.image != None %}
+                <h3>Attachements:</h3>
+            <img src="/static/images/{{ question.image }}" alt="No image" style="width:60px;height:50px;"/>
+                <br><br>
             {% endif %}
-        </table>
-    </main>
-</div>
+            <div class="w3-small">
+                <a href="/question/{{ question.id }}/delete">
+                    <button class="w3-button w3-black" type="submit">DELETE THIS QUESTION</button>
+                </a>
+                <a href="/question/{{ question.id }}/edit">
+                    <button class="w3-button w3-black" type="submit">EDIT THIS QUESTION</button>
+                </a>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+
+    <h1>Answers:</h1>
+    <a href="/question/{{ question.id }}/add-answer">
+        <button class="w3-button w3-black" type="submit">ADD ANSWER</button>
+    </a>
+    {% if answers|length > 0 %}
+        <div class="questions-all">
+            {% for answer in answers %}
+                <div class="single-question">
+                    Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
+                    <br>
+                    <a href='/answer/{{ answer.id }}/vote-up'><i class="fa-sharp fa-solid fa-circle-up"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-down'><i class="fa-sharp fa-solid fa-circle-down"></i></a>
+                    <br>
+                    <p>{{ answer.message }}</p>
+                {{ answer.image }}
+                    {% if answer.image != '' %}
+                        <h4>Attachements:</h4>
+                        <img src="/static/images/{{ answer.image }}" alt="No image" style="width:60px;height:50px;"/>
+                    {% endif %}
+                    <br><br>
+                    <a href="/answer/{{ answer.id }}/delete">
+                        <button class="w3-button w3-black" type="submit">DELETE THIS ANSWER</button>
+                    </a>
+                <br><br>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>No answers</h1>
+    {% endif %}
 {% endblock %}
