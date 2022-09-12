@@ -2,21 +2,21 @@
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
 
-    <div class="w3-padding-large w3-hide-small">
-        <div class="dropdown">
-            <button class="dropbtn">SORT BY</button>
-            <div class="dropdown-content">
-                <a href="/list?order_by=title">Title</a>
-                <a href="/list?order_by=view_number">Most viewed</a>
-                <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
-                <a href="/list?order_by=vote_number">Highest score</a>
-                <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
-                <a href="/list?order_by=submission_time">Newest</a>
-                <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+    <div class="questions-all">
+        <div class="w3-padding-large w3-hide-small">
+            <div class="dropdown">
+                <button class='dropbtn'>SORT BY</button>
+                <div class="dropdown-content">
+                    <a href="/list?order_by=title">Title</a>
+                    <a href="/list?order_by=view_number">Most viewed</a>
+                    <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
+                    <a href="/list?order_by=vote_number">Highest score</a>
+                    <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
+                    <a href="/list?order_by=submission_time">Newest</a>
+                    <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="questions-all">
         {% for question in questions %}
             <div class="single-question">
                 <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>

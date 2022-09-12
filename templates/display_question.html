@@ -6,8 +6,8 @@
             <h1 id="question-title">{{ question.title }}</h1>
             Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote Number: {{ question.vote_number }}
             <br>
-            <a href='/question/{{ question.id }}/vote-up'><i class="fa-sharp fa-solid fa-circle-up"></i></a>
-            <a href='/question/{{ question.id }}/vote-down'><i class="fa-sharp fa-solid fa-circle-down"></i></a>
+            <a href='/question/{{ question.id }}/vote-up'><i id="circle-up" class="fa-sharp fa-solid fa-circle-up"></i></a>
+            <a href='/question/{{ question.id }}/vote-down'><i id="circle-down" class="fa-sharp fa-solid fa-circle-down"></i></a>
             <div class="question-message">{{ question.message }}</div>
             <br><br>
             {% if question.image != None %}
@@ -37,8 +37,8 @@
                 <div class="single-question">
                     Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
                     <br>
-                    <a href='/answer/{{ answer.id }}/vote-up'><i class="fa-sharp fa-solid fa-circle-up"></i></a>
-                    <a href='/answer/{{ answer.id }}/vote-down'><i class="fa-sharp fa-solid fa-circle-down"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-up'><i id="circle-up" class="fa-sharp fa-solid fa-circle-up"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-down'><i id="circle-down" class="fa-sharp fa-solid fa-circle-down"></i></a>
                     <br>
                     <p>{{ answer.message }}</p>
                 {{ answer.image }}
