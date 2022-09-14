@@ -12,9 +12,10 @@
                                                                class="fa-sharp fa-solid fa-circle-down"></i></a>
             <div class="question-message">{{ question.message }}</div>
             <br><br>
-            {% if question.image != None %}
+            {% if question.image != None and question.image != '' %}
                 <h3>Attachements:</h3>
-                <img src="/static/images/{{ question.image }}" alt="No image" style="width:60px;height:50px;"/>
+                {% set question_image='images/' ~ question.image %}
+                <img src="{{ url_for('static', filename=question_image) }}" style="width:60px;height:50px;">
                 <br><br>
             {% endif %}
             <div class="w3-small">
@@ -34,9 +35,6 @@
     {% else %}
         <h1 style="width:60%;">Answers:</h1>
     {% endif %}
-    {#    <a href="/question/{{ question.id }}/add-answer">#}
-    {#        <button class="w3-button w3-black" type="submit">ADD ANSWER</button>#}
-    {#    </a>#}
     {% if answers|length > 0 %}
         <div class="questions-all">
             {% for answer in answers %}
@@ -49,14 +47,15 @@
                                                                    class="fa-sharp fa-solid fa-circle-down"></i></a>
                     <br>
                     <p style="font-size: 20px;">{{ answer.message }}</p>
-                    {{ answer.image }}
                     {% if answer.image != '' %}
                         <h4>Attachements:</h4>
-                        <img src="/static/images/{{ answer.image }}" alt="No image" style="width:60px;height:50px;"/>
+                        {% set answer_image='images/' ~ answer.image %}
+                        <img src="{{ url_for('static', filename=answer_image) }}" style="width:60px;height:50px;">
                     {% endif %}
                     <br><br>
                     <a href="/answer/{{ answer.id }}/delete">
-                        <button class="w3-button w3-black" type="submit" id="small-delete-button">DELETE THIS ANSWER</button>
+                        <button class="w3-button w3-black" type="submit" id="small-delete-button">DELETE THIS ANSWER
+                        </button>
                     </a>
                     <br><br>
                 </div>
