@@ -7,10 +7,10 @@ from data_handler import data_handler, id_generator, data_manager
 from utils import quote, convert_timestamp_to_utc
 
 UPLOAD_FOLDER = 'static/images'
-app = Flask(__name__, static_url_path='/static')
+# app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
+# "{{url_for('static', filename='MD.png')}}"
 @app.route("/")
 @app.route("/list")
 def list_questions():

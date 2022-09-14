@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Edit Question{% endblock %}
 {% block content %}
-<div class="w3-sand w3-grayscale w3-large">
-    <main>
         <h1>Add your question here</h1>
         <div class="w3-center">
             <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
@@ -18,6 +16,4 @@
                 <input type="submit" value="Edit this question" class="w3-button w3-black">
             </form>
         </div>
-    </main>
-</div>
 {% endblock %}

@@ -2,9 +2,6 @@
 {% block title %}Add Question{% endblock %}
 {% block content %}
 <!-- Add a background color and large text to the whole page -->
-<div class="w3-sand w3-grayscale w3-large">
-
-    <main>
         <h1>Add your question here</h1>
         <div class="w3-center">
         <form action="/add-question" method="POST" enctype=multipart/form-data>
@@ -20,6 +17,4 @@
             <input type="submit" value="Add a question" class="w3-button w3-black">
         </form>
         </div>
-    </main>
-</div>
 {% endblock %}

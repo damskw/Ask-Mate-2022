@@ -12,37 +12,58 @@
     {% endblock %}
 </head>
 <body>
-<!-- Links (sit on top) -->
-<div class="w3-top">
-    <div class="w3-row w3-padding w3-black">
-        <div class="w3-col s3">
-            <a href="/" class="w3-button w3-block w3-black">HOT QUESTIONS</a>
-        </div>
-        <div class="w3-col s3">
-            <div class="dropdown" style="width: 100%;">
-                <a href="/add-question" class="w3-button w3-block w3-black">ASK QUESTION</a>
-                <div class="dropdown-content">
-                    <a href="/" class="w3-button w3-block w3-black">Test dropdown</a>
+    <div class="hero">
+        <nav>
+                    <img src="{{url_for('static', filename='images/logo.png')}}" class="logo">
+{#            <h1 class="logo" style="color: white">Ask Mate</h1>#}
+            <ul>
+                <li><a href="/"> Home </a></li>
+                <li><a href="/"> Search </a></li>
+                <li><a href="/add-question"> Add Question </a></li>
+                <li><a href="/about"> About </a></li>
+            </ul>
+            <img src="{{url_for('static', filename='images/user.png')}}" class="user-pic" onclick="toggleMenu()">
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user-info">
+                        <img src="{{url_for('static', filename='images/user.png')}}">
+                        <h3>James Aldrino</h3>
+                    </div>
+                    <hr>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{url_for('static', filename='images/profile.png')}}">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{url_for('static', filename='images/setting.png')}}">
+                        <p>Settings</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{url_for('static', filename='images/help.png')}}">
+                        <p>Help & Privacy</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{url_for('static', filename='images/logout.png')}}">
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+
                 </div>
             </div>
-        </div>
-        <div class="w3-col s3">
-            <a href="/" class="w3-button w3-block w3-black">SEARCH</a>
-        </div>
-        <div class="w3-col s3">
-            <a href="/about" class="w3-button w3-block w3-black">ABOUT</a>
-        </div>
-    </div>
-</div>
-{% block header %}
-    <!-- Header -->
-    <header class="main-header w3-display-container w3-grayscale-min" id="home">
-        <div class="w3-display-middle w3-center">
-            <span class="w3-text-black" style="font-size:90px"><a href="/list">Ask Mate</a></span>
-        </div>
-    </header>
-{% endblock %}
+        </nav>
+    <br><br>
 {% block content %}{% endblock %}
+    </div>
+    <script>
+        let subMenu = document.getElementById("subMenu");
+
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
 {% block footer %}
     <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
         <p>Made with &#x1F496; by Damian, Ola and Jakub</p>
