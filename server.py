@@ -43,9 +43,13 @@ def display_question(question_id):
     temp = [answer_ids.append(answer["id"]) for answer in answers]
     data_manager.increase_question_view_number(question_id)
     question_comments = data_manager.get_comments_for_question(question_id)
-    comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
+    print(answer_ids)
+    if len(answer_ids) > 0:
+        comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
+        return render_template('display_question.html', question=question, answers=answers,
+                               question_comments=question_comments, comments_for_answers=comments_for_answers)
     if question:
-        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments, comments_for_answers = comments_for_answers)
+        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments)
     return render_template('404.html')
 
 
@@ -124,6 +128,11 @@ def add_comment_to_answer(answer_id):
 def delete_question(question_id):
     question = data_manager.get_question_image_name(question_id)
     image_name = question[config.IMAGE]
+    answers = data_manager.find_answers_to_question(question_id)
+    answer_ids = []
+    temp = [answer_ids.append(answer["id"]) for answer in answers]
+    if len(answer_ids) > 0:
+        data_manager.delete_all_answer_comments(answer_ids)
     data_manager.delete_question(question_id)
     if image_name != "" and os.path.exists(f"static/images/{image_name}"):
         os.remove(f"static/images/{image_name}")

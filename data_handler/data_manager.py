@@ -78,7 +78,6 @@ def find_answers_to_question(cursor, question_id):
     return cursor.fetchall()
 
 
-
 @database_connection.connection_handler
 def add_answer(cursor, submission_time, question_id, message, image):
     query = """
@@ -111,12 +110,24 @@ def add_comment_to_answer(cursor, answer_id, comment, submission_time):
 @database_connection.connection_handler
 def delete_question(cursor, question_id):
     query = """
+        DELETE from comment
+        WHERE question_id=%(question_id)s;
+    
         DELETE from answer
         WHERE question_id=%(question_id)s;
         
         DELETE from question
         WHERE id=%(question_id)s;"""
     cursor.execute(query, {"question_id": question_id})
+
+
+@database_connection.connection_handler
+def delete_all_answer_comments(cursor, answer_ids):
+    answer_ids = tuple(answer_ids)
+    query = """
+        DELETE from comment
+        WHERE answer_id IN %(answer_ids)s;"""
+    cursor.execute(query, {"answer_ids": answer_ids})
 
 
 @database_connection.connection_handler
