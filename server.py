@@ -23,6 +23,18 @@ def list_questions():
     return render_template('list.html', questions=questions)
 
 
+@app.route("/search")
+def search_results():
+    order_by = request.args.get("order_by", "submission_time")
+    order_direction = request.args.get("order_direction", "desc")
+    search_phrase = request.args.get("q", "None")
+    questions = data_manager.find_results_by_search_phrase(search_phrase)
+    questions.sort(key=lambda q: q[order_by], reverse=(order_direction == "desc"))
+    if search_phrase == 'None':
+        return render_template('search.html')
+    return render_template('list.html', questions=questions)
+
+
 @app.route("/question/<question_id>", methods=[config.GET, config.POST])
 def display_question(question_id):
     question = data_manager.find_question(question_id)

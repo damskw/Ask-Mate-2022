@@ -17,6 +17,18 @@ def get_questions(cursor):
 
 
 @database_connection.connection_handler
+def find_results_by_search_phrase(cursor, phrase):
+    phrase = '%' + phrase + '%'
+    query = """
+            SELECT * 
+            FROM question
+            WHERE title LIKE %(phrase)s OR message LIKE %(phrase)s
+            """
+    cursor.execute(query, {"phrase": phrase})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
 def get_comments_for_question(cursor, question_id):
     query = """
         SELECT *
