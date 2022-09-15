@@ -27,6 +27,16 @@ def get_comments_for_question(cursor, question_id):
 
 
 @database_connection.connection_handler
+def get_comments_for_answer(cursor, answer_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE answer_id = %(answer_id)s"""
+    cursor.execute(query, {"answer_id": answer_id})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
 def add_question(cursor, submission_time, title, message, image):
     query = """
         INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
@@ -46,13 +56,14 @@ def find_question(cursor, question_id):
 
 
 @database_connection.connection_handler
-def find_answer_to_question(cursor, question_id):
+def find_answers_to_question(cursor, question_id):
     query = """
             SELECT * FROM answer
             WHERE question_id = %(question_id)s
             """
     cursor.execute(query, {"question_id": question_id})
     return cursor.fetchall()
+
 
 
 @database_connection.connection_handler
@@ -66,13 +77,22 @@ def add_answer(cursor, submission_time, question_id, message, image):
 
 
 @database_connection.connection_handler
-def add_comment(cursor, question_id, comment, submission_time):
+def add_comment_to_question(cursor, question_id, comment, submission_time):
     query = """
-        INSERT INTO comment(question_id, message, submission_time, edited_count)
-        VALUES (%(question_id)s, %(comment)s, %(submission_time)s, 0)
+        INSERT INTO comment(question_id,answer_id, message, submission_time, edited_count)
+        VALUES (%(question_id)s, NULL, %(comment)s, %(submission_time)s, 0)
         """
     cursor.execute(query,
                    {"question_id": question_id, "comment": comment, "submission_time": submission_time})
+
+
+@database_connection.connection_handler
+def add_comment_to_answer(cursor, answer_id, comment, submission_time):
+    query = """
+        INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count)
+        VALUES (%(answer_id)s, NULL, %(comment)s, %(submission_time)s, 0)
+        """
+    cursor.execute(query, {"answer_id": answer_id, "comment": comment, "submission_time": submission_time})
 
 
 @database_connection.connection_handler

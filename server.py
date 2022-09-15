@@ -26,7 +26,7 @@ def list_questions():
 @app.route("/question/<question_id>", methods=[config.GET, config.POST])
 def display_question(question_id):
     question = data_manager.find_question(question_id)
-    answers = data_manager.find_answer_to_question(question_id)
+    answers = data_manager.find_answers_to_question(question_id)
     data_manager.increase_question_view_number(question_id)
     question_comments = data_manager.get_comments_for_question(question_id)
     if question:
@@ -73,7 +73,7 @@ def add_answer(question_id):
 
 
 @app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
-def delete_comment(comment_id):
+def delete_comment_from_question(comment_id):
     question = data_manager.find_question_id_from_comment(comment_id)
     question_id = question[config.QUESTION_ID]
     data_manager.delete_comment(comment_id)
@@ -81,11 +81,22 @@ def delete_comment(comment_id):
 
 
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
-def add_comment(question_id):
+def add_comment_to_question(question_id):
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
     timestamp = int(datetime.timestamp(now))
-    data_manager.add_comment(question_id, comment, now)
+    data_manager.add_comment_to_question(question_id, comment, now)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/answer/<answer_id>/new-comment", methods=[config.POST])
+def add_comment_to_answer(answer_id):
+    question = data_manager.find_question_id_from_answer(answer_id)
+    question_id = question[config.QUESTION_ID]
+    comment = request.form[config.QUESTION_COMMENT]
+    now = datetime.now()
+    timestamp = int(datetime.timestamp(now))
+    data_manager.add_comment_to_answer(answer_id, comment, now)
     return redirect(f'/question/{question_id}')
 
 
