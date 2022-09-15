@@ -95,12 +95,30 @@ def delete_answer(cursor, answer_id):
 
 
 @database_connection.connection_handler
-def find_question_id(cursor, answer_id):
+def delete_comment(cursor, comment_id):
+    query = """
+        DELETE from comment
+        WHERE id=%(comment_id)s"""
+    cursor.execute(query, {"comment_id": comment_id})
+
+
+@database_connection.connection_handler
+def find_question_id_from_answer(cursor, answer_id):
     query = """
             SELECT question_id FROM answer
             WHERE id = %(answer_id)s
             """
     cursor.execute(query, {"answer_id": answer_id})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def find_question_id_from_comment(cursor, comment_id):
+    query = """
+            SELECT question_id FROM comment
+            WHERE id = %(comment_id)s
+            """
+    cursor.execute(query, {"comment_id": comment_id})
     return cursor.fetchone()
 
 
@@ -172,91 +190,3 @@ def increase_question_view_number(cursor, question_id):
         SET view_number = view_number + 1
         WHERE id=%(question_id)s"""
     cursor.execute(query, {"question_id": question_id})
-
-#
-#
-# @database_connection.connection_handler
-# def get_applicants(cursor):
-#     query = """
-#         SELECT first_name, last_name, phone_number, application_code
-#         FROM applicant
-#         ORDER BY first_name"""
-#     cursor.execute(query)
-#     return cursor.fetchall()
-#
-#
-# @database_connection.connection_handler
-# def get_applicants_by_last_name(cursor, last_name):
-#     query = """
-#         SELECT first_name, last_name, phone_number
-#         FROM applicant
-#         WHERE last_name=%(surname)s
-#         ORDER BY first_name"""
-#     cursor.execute(query, {"surname": last_name})
-#     return cursor.fetchall()
-#
-# @database_connection.connection_handler
-# def get_applicants_by_code(cursor, code):
-#     query = """
-#         SELECT first_name, last_name, phone_number, email, application_code
-#         FROM applicant
-#         WHERE application_code=%(code)s
-#         ORDER BY first_name"""
-#     cursor.execute(query, {"code": code})
-#     return cursor.fetchone()
-#
-# @database_connection.connection_handler
-# def update_applicant_phone_number(cursor, code, new_number):
-#     query = """
-#         UPDATE applicant
-#         SET phone_number = %(new_number)s
-#         WHERE application_code=%(code)s"""
-#     cursor.execute(query, {"code": code, "new_number": new_number})
-#
-# @database_connection.connection_handler
-# def delete_applicant(cursor, code):
-#     query = """
-#         DELETE from applicant
-#         WHERE application_code=%(code)s"""
-#     cursor.execute(query, {"code": code})
-#
-#
-#
-# @database_connection.connection_handler
-# def get_applicants_by_email(cursor, email):
-#     query = """
-#         SELECT first_name, last_name, phone_number
-#         FROM applicant
-#         WHERE email=%(email)s
-#         ORDER BY first_name"""
-#     cursor.execute(query, {"email": email})
-#     return cursor.fetchall()
-#
-#
-# @database_connection.connection_handler
-# def get_mentors_by_last_name(cursor, last_name):
-#     query = """
-#         SELECT first_name, last_name, city
-#         FROM mentor
-#         WHERE last_name=%(surname)s
-#         ORDER BY first_name"""
-#     cursor.execute(query, {"surname": last_name})
-#     return cursor.fetchall()
-#
-#
-# @database_connection.connection_handler
-# def get_mentors_by_city_name(cursor, name):
-#     query = """
-#         SELECT first_name, last_name, city
-#         FROM mentor
-#         WHERE city=%(city_name)s
-#         ORDER BY first_name"""
-#     cursor.execute(query, {"city_name": name})
-#     return cursor.fetchall()
-#
-#
-# @database_connection.connection_handler
-# def get_cities(cursor):
-#     query = """SELECT DISTINCT city FROM mentor"""
-#     cursor.execute(query)
-#     return cursor.fetchall()

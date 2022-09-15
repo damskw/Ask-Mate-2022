@@ -72,6 +72,14 @@ def add_answer(question_id):
     return redirect(f'/question/{question_id}')
 
 
+@app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
+def delete_comment(comment_id):
+    question = data_manager.find_question_id_from_comment(comment_id)
+    question_id = question[config.QUESTION_ID]
+    data_manager.delete_comment(comment_id)
+    return redirect(f'/question/{question_id}')
+
+
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
 def add_comment(question_id):
     comment = request.form[config.QUESTION_COMMENT]
@@ -93,7 +101,7 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete", methods=[config.GET, config.POST])
 def delete_answer(answer_id):
-    question = data_manager.find_question_id(answer_id)
+    question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     question = data_manager.get_answer_image_name(answer_id)
     image_name = question[config.IMAGE]
@@ -134,7 +142,7 @@ def vote_question_down(question_id):
 @app.route("/answer/<answer_id>/vote-up", methods=[config.GET, config.POST])
 def vote_answer_up(answer_id):
     data_manager.update_answer_vote(answer_id, config.UP)
-    question = data_manager.find_question_id(answer_id)
+    question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     return redirect(f'/question/{question_id}')
 
@@ -142,7 +150,7 @@ def vote_answer_up(answer_id):
 @app.route("/answer/<answer_id>/vote-down", methods=[config.GET, config.POST])
 def vote_answer_down(answer_id):
     data_manager.update_answer_vote(answer_id, config.DOWN)
-    question = data_manager.find_question_id(answer_id)
+    question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     return redirect(f'/question/{question_id}')
 
