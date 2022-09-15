@@ -44,10 +44,13 @@
         </div>
     {% endif %}
 {% set phrase = "'" ~ search_phrase ~ "'" %}
-<style onload="search({{ phrase }})"></style>
+{#<style onload="search({{ phrase }})"></style>#}
 {% for question in questions %}
+
     <div class="single-question">
-        <div id="text"><h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
+
+        <div id="text">
+            <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
             Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
             Number: {{ question.vote_number }}
             <br>
@@ -55,6 +58,7 @@
             <br><br>
         </div>
     </div>
+    <style onload="search({{ phrase }})"></style>
 {% endfor %}
 </div>
     <script>

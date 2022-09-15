@@ -150,6 +150,14 @@ def delete_comment(cursor, comment_id):
 
 
 @database_connection.connection_handler
+def delete_comment_from_answer(cursor, answer_id):
+    query = """
+        DELETE from comment
+        WHERE answer_id=%(answer_id)s"""
+    cursor.execute(query, {"answer_id": answer_id})
+
+
+@database_connection.connection_handler
 def find_question_id_from_answer(cursor, answer_id):
     query = """
             SELECT question_id FROM answer

@@ -145,6 +145,7 @@ def delete_answer(answer_id):
     question_id = question[config.QUESTION_ID]
     question = data_manager.get_answer_image_name(answer_id)
     image_name = question[config.IMAGE]
+    data_manager.delete_comment_from_answer(answer_id)
     data_manager.delete_answer(answer_id)
     if image_name != "" and os.path.exists(f"static/images/{image_name}"):
         os.remove(f"static/images/{image_name}")
