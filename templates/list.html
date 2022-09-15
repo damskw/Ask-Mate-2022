@@ -1,31 +1,55 @@
 {% extends "layout.html" %}
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
-
-    <div class="questions-all">
+    {% if search_phrase is defined %}
+        <h1>Search results for: {{ search_phrase }}</h1>
+    {% endif %}
+    {% if questions|length == 0 %}
+        <h1>No results</h1>
+    {% endif %}
+    {% if questions|length >= 1 and search_phrase is defined %}
+        <div class="questions-all">
         <div class="w3-padding-large w3-hide-small">
             <div class="dropdown">
                 <button class='dropbtn'>SORT BY</button>
                 <div class="dropdown-content">
-                    <a href="/list?order_by=title">Title</a>
-                    <a href="/list?order_by=view_number">Most viewed</a>
-                    <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
-                    <a href="/list?order_by=vote_number">Highest score</a>
-                    <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
-                    <a href="/list?order_by=submission_time">Newest</a>
-                    <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+                    <a href="/search?order_by=title&q={{ search_phrase }}">Title</a>
+                    <a href="/search?order_by=view_number&q={{ search_phrase }}">Most viewed</a>
+                    <a href="/search?order_by=view_number&order_direction=asc&q={{ search_phrase }}">Least viewed</a>
+                    <a href="/search?order_by=vote_number&q={{ search_phrase }}">Highest score</a>
+                    <a href="/search?order_by=vote_number&order_direction=asc&q={{ search_phrase }}">Lowest score</a>
+                    <a href="/search?order_by=submission_time&q={{ search_phrase }}">Newest</a>
+                    <a href="/search?order_by=submission_time&order_direction=asc&q={{ search_phrase }}">Oldest</a>
                 </div>
             </div>
         </div>
-        {% for question in questions %}
-            <div class="single-question">
-                <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
-                Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
-                Number: {{ question.vote_number }}
-                <br>
-                <p>{{ question.message }}</p>
-                <br><br><br>
+    {% endif %}
+{% if questions|length >= 1 and search_phrase is not defined %}
+    <div class="questions-all">
+    <div class="w3-padding-large w3-hide-small">
+        <div class="dropdown">
+            <button class='dropbtn'>SORT BY</button>
+            <div class="dropdown-content">
+                <a href="/list?order_by=title">Title</a>
+                <a href="/list?order_by=view_number">Most viewed</a>
+                <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
+                <a href="/list?order_by=vote_number">Highest score</a>
+                <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
+                <a href="/list?order_by=submission_time">Newest</a>
+                <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
             </div>
-        {% endfor %}
+        </div>
     </div>
+{% endif %}
+{% for question in questions %}
+    <div class="single-question">
+        <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
+        Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
+        Number: {{ question.vote_number }}
+        <br>
+        <p>{{ question.message }}</p>
+        <br><br>
+    </div>
+{% endfor %}
+</div>
 {% endblock %}

@@ -32,7 +32,7 @@ def search_results():
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == "desc"))
     if search_phrase == 'None':
         return render_template('search.html')
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, search_phrase=search_phrase)
 
 
 @app.route("/question/<question_id>", methods=[config.GET, config.POST])
