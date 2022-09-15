@@ -2,7 +2,9 @@
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
     {% if search_phrase is defined %}
-        <h1>Search results for: {{ search_phrase }}</h1>
+        <h1>Search results for:
+            <mark>{{ search_phrase }}</mark>
+        </h1>
     {% endif %}
     {% if questions|length == 0 %}
         <h1>No results</h1>
@@ -24,32 +26,46 @@
             </div>
         </div>
     {% endif %}
-{% if questions|length >= 1 and search_phrase is not defined %}
-    <div class="questions-all">
-    <div class="w3-padding-large w3-hide-small">
-        <div class="dropdown">
-            <button class='dropbtn'>SORT BY</button>
-            <div class="dropdown-content">
-                <a href="/list?order_by=title">Title</a>
-                <a href="/list?order_by=view_number">Most viewed</a>
-                <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
-                <a href="/list?order_by=vote_number">Highest score</a>
-                <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
-                <a href="/list?order_by=submission_time">Newest</a>
-                <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+    {% if questions|length >= 1 and search_phrase is not defined %}
+        <div class="questions-all">
+        <div class="w3-padding-large w3-hide-small">
+            <div class="dropdown">
+                <button class='dropbtn'>SORT BY</button>
+                <div class="dropdown-content">
+                    <a href="/list?order_by=title">Title</a>
+                    <a href="/list?order_by=view_number">Most viewed</a>
+                    <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
+                    <a href="/list?order_by=vote_number">Highest score</a>
+                    <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
+                    <a href="/list?order_by=submission_time">Newest</a>
+                    <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+                </div>
             </div>
         </div>
-    </div>
-{% endif %}
+    {% endif %}
+{% set phrase = "'" ~ search_phrase ~ "'" %}
+<style onload="search({{ phrase }})"></style>
 {% for question in questions %}
     <div class="single-question">
-        <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
-        Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
-        Number: {{ question.vote_number }}
-        <br>
-        <p>{{ question.message }}</p>
-        <br><br>
+        <div id="text"><h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
+            Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
+            Number: {{ question.vote_number }}
+            <br>
+            <p>{{ question.message }}</p>
+            <br><br>
+        </div>
     </div>
 {% endfor %}
 </div>
+    <script>
+        function search(e) {
+            let searched = e;
+            if (e !== "") {
+                let text = document.getElementById("text").innerHTML;
+                let re = new RegExp(searched, "g"); // search for all instances
+                let newText = text.replace(re, `<mark>${searched}</mark>`);
+                document.getElementById("text").innerHTML = newText;
+            }
+        }
+    </script>
 {% endblock %}
