@@ -147,6 +147,16 @@ def find_question_id_from_comment(cursor, comment_id):
 
 
 @database_connection.connection_handler
+def find_answer_id_from_comment(cursor, comment_id):
+    query = """
+            SELECT answer_id FROM comment
+            WHERE id = %(comment_id)s
+            """
+    cursor.execute(query, {"comment_id": comment_id})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
 def get_question_image_name(cursor, question_id):
     query = """
             SELECT image FROM question

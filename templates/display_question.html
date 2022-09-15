@@ -84,7 +84,9 @@
                     Comments for this answer:
                     {% for comment in comments_for_answers %}
                         {% if comment.answer_id == answer.id %}
-                            <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }} <br>
+                            <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                            <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
+                            <br>
                             {{ comment.message }}
                         {% endif %}
                     {% endfor %}

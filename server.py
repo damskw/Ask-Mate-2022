@@ -76,11 +76,16 @@ def add_answer(question_id):
 
 
 @app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
-def delete_comment_from_question(comment_id):
+def delete_comment(comment_id):
     question = data_manager.find_question_id_from_comment(comment_id)
-    question_id = question[config.QUESTION_ID]
+    redirect_id = question[config.QUESTION_ID]
+    if not isinstance(redirect_id, int):
+        answer = data_manager.find_answer_id_from_comment(comment_id)
+        answer_id = answer[config.ANSWER_ID]
+        question = data_manager.find_question_id_from_answer(answer_id)
+        redirect_id = question[config.QUESTION_ID]
     data_manager.delete_comment(comment_id)
-    return redirect(f'/question/{question_id}')
+    return redirect(f'/question/{redirect_id}')
 
 
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
