@@ -10,6 +10,8 @@ UPLOAD_FOLDER = 'static/images'
 # app = Flask(__name__, static_url_path='/static')
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 # "{{url_for('static', filename='MD.png')}}"
 @app.route("/")
 @app.route("/list")
@@ -26,8 +28,9 @@ def display_question(question_id):
     question = data_manager.find_question(question_id)
     answers = data_manager.find_answer_to_question(question_id)
     data_manager.increase_question_view_number(question_id)
+    question_comments = data_manager.get_comments_for_question(question_id)
     if question:
-        return render_template('display_question.html', question=question, answers=answers)
+        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments)
     return render_template('404.html')
 
 
@@ -66,6 +69,15 @@ def add_answer(question_id):
     timestamp = int(datetime.timestamp(now))
     img_filename = save_image_file(request, timestamp)
     data_manager.add_answer(now, question_id, answer, img_filename)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/question/<question_id>/new-comment", methods=[config.POST])
+def add_comment(question_id):
+    comment = request.form[config.QUESTION_COMMENT]
+    now = datetime.now()
+    timestamp = int(datetime.timestamp(now))
+    data_manager.add_comment(question_id, comment, now)
     return redirect(f'/question/{question_id}')
 
 

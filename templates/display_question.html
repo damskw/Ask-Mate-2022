@@ -11,6 +11,8 @@
             <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
                                                                class="fa-sharp fa-solid fa-circle-down"></i></a>
             <div class="question-message">{{ question.message }}</div>
+
+
             <br><br>
             {% if question.image != None and question.image != '' %}
                 <h3>Attachements:</h3>
@@ -27,6 +29,21 @@
                 </a>
                 <br><br><br>
             </div>
+            {% if question_comments is defined %}
+                <h4>{{ question_comments|length }} Comments:</h4>
+                {% for comment in question_comments %}
+                    Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                    <br>
+                    {{ comment.message }}
+                    <br>
+                {% endfor %}
+            {% endif %}
+            <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
+                <label for="question-comment">Your comment:<br></label>
+                <textarea id="question-comment" name="question-comment" cols="40" rows="5"></textarea>
+                <br><br>
+                <input type="submit" value="Post a comment" class="w3-button w3-black">
+            </form>
         </div>
     </div>
 

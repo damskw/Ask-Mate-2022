@@ -17,6 +17,16 @@ def get_questions(cursor):
 
 
 @database_connection.connection_handler
+def get_comments_for_question(cursor, question_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
 def add_question(cursor, submission_time, title, message, image):
     query = """
         INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
@@ -53,6 +63,16 @@ def add_answer(cursor, submission_time, question_id, message, image):
         """
     cursor.execute(query,
                    {"submission_time": submission_time, "question_id": question_id, "message": message, "image": image})
+
+
+@database_connection.connection_handler
+def add_comment(cursor, question_id, comment, submission_time):
+    query = """
+        INSERT INTO comment(question_id, message, submission_time, edited_count)
+        VALUES (%(question_id)s, %(comment)s, %(submission_time)s, 0)
+        """
+    cursor.execute(query,
+                   {"question_id": question_id, "comment": comment, "submission_time": submission_time})
 
 
 @database_connection.connection_handler

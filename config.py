@@ -21,3 +21,4 @@ UTF_8 = 'utf-8'
 WRITE = "w"
 APPEND = "a"
 READ = "r"
+QUESTION_COMMENT = "question-comment"
