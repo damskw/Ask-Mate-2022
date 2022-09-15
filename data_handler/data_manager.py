@@ -111,7 +111,10 @@ def delete_question(cursor, question_id):
 def delete_answer(cursor, answer_id):
     query = """
         DELETE from answer
-        WHERE id=%(answer_id)s"""
+        WHERE id=%(answer_id)s;
+        
+        DELETE from comment
+        WHERE answer_id=%(answer_id)s"""
     cursor.execute(query, {"answer_id": answer_id})
 
 
