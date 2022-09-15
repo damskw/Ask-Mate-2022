@@ -27,12 +27,13 @@ def get_comments_for_question(cursor, question_id):
 
 
 @database_connection.connection_handler
-def get_comments_for_answer(cursor, answer_id):
+def get_comments_for_answers(cursor, answer_ids):
+    answer_ids = tuple(answer_ids)
     query = """
         SELECT *
         FROM comment
-        WHERE answer_id = %(answer_id)s"""
-    cursor.execute(query, {"answer_id": answer_id})
+        WHERE answer_id IN %(answer_ids)s""".format(answer_ids)
+    cursor.execute(query, {"answer_ids": answer_ids})
     return cursor.fetchall()
 
 

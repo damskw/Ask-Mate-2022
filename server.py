@@ -27,10 +27,13 @@ def list_questions():
 def display_question(question_id):
     question = data_manager.find_question(question_id)
     answers = data_manager.find_answers_to_question(question_id)
+    answer_ids = []
+    temp = [answer_ids.append(answer["id"]) for answer in answers]
     data_manager.increase_question_view_number(question_id)
     question_comments = data_manager.get_comments_for_question(question_id)
+    comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
     if question:
-        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments)
+        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments, comments_for_answers = comments_for_answers)
     return render_template('404.html')
 
 

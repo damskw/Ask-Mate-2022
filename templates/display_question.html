@@ -32,7 +32,8 @@
             {% if question_comments is defined %}
                 <h4>{{ question_comments|length }} Comments:</h4>
                 {% for comment in question_comments %}
-                    Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }} <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
+                    Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                    <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
                     <br>
                     {{ comment.message }}
                     <br>
@@ -45,7 +46,8 @@
                     <textarea id="question-comment" name="question-comment" cols="40" rows="5"></textarea>
                     <br><br>
                     <input type="submit" id="small-button" value="SEND" class="w3-button w3-black">
-                    <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">CANCEL</button>
+                    <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">CANCEL
+                    </button>
                 </form>
             </div>
         </div>
@@ -79,6 +81,23 @@
                         </button>
                     </a>
                     <br><br>
+                    Comments for this answer:
+                    {% for comment in comments_for_answers %}
+                        {% if comment.answer_id == answer.id %}
+                            <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }} <br>
+                            {{ comment.message }}
+                        {% endif %}
+                    {% endfor %}
+                    <form action="/answer/{{ answer.id }}/new-comment" method="POST"
+                          enctype=multipart/form-data>
+                        <label for="question-comment">Your comment:<br></label>
+                        <textarea id="question-comment" name="question-comment" cols="40" rows="5"></textarea>
+                        <br><br>
+                        <input type="submit" id="small-button" value="SEND" class="w3-button w3-black">
+                        <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">
+                            CANCEL
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
