@@ -11,8 +11,6 @@
             <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
                                                                class="fa-sharp fa-solid fa-circle-down"></i></a>
             <div class="question-message">{{ question.message }}</div>
-
-
             <br><br>
             {% if question.image != None and question.image != '' %}
                 <h3>Attachements:</h3>
@@ -20,6 +18,10 @@
                 <img src="{{ url_for('static', filename=question_image) }}" style="width:60px;height:50px;">
                 <br><br>
             {% endif %}
+            <h3>Tags: <a href="/question/{{ question.id }}/new-tag">Add new</a></h3>
+            {% for tag in tags_for_question %}
+                {{ tag.name }}
+            {% endfor %}
             <div class="w3-small">
                 <a href="/question/{{ question.id }}/delete">
                     <button class="w3-button w3-black" type="submit" id="bigger-button">DELETE THIS QUESTION</button>

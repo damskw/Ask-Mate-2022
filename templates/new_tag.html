@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Add a Tag{% endblock %}
+{% block content %}
+    <h1>Add tag to a question</h1>
+    <div class="w3-center">
+        <form action="/question/{{ question_id }}/new-tag" method="POST">
+            <select name="question-tag">
+                {% for tag in tags %}
+                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add</button>
+        </form>
+        <form action="/question/{{ question_id }}/new-tag" method="POST">
+            <input type="text" name="question-tag" placeholder="Your tag goes in here...">
+            <br><br>
+            <input type="submit" value="Add tag" class="w3-button w3-black" id="bigger-button">
+        </form>
+    </div>
+
+{% endblock %}

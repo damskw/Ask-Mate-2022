@@ -17,6 +17,54 @@ def get_questions(cursor):
 
 
 @database_connection.connection_handler
+def get_all_tags(cursor):
+    query = """
+        SELECT *
+        FROM tag"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_question_tag_ids(cursor, question_id):
+    query = """
+        SELECT *
+        FROM question_tag
+        WHERE question_id = %(question_id)s"""
+    cursor.execute(query, {"question_id": question_id})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def add_tag_to_a_question(cursor, question_id, tag_id):
+    query = """
+        INSERT INTO question_tag(question_id, tag_id)
+        VALUES (%(question_id)s, %(tag_id)s)
+        """
+    cursor.execute(query, {"question_id": question_id, "tag_id": tag_id})
+
+
+@database_connection.connection_handler
+def create_new_tag(cursor, tag):
+    query = """
+        INSERT INTO tag(name)
+        VALUES (%(tag)s)
+        """
+    cursor.execute(query, {"tag": tag})
+
+
+@database_connection.connection_handler
+def find_tag_by_name(cursor, tag):
+    query = """
+        SELECT *
+        FROM tag
+        WHERE name=%(tag)s
+        """
+    cursor.execute(query, {"tag": tag})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
 def find_results_by_search_phrase(cursor, phrase):
     phrase = '%' + phrase + '%'
     query = """
@@ -46,6 +94,34 @@ def get_comments_for_answers(cursor, answer_ids):
         FROM comment
         WHERE answer_id IN %(answer_ids)s""".format(answer_ids)
     cursor.execute(query, {"answer_ids": answer_ids})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def check_if_tag_id_already_in_question(cursor, question_id, tag_id):
+    query = """
+        SELECT *
+        FROM question_tag
+        WHERE tag_id=%(tag_id)s AND question_id=%(question_id)s"""
+    cursor.execute(query, {"question_id": question_id, "tag_id": tag_id})
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_tags_from_tag_ids(cursor, tag_ids):
+    if len(tag_ids) > 1:
+        tag_ids = tuple(tag_ids)
+        query = """
+            SELECT *
+            FROM tag
+            WHERE id IN %(tag_ids)s"""
+    else:
+        tag_ids = tag_ids[0]
+        query = """
+            SELECT *
+            FROM tag
+            WHERE id=%(tag_ids)s"""
+    cursor.execute(query, {"tag_ids": tag_ids})
     return cursor.fetchall()
 
 
