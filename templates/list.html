@@ -44,7 +44,6 @@
         </div>
     {% endif %}
 {% set phrase = "'" ~ search_phrase ~ "'" %}
-{#<style onload="search({{ phrase }})"></style>#}
 {% for question in questions %}
 
     <div class="single-question">
@@ -60,6 +59,13 @@
     </div>
     <style onload="search({{ phrase }})"></style>
 {% endfor %}
+{% if questions|length < 6 %}
+    <div class="position-middle">
+        <a href="/list">
+            <button class="w3-button w3-black" id="bigger-button">LOAD ALL QUESTIONS</button>
+        </a>
+    </div>
+{% endif %}
 </div>
     <script>
         function search(e) {

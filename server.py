@@ -13,7 +13,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 # "{{url_for('static', filename='MD.png')}}"
-@app.route("/")
+
 @app.route("/list")
 def list_questions():
     order_by = request.args.get("order_by", "submission_time")
@@ -21,6 +21,16 @@ def list_questions():
     questions = data_manager.get_questions()
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == "desc"))
     return render_template('list.html', questions=questions)
+
+
+@app.route("/")
+def list_first_questions():
+    order_by = request.args.get("order_by", "submission_time")
+    order_direction = request.args.get("order_direction", "desc")
+    questions = data_manager.get_questions()
+    questions.sort(key=lambda q: q[order_by], reverse=(order_direction == "desc"))
+    first_questions = questions[0:5]
+    return render_template('list.html', questions=first_questions)
 
 
 @app.route("/search")
