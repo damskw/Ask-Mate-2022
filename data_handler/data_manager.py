@@ -79,6 +79,17 @@ def find_answer(cursor, answer_id):
 
 
 @database_connection.connection_handler
+def find_comment(cursor, comment_id):
+    query = """
+        SELECT *
+        FROM comment
+        WHERE id=%(comment_id)s"""
+    cursor.execute(query, {"comment_id": comment_id})
+    return cursor.fetchone()
+
+
+
+@database_connection.connection_handler
 def find_answers_to_question(cursor, question_id):
     query = """
             SELECT * FROM answer
@@ -235,6 +246,14 @@ def update_answer(cursor, answer_id, message, image):
     cursor.execute(query, {"answer_id": answer_id, "message": message, "image": image})
 
 
+@database_connection.connection_handler
+def update_comment(cursor, comment_id, message):
+    query = """
+        UPDATE comment
+        SET message = %(message)s
+        WHERE id=%(comment_id)s"""
+    cursor.execute(query, {"comment_id": comment_id, "message": message})
+
 
 @database_connection.connection_handler
 def update_question_vote(cursor, question_id, direction):
@@ -275,3 +294,12 @@ def increase_question_view_number(cursor, question_id):
         SET view_number = view_number + 1
         WHERE id=%(question_id)s"""
     cursor.execute(query, {"question_id": question_id})
+
+
+@database_connection.connection_handler
+def increase_comment_edit_number(cursor, comment_id):
+    query = """
+        UPDATE comment
+        SET edited_count = edited_count + 1
+        WHERE id=%(comment_id)s"""
+    cursor.execute(query, {"comment_id": comment_id})

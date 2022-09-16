@@ -33,6 +33,7 @@
                 <h4>{{ question_comments|length }} Comments:</h4>
                 {% for comment in question_comments %}
                     Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                    <a href="/comment/{{ comment.id }}/edit"><i class="fa-solid fa-pen-to-square" id="small-edit"></i></a>
                     <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
                     <br>
                     {{ comment.message }}
@@ -89,7 +90,7 @@
                     {% for comment in comments_for_answers %}
                         {% if comment.answer_id == answer.id %}
                             <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                            <i class="fa-solid fa-pen-to-square" id="small-edit"></i>
+                            <a href="/comment/{{ comment.id }}/edit"><i class="fa-solid fa-pen-to-square" id="small-edit"></i></a>
                             <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
                             <br>
                             {{ comment.message }}

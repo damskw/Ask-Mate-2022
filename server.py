@@ -180,6 +180,24 @@ def edit_answer(answer_id):
     return render_template('edit_answer.html', answer=answer_to_be_edited)
 
 
+@app.route("/comment/<comment_id>/edit", methods=[config.GET, config.POST])
+def edit_comment(comment_id):
+    if request.method == config.POST:
+        comment = request.form[config.COMMENT]
+        data_manager.update_comment(comment_id, comment)
+        data_manager.increase_comment_edit_number(comment_id)
+        comment = data_manager.find_comment(comment_id)
+        question_id = comment[config.QUESTION_ID]
+        if not isinstance(question_id, int):
+            answer_id = comment[config.ANSWER_ID]
+            question = data_manager.find_question_id_from_answer(answer_id)
+            question_id = question[config.QUESTION_ID]
+        return redirect(f'/question/{question_id}')
+    comment_to_be_edited = data_manager.find_comment(comment_id)
+    return render_template('edit_comment.html', comment=comment_to_be_edited)
+
+
+
 @app.route("/question/<question_id>/vote-up", methods=[config.GET, config.POST])
 def vote_question_up(question_id):
     data_manager.update_question_vote(question_id, config.UP)
