@@ -49,7 +49,8 @@ def display_question(question_id):
         return render_template('display_question.html', question=question, answers=answers,
                                question_comments=question_comments, comments_for_answers=comments_for_answers)
     if question:
-        return render_template('display_question.html', question=question, answers=answers, question_comments=question_comments)
+        return render_template('display_question.html', question=question, answers=answers,
+                               question_comments=question_comments)
     return render_template('404.html')
 
 
@@ -164,6 +165,19 @@ def edit_question(question_id):
         return redirect(f'/question/{question_id}')
     question_to_be_edited = data_manager.find_question(question_id)
     return render_template('edit_question.html', question=question_to_be_edited)
+
+
+@app.route("/answer/<answer_id>/edit", methods=[config.GET, config.POST])
+def edit_answer(answer_id):
+    if request.method == config.POST:
+        question = data_manager.find_question_id_from_answer(answer_id)
+        question_id = question[config.QUESTION_ID]
+        answer = request.form[config.ANSWER]
+        img_filename = save_image_file(request)
+        data_manager.update_answer(answer_id, answer, img_filename)
+        return redirect(f'/question/{question_id}')
+    answer_to_be_edited = data_manager.find_answer(answer_id)
+    return render_template('edit_answer.html', answer=answer_to_be_edited)
 
 
 @app.route("/question/<question_id>/vote-up", methods=[config.GET, config.POST])

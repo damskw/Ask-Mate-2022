@@ -69,6 +69,16 @@ def find_question(cursor, question_id):
 
 
 @database_connection.connection_handler
+def find_answer(cursor, answer_id):
+    query = """
+        SELECT *
+        FROM answer
+        WHERE id=%(answer_id)s"""
+    cursor.execute(query, {"answer_id": answer_id})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
 def find_answers_to_question(cursor, question_id):
     query = """
             SELECT * FROM answer
@@ -214,6 +224,16 @@ def update_question(cursor, question_id, title, message, image):
         SET title = %(title)s, message = %(message)s, image = %(image)s
         WHERE id=%(question_id)s"""
     cursor.execute(query, {"question_id": question_id, "title": title, "message": message, "image": image})
+
+
+@database_connection.connection_handler
+def update_answer(cursor, answer_id, message, image):
+    query = """
+        UPDATE answer
+        SET message = %(message)s, image = %(image)s
+        WHERE id=%(answer_id)s"""
+    cursor.execute(query, {"answer_id": answer_id, "message": message, "image": image})
+
 
 
 @database_connection.connection_handler

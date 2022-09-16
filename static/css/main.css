@@ -118,6 +118,14 @@ h1 {
     color:red
 }
 
+#small-edit {
+    font-size: 1em;
+}
+
+#small-edit:hover {
+    color:blue;
+}
+
 #circle-down, #circle-up {
     font-size: 1.5em;
 }
