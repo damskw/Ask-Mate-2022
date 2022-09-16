@@ -129,6 +129,7 @@ h1 {
 #small-button {
     padding: 5px 10px;
     font-size: 13px;
+    border-radius: 2em;
 }
 
 .hero {
@@ -276,4 +277,9 @@ i#user-profile-icon {
     display: block;
     padding: 5px 10px;
     font-size: 13px;
+    border-radius: 2em;
+}
+
+#bigger-button {
+    border-radius: 2em;
 }

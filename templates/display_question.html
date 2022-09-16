@@ -22,10 +22,10 @@
             {% endif %}
             <div class="w3-small">
                 <a href="/question/{{ question.id }}/delete">
-                    <button class="w3-button w3-black" type="submit">DELETE THIS QUESTION</button>
+                    <button class="w3-button w3-black" type="submit" id="bigger-button">DELETE THIS QUESTION</button>
                 </a>
                 <a href="/question/{{ question.id }}/edit">
-                    <button class="w3-button w3-black" type="submit">EDIT THIS QUESTION</button>
+                    <button class="w3-button w3-black" type="submit" id="bigger-button">EDIT THIS QUESTION</button>
                 </a>
                 <br><br><br>
             </div>
@@ -42,8 +42,8 @@
             <button id="hidingButton" class="w3-button w3-black" onclick="openForm()">POST A COMMENT</button>
             <div class="formpopup" id="hidingForm">
                 <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
-                    <label for="question-comment">Your comment:<br></label>
-                    <textarea id="question-comment" name="question-comment" cols="40" rows="5"></textarea>
+                    <textarea id="question-comment" name="question-comment" cols="40" rows="5"
+                              placeholder="Your comment goes in here..."></textarea>
                     <br><br>
                     <input type="submit" id="small-button" value="SEND" class="w3-button w3-black">
                     <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">CANCEL
@@ -90,18 +90,14 @@
                             {{ comment.message }}
                         {% endif %}
                     {% endfor %}
-                    <form action="/answer/{{ answer.id }}/new-comment" method="POST"
-                          enctype=multipart/form-data>
-                        <label for="question-comment">Your comment:<br></label>
-                        <textarea id="question-comment" name="question-comment" cols="40" rows="5"></textarea>
-                        <br><br>
-                        <input type="submit" id="small-button" value="SEND" class="w3-button w3-black">
-                        <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">
-                            CANCEL
+                    <br>
+                    <a href="/answer/{{ answer.id }}/new-comment">
+                        <button class="w3-button w3-black" type="submit" id="small-button">COMMENT ON THIS ANSWER
                         </button>
-                    </form>
+                    </a>
                 </div>
             {% endfor %}
+
         </div>
     {% else %}
         <h1>No answers</h1>
@@ -110,12 +106,13 @@
     <div class="w3-center">
         <form action="/question/{{ question.id }}/add-answer" method="POST" enctype=multipart/form-data>
             <label for="answer">Your answer:<br></label>
-            <textarea id="answer" name="answer" cols="80" rows="10"></textarea>
+            <textarea id="answer" name="answer" cols="80" rows="10"
+                      placeholder="Your answer goes in here..."></textarea>
             <br><br>
             <label for="image">Add an image:<br></label>
             <input name='img' id="image" type="file" class="w3-button w3-white">
             <br><br>
-            <input type="submit" value="Post an answer" class="w3-button w3-black">
+            <input type="submit" value="Post an answer" class="w3-button w3-black" id="bigger-button">
         </form>
     </div>
     <script>
@@ -127,6 +124,7 @@
         function closeForm() {
             document.getElementById("hidingForm").style.display = "none";
             document.getElementById("hidingButton").style.display = "block";
+
         }
     </script>
 {% endblock %}

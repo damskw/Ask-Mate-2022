@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Add a Comment{% endblock %}
+{% block content %}
+        <h1>Add your comment here</h1>
+        <div class="w3-center">
+        <form action="/answer/{{ answer_id }}/new-comment" method="POST" enctype=multipart/form-data>
+            <textarea type="text" id="question-comment" name="question-comment" cols="80" rows="10" placeholder="Your comment goes in here..."></textarea>
+            <br><br>
+            <input type="submit" value="Add a comment" class="w3-button w3-black">
+        </form>
+        </div>
+{% endblock %}

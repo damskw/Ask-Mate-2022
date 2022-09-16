@@ -113,8 +113,10 @@ def add_comment_to_question(question_id):
     return redirect(f'/question/{question_id}')
 
 
-@app.route("/answer/<answer_id>/new-comment", methods=[config.POST])
+@app.route("/answer/<answer_id>/new-comment", methods=[config.GET, config.POST])
 def add_comment_to_answer(answer_id):
+    if request.method == config.GET:
+        return render_template('add_answer_comment.html', answer_id=answer_id)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     comment = request.form[config.QUESTION_COMMENT]
