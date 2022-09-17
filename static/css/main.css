@@ -418,5 +418,15 @@ i#user-profile-icon {
 
 .content-right {
     text-align: right;
+}
 
+#about {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authors {
+    font-size: 20px;
 }
