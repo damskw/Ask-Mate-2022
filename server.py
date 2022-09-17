@@ -87,6 +87,8 @@ def add_question():
 def new_question_tag(question_id):
     if request.method == config.POST:
         tag = request.form[config.QUESTION_TAG]
+        if tag == "":
+            return redirect(f'/question/{question_id}')
         full_tag = data_manager.find_tag_by_name(tag)
         if full_tag is None:
             data_manager.create_new_tag(tag)
