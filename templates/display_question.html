@@ -18,7 +18,8 @@
                 <img src="{{ url_for('static', filename=question_image) }}" style="width:60px;height:50px;">
                 <br><br>
             {% endif %}
-            <h3>Tags: <a href="/question/{{ question.id }}/new-tag">Add new</a></h3>
+            <h3>Tags: <a href="/question/{{ question.id }}/new-tag"><i class="fa-regular fa-plus" title="Add new tag"
+                                                                       id="add-tag-plus"></i></a></h3>
             <div class="all-tags">
                 {% for tag in tags_for_question %}
 
@@ -36,31 +37,34 @@
                 </a>
                 <br><br><br>
             </div>
-            {% if question_comments is defined %}
-                <h4>{{ question_comments|length }} Comments:</h4>
-                {% for comment in question_comments %}
-                    Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                    <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
-                            class="fa-solid fa-pen-to-square"
-                            id="small-edit"></i></a>
-                    <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i class="fa-solid fa-trash"
-                                                                                               id="trash-bin"></i></a>
-                    <br>
-                    {{ comment.message }}
-                    <br>
-                {% endfor %}
-            {% endif %}
-            <button class="button-28" role="button" id="hidingButton" onclick="openForm()">ADD COMMENT</button>
-            <br><br>
-            <div class="formpopup" id="hidingForm">
-                <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
+            <div class="content-right">
+                {% if question_comments is defined %}
+                    <h4>{{ question_comments|length }} Comments for this question:</h4>
+                    {% for comment in question_comments %}
+                        Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                        <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                                class="fa-solid fa-pen-to-square"
+                                id="small-edit"></i></a>
+                        <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
+                                class="fa-solid fa-trash"
+                                id="trash-bin"></i></a>
+                        <br>
+                        {{ comment.message }}
+                        <br>
+                    {% endfor %}
+                {% endif %}
+                <button class="button-28" role="button" id="hidingButton" onclick="openForm()" style="margin-left: 70%;">ADD COMMENT</button>
+                <br><br>
+                <div class="formpopup" id="hidingForm">
+                    <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
                     <textarea id="question-comment" name="question-comment" cols="40" rows="5"
                               placeholder="Your comment goes in here..."></textarea>
-                    <br><br>
-                    <input type="submit" id="small-button" value="SEND" class="button-28">
-                    <button class="button-28" role="button" id="small-button" onclick="closeForm()">CANCEL
-                    </button>
-                </form>
+                        <br><br>
+                        <input type="submit" id="small-button" value="SEND" class="button-28">
+                        <button class="button-28" role="button" id="small-button" onclick="closeForm()">CANCEL
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -97,7 +101,8 @@
                         </button>
                     </a>
                     <br><br>
-                    Comments for this answer:
+                <div class="content-right" style="line-height: 1em;">
+                    <h4>{{ comments_for_answers|length }} Comments for this answer:</h4>
                     {% for comment in comments_for_answers %}
                         {% if comment.answer_id == answer.id %}
                             <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
@@ -108,12 +113,13 @@
                                     class="fa-solid fa-trash" id="trash-bin"></i></a>
                             <br>
                             {{ comment.message }}
-                            <br><br>
+                            <br>
                         {% endif %}
                     {% endfor %}
+                </div>
                     <br>
                     <a href="/answer/{{ answer.id }}/new-comment">
-                        <button class="button-28" role="button" id="small-button">ADD COMMENT
+                        <button class="button-28" role="button" id="small-button" style="margin-left: 70%;">ADD COMMENT
                         </button>
                     </a>
                     <br><br>

@@ -3,18 +3,22 @@
 {% block content %}
     <h1>Add tag to a question</h1>
     <div class="w3-center">
+    <h3>Choose a tag from existing ones</h3>
+    <br>
         <form action="/question/{{ question_id }}/new-tag" method="POST">
             <select name="question-tag">
                 {% for tag in tags %}
                     <option value="{{ tag.name }}">{{ tag.name }}</option>
                 {% endfor %}
             </select>
-            <button type="submit">Add</button>
+            <button type="submit" class="button-28" id="small-button" style="width: 4%; margin: 1%; min-height: 1em;">ADD</button>
         </form>
+    <h3>Or if tag doesn't exist, create a new one using this form</h3>
+    <br>
         <form action="/question/{{ question_id }}/new-tag" method="POST">
             <input type="text" name="question-tag" placeholder="Your tag goes in here...">
             <br><br>
-            <input type="submit" value="Add tag" class="button-28" id="small-button">
+            <input type="submit" value="SUBMIT" class="button-28" id="small-button">
         </form>
     </div>
 

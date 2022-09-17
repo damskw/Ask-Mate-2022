@@ -411,3 +411,12 @@ i#user-profile-icon {
     flex-direction: column;
     align-items: center;
 }
+
+#add-tag-plus:hover {
+    color: lightgreen;
+}
+
+.content-right {
+    text-align: right;
+
+}
