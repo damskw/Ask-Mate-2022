@@ -167,7 +167,7 @@ def delete_question(question_id):
     image_name = question[config.IMAGE]
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
-    temp = [answer_ids.append(answer["id"]) for answer in answers]
+    temp = [answer_ids.append(answer[config.ID]) for answer in answers]
     if len(answer_ids) > 0:
         data_manager.delete_all_answer_comments(answer_ids)
     data_manager.delete_question(question_id)
@@ -186,6 +186,12 @@ def delete_answer(answer_id):
     data_manager.delete_answer(answer_id)
     if image_name != "" and os.path.exists(f"static/images/{image_name}"):
         os.remove(f"static/images/{image_name}")
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/question/<question_id>/tag/<tag_id>/delete", methods=[config.GET, config.POST])
+def delete_tag_from_question(question_id, tag_id):
+    data_manager.remove_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{question_id}')
 
 

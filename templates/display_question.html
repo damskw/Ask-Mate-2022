@@ -20,7 +20,7 @@
             {% endif %}
             <h3>Tags: <a href="/question/{{ question.id }}/new-tag">Add new</a></h3>
             {% for tag in tags_for_question %}
-                {{ tag.name }}
+                {{ tag.name }} <a href="/question/{{ question.id }}/tag/{{ tag.id }}/delete" style="color:red;">X</a>
             {% endfor %}
             <div class="w3-small">
                 <a href="/question/{{ question.id }}/delete">
