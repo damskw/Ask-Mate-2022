@@ -11,7 +11,7 @@
     {% endif %}
     {% if questions|length >= 1 and search_phrase is defined %}
         <div class="questions-all">
-        <div class="w3-padding-large w3-hide-small">
+        <div class="button-28">
             <div class="dropdown">
                 <button class='dropbtn'>SORT BY</button>
                 <div class="dropdown-content">
@@ -28,9 +28,9 @@
     {% endif %}
     {% if questions|length >= 1 and search_phrase is not defined %}
         <div class="questions-all">
-        <div class="w3-padding-large w3-hide-small">
+
             <div class="dropdown">
-                <button class='dropbtn'>SORT BY</button>
+                <button class='button-28' id="small-button">SORT BY</button>
                 <div class="dropdown-content">
                     <a href="/list?order_by=title">Title</a>
                     <a href="/list?order_by=view_number">Most viewed</a>
@@ -40,7 +40,7 @@
                     <a href="/list?order_by=submission_time">Newest</a>
                     <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
                 </div>
-            </div>
+
         </div>
     {% endif %}
 {% set phrase = "'" ~ search_phrase ~ "'" %}
@@ -62,7 +62,7 @@
 {% if questions|length < 6 %}
     <div class="position-middle">
         <a href="/list">
-            <button class="w3-button w3-black" id="bigger-button">LOAD ALL QUESTIONS</button>
+            <button class="button-28" id="small-button">LOAD ALL QUESTIONS</button>
         </a>
     </div>
 {% endif %}

@@ -19,15 +19,20 @@
                 <br><br>
             {% endif %}
             <h3>Tags: <a href="/question/{{ question.id }}/new-tag">Add new</a></h3>
-            {% for tag in tags_for_question %}
-                {{ tag.name }} <a href="/question/{{ question.id }}/tag/{{ tag.id }}/delete" style="color:red;">X</a>
-            {% endfor %}
+            <div class="all-tags">
+                {% for tag in tags_for_question %}
+
+                    <p id="all-tags">{{ tag.name }} </p>
+                    <a href="/question/{{ question.id }}/tag/{{ tag.id }}/delete" id="small-tag">X</a>
+
+                {% endfor %}
+            </div>
             <div class="w3-small">
                 <a href="/question/{{ question.id }}/delete">
-                    <button class="w3-button w3-black" type="submit" id="bigger-button">DELETE THIS QUESTION</button>
+                    <button class="button-28" role="button" id="small-button">DELETE THIS QUESTION</button>
                 </a>
                 <a href="/question/{{ question.id }}/edit">
-                    <button class="w3-button w3-black" type="submit" id="bigger-button">EDIT THIS QUESTION</button>
+                    <button class="button-28" role="button" id="small-button">EDIT THIS QUESTION</button>
                 </a>
                 <br><br><br>
             </div>
@@ -35,22 +40,25 @@
                 <h4>{{ question_comments|length }} Comments:</h4>
                 {% for comment in question_comments %}
                     Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                    <a href="/comment/{{ comment.id }}/edit"><i class="fa-solid fa-pen-to-square"
-                                                                id="small-edit"></i></a>
-                    <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
+                    <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                            class="fa-solid fa-pen-to-square"
+                            id="small-edit"></i></a>
+                    <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i class="fa-solid fa-trash"
+                                                                                               id="trash-bin"></i></a>
                     <br>
                     {{ comment.message }}
                     <br>
                 {% endfor %}
             {% endif %}
-            <button id="hidingButton" class="w3-button w3-black" onclick="openForm()">POST A COMMENT</button>
+            <button class="button-28" role="button" id="hidingButton" onclick="openForm()">ADD COMMENT</button>
+            <br><br>
             <div class="formpopup" id="hidingForm">
                 <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
                     <textarea id="question-comment" name="question-comment" cols="40" rows="5"
                               placeholder="Your comment goes in here..."></textarea>
                     <br><br>
-                    <input type="submit" id="small-button" value="SEND" class="w3-button w3-black">
-                    <button id="small-button" type="button" class="w3-button w3-black" onclick="closeForm()">CANCEL
+                    <input type="submit" id="small-button" value="SEND" class="button-28">
+                    <button class="button-28" role="button" id="small-button" onclick="closeForm()">CANCEL
                     </button>
                 </form>
             </div>
@@ -68,10 +76,10 @@
                 <div class="single-question">
                     Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
                     <br>
-                    <a href='/answer/{{ answer.id }}/vote-up'><i id="circle-up"
-                                                                 class="fa-sharp fa-solid fa-circle-up"></i></a>
-                    <a href='/answer/{{ answer.id }}/vote-down'><i id="circle-down"
-                                                                   class="fa-sharp fa-solid fa-circle-down"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-up' title="Vote up"><i id="circle-up"
+                                                                                 class="fa-sharp fa-solid fa-circle-up"></i></a>
+                    <a href='/answer/{{ answer.id }}/vote-down' title="Vote down"><i id="circle-down"
+                                                                                     class="fa-sharp fa-solid fa-circle-down"></i></a>
                     <br>
                     <p style="font-size: 20px;">{{ answer.message }}</p>
                     {% if answer.image != '' and answer.image is not none %}
@@ -81,11 +89,11 @@
                     {% endif %}
                     <br><br>
                     <a href="/answer/{{ answer.id }}/delete">
-                        <button class="w3-button w3-black" type="submit" id="small-button">DELETE THIS ANSWER
+                        <button class="button-28" role="button" id="small-button">DELETE THIS ANSWER
                         </button>
                     </a>
                     <a href="/answer/{{ answer.id }}/edit">
-                        <button class="w3-button w3-black" type="submit" id="small-button">EDIT THIS ANSWER
+                        <button class="button-28" role="button" id="small-button">EDIT THIS ANSWER
                         </button>
                     </a>
                     <br><br>
@@ -93,21 +101,24 @@
                     {% for comment in comments_for_answers %}
                         {% if comment.answer_id == answer.id %}
                             <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                            <a href="/comment/{{ comment.id }}/edit"><i class="fa-solid fa-pen-to-square"
-                                                                        id="small-edit"></i></a>
-                            <a href="/comments/{{ comment.id }}/delete"><i class="fa-solid fa-trash" id="trash-bin"></i></a>
+                            <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                                    class="fa-solid fa-pen-to-square"
+                                    id="small-edit"></i></a>
+                            <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
+                                    class="fa-solid fa-trash" id="trash-bin"></i></a>
                             <br>
                             {{ comment.message }}
+                            <br><br>
                         {% endif %}
                     {% endfor %}
                     <br>
                     <a href="/answer/{{ answer.id }}/new-comment">
-                        <button class="w3-button w3-black" type="submit" id="small-button">COMMENT ON THIS ANSWER
+                        <button class="button-28" role="button" id="small-button">ADD COMMENT
                         </button>
                     </a>
+                    <br><br>
                 </div>
             {% endfor %}
-
         </div>
     {% else %}
         <h1>No answers</h1>
@@ -120,9 +131,9 @@
                       placeholder="Your answer goes in here..."></textarea>
             <br><br>
             <label for="image">Add an image:<br></label>
-            <input name='img' id="image" type="file" class="w3-button w3-white">
+            <input name='img' id="img-input" type="file" class="button-28">
             <br><br>
-            <input type="submit" value="Post an answer" class="w3-button w3-black" id="bigger-button">
+            <input type="submit" value="SUBMIT" class="button-28" id="small-button">
         </form>
     </div>
     <script>
