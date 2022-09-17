@@ -403,3 +403,11 @@ i#user-profile-icon {
 #img-input {
     border: none;
 }
+
+#search-page {
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}

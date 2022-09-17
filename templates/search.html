@@ -1,10 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}Search{% endblock %}
 {% block content %}
-    <div class="questions-all">
-        <form action="/search" method="get">
-            <input type="text" name="q" id="q" required>
-            <input type="submit" value="Search" class="button-28" id="small-button">
-        </form>
+    <div class="position-middle" id="search-page">
+    <h2>What are you looking for?</h2>
+        <br><br>
+            <form action="/search" method="get">
+                <input type="text" name="q" id="q" placeholder="Search in here...">
+                <br><br>
+                <input type="submit" value="Search" class="button-28" id="small-button" style="margin: 9px -11px;">
+            </form>
     </div>
 {% endblock %}
