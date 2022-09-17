@@ -11,35 +11,34 @@
     {% endif %}
     {% if questions|length >= 1 and search_phrase is defined %}
         <div class="questions-all">
-        <div class="button-28">
-            <div class="dropdown">
-                <button class='dropbtn'>SORT BY</button>
-                <div class="dropdown-content">
-                    <a href="/search?order_by=title&q={{ search_phrase }}">Title</a>
-                    <a href="/search?order_by=view_number&q={{ search_phrase }}">Most viewed</a>
-                    <a href="/search?order_by=view_number&order_direction=asc&q={{ search_phrase }}">Least viewed</a>
-                    <a href="/search?order_by=vote_number&q={{ search_phrase }}">Highest score</a>
-                    <a href="/search?order_by=vote_number&order_direction=asc&q={{ search_phrase }}">Lowest score</a>
-                    <a href="/search?order_by=submission_time&q={{ search_phrase }}">Newest</a>
-                    <a href="/search?order_by=submission_time&order_direction=asc&q={{ search_phrase }}">Oldest</a>
-                </div>
+        <div class="dropdown">
+            <button class='button-28' id="small-button">SORT BY</button>
+            <div class="dropdown-content">
+                <a href="/search?order_by=title&q={{ search_phrase }}">Title</a>
+                <a href="/search?order_by=view_number&q={{ search_phrase }}">Most viewed</a>
+                <a href="/search?order_by=view_number&order_direction=asc&q={{ search_phrase }}">Least viewed</a>
+                <a href="/search?order_by=vote_number&q={{ search_phrase }}">Highest score</a>
+                <a href="/search?order_by=vote_number&order_direction=asc&q={{ search_phrase }}">Lowest score</a>
+                <a href="/search?order_by=submission_time&q={{ search_phrase }}">Newest</a>
+                <a href="/search?order_by=submission_time&order_direction=asc&q={{ search_phrase }}">Oldest</a>
             </div>
         </div>
+
     {% endif %}
     {% if questions|length >= 1 and search_phrase is not defined %}
         <div class="questions-all">
 
-            <div class="dropdown">
-                <button class='button-28' id="small-button">SORT BY</button>
-                <div class="dropdown-content">
-                    <a href="/list?order_by=title">Title</a>
-                    <a href="/list?order_by=view_number">Most viewed</a>
-                    <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
-                    <a href="/list?order_by=vote_number">Highest score</a>
-                    <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
-                    <a href="/list?order_by=submission_time">Newest</a>
-                    <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
-                </div>
+        <div class="dropdown">
+            <button class='button-28' id="small-button">SORT BY</button>
+            <div class="dropdown-content">
+                <a href="/list?order_by=title">Title</a>
+                <a href="/list?order_by=view_number">Most viewed</a>
+                <a href="/list?order_by=view_number&order_direction=asc">Least viewed</a>
+                <a href="/list?order_by=vote_number">Highest score</a>
+                <a href="/list?order_by=vote_number&order_direction=asc">Lowest score</a>
+                <a href="/list?order_by=submission_time">Newest</a>
+                <a href="/list?order_by=submission_time&order_direction=asc">Oldest</a>
+            </div>
 
         </div>
     {% endif %}
