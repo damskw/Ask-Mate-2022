@@ -110,25 +110,29 @@
                     </a>
                     <br><br>
                     <div class="content-right" style="line-height: 1.5em;">
-                        {% if comments_for_answers|length == 0 %}
-                            <h4>There are no comments for this answer</h4>
-                        {% elif comments_for_answers|length == 1 %}
-                            <h4>{{ comments_for_answers|length }} Comment for this answer:</h4>
-                        {% elif comments_for_answers|length > 1 %}
-                            <h4>{{ comments_for_answers|length }} Comments for this answer:</h4>
-                        {% endif %}
+                        {% set comments_for_this_answer = [] %}
                         {% for comment in comments_for_answers %}
                             {% if comment.answer_id == answer.id %}
-                                <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                                <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
-                                        class="fa-solid fa-pen-to-square"
-                                        id="small-edit"></i></a>
-                                <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
-                                        class="fa-solid fa-trash" id="trash-bin"></i></a>
-                                <br>
-                                {{ comment.message }}
-                                <br>
+                                {% set tmp = comments_for_this_answer.append(comment) %}
                             {% endif %}
+                        {% endfor %}
+                        {% if comments_for_this_answer|length == 0 %}
+                            <h4>There are no comments for this answer</h4>
+                        {% elif comments_for_this_answer|length == 1 %}
+                            <h4>{{ comments_for_this_answer|length }} Comment for this answer:</h4>
+                        {% elif comments_for_this_answer|length > 1 %}
+                            <h4>{{ comments_for_this_answer|length }} Comments for this answer:</h4>
+                        {% endif %}
+                        {% for comment in comments_for_this_answer %}
+                            <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                            <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                                    class="fa-solid fa-pen-to-square"
+                                    id="small-edit"></i></a>
+                            <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
+                                    class="fa-solid fa-trash" id="trash-bin"></i></a>
+                            <br>
+                            {{ comment.message }}
+                            <br>
                         {% endfor %}
                     </div>
                     <br>
