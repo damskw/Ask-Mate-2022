@@ -66,11 +66,11 @@ def find_tag_by_name(cursor, tag):
 
 @database_connection.connection_handler
 def find_results_by_search_phrase(cursor, phrase):
-    phrase = '%' + phrase + '%'
+    phrase = '%' + phrase.lower() + '%'
     query = """
             SELECT * 
             FROM question
-            WHERE title LIKE %(phrase)s OR message LIKE %(phrase)s
+            WHERE LOWER(title) LIKE %(phrase)s OR LOWER(message) LIKE %(phrase)s
             """
     cursor.execute(query, {"phrase": phrase})
     return cursor.fetchall()
