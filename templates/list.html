@@ -47,7 +47,7 @@
 
     <div class="single-question">
 
-        <div id="text">
+        <div id="text" class="searched">
             <h1 id="question-title"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>
             Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
             Number: {{ question.vote_number }}
@@ -70,10 +70,15 @@
         function search(e) {
             let searched = e;
             if (e !== "") {
-                let text = document.getElementById("text").innerHTML;
+                let texts = document.getElementsByClassName("searched");
                 let re = new RegExp(searched, "g"); // search for all instances
-                let newText = text.replace(re, `<mark>${searched}</mark>`);
-                document.getElementById("text").innerHTML = newText;
+                for (let i = 0; i < texts.length; i++) {
+                    let text = texts[i]
+                    console.log(text)
+                    let newText = text.innerHTML.replace(re, `<mark>${searched}</mark>`);
+                    text.innerHTML = newText;
+                }
+
             }
         }
     </script>
