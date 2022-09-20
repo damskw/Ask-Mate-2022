@@ -12,62 +12,62 @@
     {% endblock %}
 </head>
 <body>
-    <div class="hero">
-        <nav>
-            <a href="/"><img src="{{url_for('static', filename='images/logo.png')}}" class="logo"></a>
-{#            <h1 class="logo" style="color: white">Ask Mate</h1>#}
-            <ul>
-                <li><a href="/"> Home </a></li>
-                <li><a href="/search"> Search </a></li>
-                <li><a href="/add-question"> Add Question </a></li>
-                <li><a href="/about"> About </a></li>
-            </ul>
-            <i class="fa-solid fa-user" id="user-profile-icon" onclick="toggleMenu()"></i>
-{#            <img src="{{url_for('static', filename='images/user.png')}}" class="user-pic" onclick="toggleMenu()">#}
-            <div class="sub-menu-wrap" id="subMenu">
-                <div class="sub-menu">
-                    <div class="user-info">
-                        <img src="{{url_for('static', filename='images/user.png')}}">
-                        <h3>James Aldrino</h3>
-                    </div>
-                    <hr>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{url_for('static', filename='images/profile.png')}}">
-                        <p>Edit Profile</p>
-                        <span>></span>
-                    </a>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{url_for('static', filename='images/setting.png')}}">
-                        <p>Settings</p>
-                        <span>></span>
-                    </a>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{url_for('static', filename='images/help.png')}}">
-                        <p>Help & Privacy</p>
-                        <span>></span>
-                    </a>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{url_for('static', filename='images/logout.png')}}">
-                        <p>Logout</p>
-                        <span>></span>
-                    </a>
-
+<div class="hero">
+    <nav>
+        <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"></a>
+        {#            <h1 class="logo" style="color: white">Ask Mate</h1>#}
+        <ul>
+            <li><a href="/"> Home </a></li>
+            <li><a href="/search"> Search </a></li>
+            <li><a href="/add-question"> Add Question </a></li>
+            <li><a href="/about"> About </a></li>
+        </ul>
+        <i class="fa-solid fa-user" id="user-profile-icon" onclick="toggleMenu()"></i>
+        {#            <img src="{{url_for('static', filename='images/user.png')}}" class="user-pic" onclick="toggleMenu()">#}
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    <img src="{{ url_for('static', filename='images/user.png') }}">
+                    <h3>James Aldrino</h3>
                 </div>
-            </div>
-        </nav>
-    <br><br>
-{% block content %}{% endblock %}
-    </div>
-    <script>
-        let subMenu = document.getElementById("subMenu");
+                <hr>
+                <a href="#" class="sub-menu-link">
+                    <img src="{{ url_for('static', filename='images/profile.png') }}">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+                <a href="#" class="sub-menu-link">
+                    <img src="{{ url_for('static', filename='images/setting.png') }}">
+                    <p>Settings</p>
+                    <span>></span>
+                </a>
+                <a href="#" class="sub-menu-link">
+                    <img src="{{ url_for('static', filename='images/help.png') }}">
+                    <p>Help & Privacy</p>
+                    <span>></span>
+                </a>
+                <a href="#" class="sub-menu-link">
+                    <img src="{{ url_for('static', filename='images/logout.png') }}">
+                    <p>Logout</p>
+                    <span>></span>
+                </a>
 
-        function toggleMenu() {
-            subMenu.classList.toggle("open-menu");
-        }
-    </script>
+            </div>
+        </div>
+    </nav>
+    <br><br>
+    {% block content %}{% endblock %}
+</div>
+<script>
+    let subMenu = document.getElementById("subMenu");
+
+    function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+    }
+</script>
 {% block footer %}
     <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
-        <p>Made with &#x1F496; by Damian, Ola and Jakub</p>
+        <p>Made with &#x1F496; by Damian & Ola</p>
     </footer>
 {% endblock %}
 </body>
