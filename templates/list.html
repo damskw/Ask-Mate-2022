@@ -2,12 +2,12 @@
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
     {% if search_phrase is defined %}
-        <h1>Search results for:
+        <h1 id="header-center">Search results for:
             <mark>{{ search_phrase }}</mark>
         </h1>
     {% endif %}
     {% if questions|length == 0 %}
-        <h1>No results</h1>
+        <h1 id="header-center">No results</h1>
     {% endif %}
     {% if questions|length >= 1 and search_phrase is defined %}
         <div class="questions-all">
@@ -42,7 +42,13 @@
 
         </div>
     {% endif %}
-{% set phrase = "'" ~ search_phrase ~ "'" %}
+{% if search_phrase is defined %}
+    {% set phrase = "'" ~ search_phrase ~ "'" %}
+    <style onload="search({{ phrase }})"></style>
+    <br>
+    <button class="button-28" type="button" id="small-button" onclick="search({{ phrase }})">HIGHLIGHT MY RESULTS
+    </button>
+{% endif %}
 {% for question in questions %}
 
     <div class="single-question">
@@ -56,7 +62,6 @@
             <br><br>
         </div>
     </div>
-    <style onload="search({{ phrase }})"></style>
 {% endfor %}
 {% if questions|length < 6 %}
     <div class="position-middle">
