@@ -2,151 +2,173 @@
 {% block title %}Ask Mate{% endblock %}
 {% block content %}
     <div class="questions-all">
-        <div class="single-question">
-            <h1 id="question-title">{{ question.title }}</h1>
-            Added on {{ question.submission_time }}, View Number: {{ question.view_number }}, Vote
-            Number: {{ question.vote_number }}
-            <br>
-            <a href='/question/{{ question.id }}/vote-up'><i id="circle-up" class="fa-sharp fa-solid fa-circle-up"></i></a>
-            <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
-                                                               class="fa-sharp fa-solid fa-circle-down"></i></a>
-            <div class="question-message">{{ question.message }}</div>
-            <br><br>
-            {% if question.image != None and question.image != '' %}
-                <h3>Attachements:</h3>
-                {% set question_image='images/' ~ question.image %}
-                <img src="{{ url_for('static', filename=question_image) }}" style="width:60px;height:50px;">
+        <div class="question-header">
+            <h1 class="question-headline">
+                <a href="">{{ question.title }}</a>
+            </h1>
+            <div class="aside">
+                <a href="/add-question" class="nowrap btn_primary">Ask Question</a>
+            </div>
+        </div>
+        <div>Added on {{ question.submission_time }}, Views: {{ question.view_number }}</div>
+        <hr>
+        <div class="single-question post-layout">
+
+            <div class="vote-container">
+                <a href='/question/{{ question.id }}/vote-up'><i id="circle-up" class="fa-solid fa-caret-up fa-2xl"></i></a>
+                <span class="vote-display">{{ question.vote_number }}</span>
+                <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
+                                                                   class="fa-solid fa-caret-down fa-2xl"></i></a>
+            </div>
+            <div class="post-content-container">
+
+
+                <div class="question-message">{{ question.message }}
+                </div>
                 <br><br>
-            {% endif %}
-            <h3>Tags: <a href="/question/{{ question.id }}/new-tag"><i class="fa-regular fa-plus" title="Add new tag"
-                                                                       id="add-tag-plus"></i></a></h3>
-            <div class="all-tags">
-                {% for tag in tags_for_question %}
-
-                    <p id="all-tags">{{ tag.name }} </p>
-                    <a href="/question/{{ question.id }}/tag/{{ tag.id }}/delete" id="small-tag">X</a>
-
-                {% endfor %}
-            </div>
-            <div class="w3-small">
-                <a href="/question/{{ question.id }}/delete">
-                    <button class="button-28" role="button" id="small-button">DELETE THIS QUESTION</button>
-                </a>
-                <a href="/question/{{ question.id }}/edit">
-                    <button class="button-28" role="button" id="small-button">EDIT THIS QUESTION</button>
-                </a>
-                <br><br><br>
-            </div>
-            <div class="content-right">
-                {% if question_comments|length == 0 %}
-                    <h4>There are no comments for this question</h4>
-                    <br>
-                {% elif question_comments|length == 1 %}
-                    <h4>{{ question_comments|length }} Comment for this question:</h4>
-                {% elif question_comments|length > 1 %}
-                    <h4>{{ question_comments|length }} Comments for this question:</h4>
+                {% if question.image is not none and question.image != '' %}
+                    <h3>Attachments:</h3>
+                    {% set question_image='images/' ~ question.image %}
+                    <img src="{{ url_for('static', filename=question_image) }}" style="width:60px;height:50px;"
+                         alt="image accompanying the question">
+                    <br><br>
                 {% endif %}
-                {% for comment in question_comments %}
-                    Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                    <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
-                            class="fa-solid fa-pen-to-square"
-                            id="small-edit"></i></a>
-                    <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
-                            class="fa-solid fa-trash"
-                            id="trash-bin"></i></a>
-                    <br>
-                    {{ comment.message }}
-                    <br>
-                {% endfor %}
-                <button class="button-28" role="button" id="hidingButton" onclick="openForm()"
-                        style="margin-left: 70%;">ADD COMMENT
-                </button>
-                <br><br>
-                <div class="formpopup" id="hidingForm">
-                    <form action="/question/{{ question.id }}/new-comment" method="POST" enctype=multipart/form-data>
+                <hr>
+                <h3>Tags: <a href="/question/{{ question.id }}/new-tag"><i class="fa-regular fa-plus"
+                                                                           title="Add new tag"
+                                                                           id="add-tag-plus"></i></a></h3>
+                <div class="all-tags">
+                    {% for tag in tags_for_question %}
+
+                        <p id="all-tags">{{ tag.name }} </p>
+                        <a href="/question/{{ question.id }}/tag/{{ tag.id }}/delete" id="small-tag">X</a>
+
+                    {% endfor %}
+                </div>
+                <hr>
+                <div class="w3-small">
+                    <a href="/question/{{ question.id }}/delete">
+                        <button class="button-28" role="button" id="small-button">DELETE THIS QUESTION</button>
+                    </a>
+                    <a href="/question/{{ question.id }}/edit">
+                        <button class="button-28" role="button" id="small-button">EDIT THIS QUESTION</button>
+                    </a>
+                    <br><br><br>
+                </div>
+                <div class="content-right">
+                    {% if question_comments|length == 0 %}
+                        <h4>There are no comments for this question</h4>
+                        <br>
+                    {% elif question_comments|length == 1 %}
+                        <h4>{{ question_comments|length }} Comment for this question:</h4>
+                    {% elif question_comments|length > 1 %}
+                        <h4>{{ question_comments|length }} Comments for this question:</h4>
+                    {% endif %}
+                    {% for comment in question_comments %}
+                        Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                        <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                                class="fa-solid fa-pen-to-square"
+                                id="small-edit"></i></a>
+                        <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
+                                class="fa-solid fa-trash"
+                                id="trash-bin"></i></a>
+                        <br>
+                        {{ comment.message }}
+                        <br>
+                    {% endfor %}
+                    <button class="button-28" role="button" id="hidingButton" onclick="openForm()"
+                            style="margin-left: 70%;">ADD COMMENT
+                    </button>
+                    <br><br>
+                    <div class="formpopup" id="hidingForm">
+                        <form action="/question/{{ question.id }}/new-comment" method="POST"
+                              enctype=multipart/form-data>
                     <textarea id="question-comment" name="question-comment" cols="40" rows="5"
                               placeholder="Your comment goes in here..."></textarea>
-                        <br><br>
-                        <input type="submit" id="small-button" value="SEND" class="button-28">
-                        <button class="button-28" role="button" id="small-button" onclick="closeForm()">CANCEL
-                        </button>
-                    </form>
+                            <br><br>
+                            <input type="submit" id="small-button" value="SEND" class="button-28">
+                            <button class="button-28" role="button" id="small-button" onclick="closeForm()">CANCEL
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% if answers|length == 1 %}
-        <h1 style="width:60%;">{{ answers|length }} Answer:</h1>
-    {% elif answers|length > 1 %}
-        <h1 style="width:60%;">{{ answers|length }} Answers:</h1>
-    {% else %}
-        <h1 style="width:60%;">Answers:</h1>
-    {% endif %}
-    {% if answers|length > 0 %}
-        <div class="questions-all">
-            {% for answer in answers %}
-                <div class="single-question">
-                    Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
-                    <br>
-                    <a href='/answer/{{ answer.id }}/vote-up' title="Vote up"><i id="circle-up"
-                                                                                 class="fa-sharp fa-solid fa-circle-up"></i></a>
-                    <a href='/answer/{{ answer.id }}/vote-down' title="Vote down"><i id="circle-down"
-                                                                                     class="fa-sharp fa-solid fa-circle-down"></i></a>
-                    <br>
-                    <p style="font-size: 20px;">{{ answer.message }}</p>
-                    {% if answer.image != '' and answer.image is not none %}
-                        <h4>Attachements:</h4>
-                        {% set answer_image='images/' ~ answer.image %}
-                        <img src="{{ url_for('static', filename=answer_image) }}" style="width:60px;height:50px;">
-                    {% endif %}
-                    <br><br>
-                    <a href="/answer/{{ answer.id }}/delete">
-                        <button class="button-28" role="button" id="small-button">DELETE THIS ANSWER
-                        </button>
-                    </a>
-                    <a href="/answer/{{ answer.id }}/edit">
-                        <button class="button-28" role="button" id="small-button">EDIT THIS ANSWER
-                        </button>
-                    </a>
-                    <br><br>
-                    <div class="content-right" style="line-height: 1.5em;">
-                        {% set comments_for_this_answer = [] %}
-                        {% for comment in comments_for_answers %}
-                            {% if comment.answer_id == answer.id %}
-                                {% set tmp = comments_for_this_answer.append(comment) %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if comments_for_this_answer|length == 0 %}
-                            <h4>There are no comments for this answer</h4>
-                        {% elif comments_for_this_answer|length == 1 %}
-                            <h4>{{ comments_for_this_answer|length }} Comment for this answer:</h4>
-                        {% elif comments_for_this_answer|length > 1 %}
-                            <h4>{{ comments_for_this_answer|length }} Comments for this answer:</h4>
+
+        {% if answers|length == 1 %}
+            <h1 style="width:60%;">{{ answers|length }} Answer:</h1>
+        {% elif answers|length > 1 %}
+            <h1 style="width:60%;">{{ answers|length }} Answers:</h1>
+        {% else %}
+            <h1 style="width:60%;">Answers:</h1>
+        {% endif %}
+        {% if answers|length > 0 %}
+            <div class="questions-all">
+                {% for answer in answers %}
+                    <div class="single-question">
+                        Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}
+                        <br>
+                        <a href='/answer/{{ answer.id }}/vote-up' title="Vote up"><i id="circle-up"
+                                                                                     class="fa-sharp fa-solid fa-circle-up"></i></a>
+                        <a href='/answer/{{ answer.id }}/vote-down' title="Vote down"><i id="circle-down"
+                                                                                         class="fa-sharp fa-solid fa-circle-down"></i></a>
+                        <br>
+                        <p style="font-size: 20px;">{{ answer.message }}</p>
+                        {% if answer.image != '' and answer.image is not none %}
+                            <h4>Attachments:</h4>
+                            {% set answer_image='images/' ~ answer.image %}
+                            <img src="{{ url_for('static', filename=answer_image) }}" style="width:60px;height:50px;">
                         {% endif %}
-                        {% for comment in comments_for_this_answer %}
-                            <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
-                            <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
-                                    class="fa-solid fa-pen-to-square"
-                                    id="small-edit"></i></a>
-                            <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
-                                    class="fa-solid fa-trash" id="trash-bin"></i></a>
-                            <br>
-                            {{ comment.message }}
-                            <br>
-                        {% endfor %}
+                        <br><br>
+                        <a href="/answer/{{ answer.id }}/delete">
+                            <button class="button-28" role="button" id="small-button">DELETE THIS ANSWER
+                            </button>
+                        </a>
+                        <a href="/answer/{{ answer.id }}/edit">
+                            <button class="button-28" role="button" id="small-button">EDIT THIS ANSWER
+                            </button>
+                        </a>
+                        <br><br>
+                        <div class="content-right" style="line-height: 1.5em;">
+                            {% set comments_for_this_answer = [] %}
+                            {% for comment in comments_for_answers %}
+                                {% if comment.answer_id == answer.id %}
+                                    {% set tmp = comments_for_this_answer.append(comment) %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if comments_for_this_answer|length == 0 %}
+                                <h4>There are no comments for this answer</h4>
+                            {% elif comments_for_this_answer|length == 1 %}
+                                <h4>{{ comments_for_this_answer|length }} Comment for this answer:</h4>
+                            {% elif comments_for_this_answer|length > 1 %}
+                                <h4>{{ comments_for_this_answer|length }} Comments for this answer:</h4>
+                            {% endif %}
+                            {% for comment in comments_for_this_answer %}
+                                <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}
+                                <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
+                                        class="fa-solid fa-pen-to-square"
+                                        id="small-edit"></i></a>
+                                <a href="/comments/{{ comment.id }}/delete" title="Delete this comment"><i
+                                        class="fa-solid fa-trash" id="trash-bin"></i></a>
+                                <br>
+                                {{ comment.message }}
+                                <br>
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <a href="/answer/{{ answer.id }}/new-comment">
+                            <button class="button-28" role="button" id="small-button" style="margin-left: 70%;">ADD
+                                COMMENT
+                            </button>
+                        </a>
+                        <br><br>
                     </div>
-                    <br>
-                    <a href="/answer/{{ answer.id }}/new-comment">
-                        <button class="button-28" role="button" id="small-button" style="margin-left: 70%;">ADD COMMENT
-                        </button>
-                    </a>
-                    <br><br>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <h1>No answers</h1>
-    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>No answers</h1>
+        {% endif %}
+    </div>
     <br><br>
     <div class="w3-center">
         <form action="/question/{{ question.id }}/add-answer" method="POST" enctype=multipart/form-data>
