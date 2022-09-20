@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Edit Comment{% endblock %}
 {% block content %}
-        <h1>Edit your comment here</h1>
+        <h1 id="header-center">Edit your comment here</h1>
         <div class="w3-center">
             <form action="/comment/{{ comment.id }}/edit" method="POST" enctype=multipart/form-data>
                 <label for="question">Your comment's text:<br></label>

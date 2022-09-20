@@ -25,7 +25,7 @@ a {
 #question-title-in-lists {
     text-align: center;
     font-size: 41px;
- }
+}
 
 .all-tags {
     display: flex;
@@ -456,18 +456,19 @@ nav ul li a {
     justify-content: flex-start;
     width: min-content;
     margin-left: 12px;
-   }
+}
 
 .aside > a {
-    background-color: #1d508d;
+    /*background-color: #1d508d;*/
     padding: 12px;
     margin-top: 7px;
-    border-radius: 0.3em;
-    color: #fff;
+    /*border-radius: 0.3em;*/
+    /*color: #fff;*/
     font-size: 13px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", sans-serif;
 
 }
+
 .post-layout {
     display: flex;
     flex-direction: row;
@@ -502,4 +503,8 @@ nav ul li a {
 
 .nowrap {
     white-space: nowrap;
+}
+
+#header-center {
+    text-align: center;
 }
