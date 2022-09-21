@@ -517,4 +517,5 @@ nav ul li a {
   text-decoration: none;
   cursor: pointer;
   font-size: 1em;
+  display: contents;
 }
