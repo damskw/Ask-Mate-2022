@@ -44,18 +44,21 @@
     {% endif %}
 {% if search_phrase is defined %}
     {% set phrase = "'" ~ search_phrase ~ "'" %}
-    <style onload="search({{ phrase }})"></style>
+    {#    <style onload="search({{ phrase }})"></style>#}
 {% endif %}
 {#            <h1 id="question-title-in-lists"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>#}
 {% for question in questions %}
     <div class="single-question">
-
+        <form action="/question/{{ question.id }}" method="POST">
+            <button type="submit" class="link-button">
+                <h1 id="question-title-in-lists">
+                    <div id="text" class="searched">
+                        {{ question.title }}
+                    </div>
+                </h1>
+            </button>
+        </form>
         <div id="text" class="searched">
-            <form action="/question/{{ question.id }}" method="POST">
-                <button type="submit" class="link-button">
-                    <h1 id="question-title-in-lists">{{ question.title }}</h1>
-                </button>
-            </form>
             Added on {{ question.submission_time }}, Views: {{ question.view_number }},
             Votes: {{ question.vote_number }}
             <br>
@@ -64,6 +67,9 @@
         </div>
     </div>
 {% endfor %}
+{% if search_phrase is defined %}
+    <style onload="search({{ phrase }})"></style>
+{% endif %}
 {% if questions|length < 6 %}
     <div class="position-middle">
         <a href="/list">
