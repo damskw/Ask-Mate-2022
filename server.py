@@ -56,9 +56,10 @@ def display_question(question_id):
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
     temp = [answer_ids.append(answer[config.ID]) for answer in answers]
-    data_manager.increase_question_view_number(question_id)
     question_comments = data_manager.get_comments_for_question(question_id)
     comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
+    if request.method == config.POST:
+        data_manager.increase_question_view_number(question_id)
     if question:
         return render_template('display_question.html', question=question, answers=answers,
                                question_comments=question_comments, tags_for_question=tags_for_question,

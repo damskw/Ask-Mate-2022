@@ -510,3 +510,11 @@ nav ul li a {
 #header-center {
     text-align: center;
 }
+
+.link-button {
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1em;
+}
