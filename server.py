@@ -58,14 +58,11 @@ def display_question(question_id):
     temp = [answer_ids.append(answer[config.ID]) for answer in answers]
     data_manager.increase_question_view_number(question_id)
     question_comments = data_manager.get_comments_for_question(question_id)
-    if len(answer_ids) > 0:
-        comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
-        return render_template('display_question.html', question=question, answers=answers,
-                               question_comments=question_comments, comments_for_answers=comments_for_answers,
-                               tags_for_question=tags_for_question)
+    comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
     if question:
         return render_template('display_question.html', question=question, answers=answers,
-                               question_comments=question_comments, tags_for_question=tags_for_question)
+                               question_comments=question_comments, tags_for_question=tags_for_question,
+                               comments_for_answers=comments_for_answers)
     return render_template('404.html')
 
 

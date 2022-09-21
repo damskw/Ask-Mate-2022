@@ -94,12 +94,14 @@ def get_comments_for_answers(cursor, answer_ids):
             SELECT *
             FROM comment
             WHERE answer_id IN %(answer_ids)s"""
-    else:
+    elif len(answer_ids) == 1:
         answer_ids = answer_ids[0]
         query = """
             SELECT *
             FROM comment
             WHERE answer_id=%(answer_ids)s"""
+    else:
+        return []
     cursor.execute(query, {"answer_ids": answer_ids})
     return cursor.fetchall()
 
