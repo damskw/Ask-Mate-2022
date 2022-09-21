@@ -51,8 +51,7 @@ def display_question(question_id):
     tag_ids = []
     temp = [tag_ids.append(tag[config.TAG_ID]) for tag in tag_ids_raw]
     tags_for_question = []
-    if len(tag_ids) > 0:
-        tags_for_question = data_manager.get_tags_from_tag_ids(tag_ids)
+    tags_for_question = data_manager.get_tags_from_tag_ids(tag_ids)
     question = data_manager.find_question(question_id)
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
@@ -170,8 +169,7 @@ def delete_question(question_id):
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
     temp = [answer_ids.append(answer[config.ID]) for answer in answers]
-    if len(answer_ids) > 0:
-        data_manager.delete_all_answer_comments(answer_ids)
+    data_manager.delete_all_answer_comments(answer_ids)
     data_manager.delete_question(question_id)
     if image_name != "" and os.path.exists(f"static/images/{image_name}"):
         os.remove(f"static/images/{image_name}")

@@ -231,6 +231,8 @@ nav ul li a {
     background: #fff;
     padding: 20px;
     margin: 2px;
+    z-index: 2;
+    position: relative;
 }
 
 .user-info {

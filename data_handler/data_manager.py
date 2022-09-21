@@ -88,11 +88,18 @@ def get_comments_for_question(cursor, question_id):
 
 @database_connection.connection_handler
 def get_comments_for_answers(cursor, answer_ids):
-    answer_ids = tuple(answer_ids)
-    query = """
-        SELECT *
-        FROM comment
-        WHERE answer_id IN %(answer_ids)s""".format(answer_ids)
+    if len(answer_ids) > 1:
+        answer_ids = tuple(answer_ids)
+        query = """
+            SELECT *
+            FROM comment
+            WHERE answer_id IN %(answer_ids)s"""
+    else:
+        answer_ids = answer_ids[0]
+        query = """
+            SELECT *
+            FROM comment
+            WHERE answer_id=%(answer_ids)s"""
     cursor.execute(query, {"answer_ids": answer_ids})
     return cursor.fetchall()
 
@@ -115,12 +122,14 @@ def get_tags_from_tag_ids(cursor, tag_ids):
             SELECT *
             FROM tag
             WHERE id IN %(tag_ids)s"""
-    else:
+    elif len(tag_ids) == 1:
         tag_ids = tag_ids[0]
         query = """
             SELECT *
             FROM tag
             WHERE id=%(tag_ids)s"""
+    else:
+        return []
     cursor.execute(query, {"tag_ids": tag_ids})
     return cursor.fetchall()
 
@@ -223,10 +232,18 @@ def delete_question(cursor, question_id):
 
 @database_connection.connection_handler
 def delete_all_answer_comments(cursor, answer_ids):
-    answer_ids = tuple(answer_ids)
-    query = """
-        DELETE from comment
-        WHERE answer_id IN %(answer_ids)s;"""
+    if len(answer_ids) > 1:
+        answer_ids = tuple(answer_ids)
+        query = """
+            DELETE from comment
+            WHERE answer_id IN %(answer_ids)s;"""
+    elif len(answer_ids) == 1:
+        answer_ids = answer_ids[0]
+        query = """
+            DELETE from comment
+            WHERE answer_id=%(answer_ids)s;"""
+    else:
+        return
     cursor.execute(query, {"answer_ids": answer_ids})
 
 
