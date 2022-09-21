@@ -45,9 +45,9 @@
 {% if search_phrase is defined %}
     {% set phrase = "'" ~ search_phrase ~ "'" %}
     <style onload="search({{ phrase }})"></style>
-    <br>
-    <button class="button-28" type="button" id="small-button" onclick="search({{ phrase }})">HIGHLIGHT MY RESULTS
-    </button>
+{#    <br>#}
+{#    <button class="button-28" type="button" id="small-button" onclick="search({{ phrase }})">HIGHLIGHT MY RESULTS#}
+{#    </button>#}
 {% endif %}
 {% for question in questions %}
 
