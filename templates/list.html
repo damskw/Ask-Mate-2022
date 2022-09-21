@@ -45,19 +45,15 @@
 {% if search_phrase is defined %}
     {% set phrase = "'" ~ search_phrase ~ "'" %}
     <style onload="search({{ phrase }})"></style>
-{#    <br>#}
-{#    <button class="button-28" type="button" id="small-button" onclick="search({{ phrase }})">HIGHLIGHT MY RESULTS#}
-{#    </button>#}
 {% endif %}
-{% for question in questions %}
-
-    <div class="single-question">
-
-        <div id="text" class="searched">
 {#            <h1 id="question-title-in-lists"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>#}
-            <form action ="/question/{{ question.id }}" method="POST">
-                <button type="submit" class="link-button"><h1 id="question-title-in-lists">{{ question.title }}</h1></button>
-            </form>
+{% for question in questions %}
+    <div class="single-question">
+        <form action="/question/{{ question.id }}" method="POST">
+            <button type="submit" class="link-button"><h1 id="question-title-in-lists">{{ question.title }}</h1>
+            </button>
+        </form>
+        <div id="text" class="searched">
             Added on {{ question.submission_time }}, Views: {{ question.view_number }},
             Votes: {{ question.vote_number }}
             <br>
