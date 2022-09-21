@@ -58,13 +58,15 @@
                 </h1>
             </button>
         </form>
+        Added on {{ question.submission_time }}, Views: {{ question.view_number }},
+        Votes: {{ question.vote_number }}
+        <br>
+        <p>
         <div id="text" class="searched">
-            Added on {{ question.submission_time }}, Views: {{ question.view_number }},
-            Votes: {{ question.vote_number }}
-            <br>
-            <p>{{ question.message }}</p>
-            <br><br>
+            {{ question.message }}
         </div>
+        </p>
+        <br><br>
     </div>
 {% endfor %}
 {% if search_phrase is defined %}
