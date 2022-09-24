@@ -1,3 +1,13 @@
+:root {
+    --main-background: lightblue;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+    font-size: 20px;
+}
 
 .questions-all {
     width: 50%;
@@ -16,15 +26,25 @@ a {
     justify-content: center;
 }
 
+
 /*.h1#question-title {*/
+
+
 /*    display: flex;*/
+
+
 /*    justify-content: center;*/
+
+
 /*    font-size: 41px;*/
+
+
 /*}*/
 
 #question-title-in-lists {
     text-align: center;
-    font-size: 41px;
+    /* font-size: 41px; */
+    font-size: 2rem;
 }
 
 .all-tags {
@@ -32,13 +52,8 @@ a {
 }
 
 #all-tags {
-    background-color: lightblue;
+    background-color: var(--main-background);
     border-radius: 1em;
-}
-
-body, html {
-    height: 100%;
-    font-family: "Inconsolata", sans-serif;
 }
 
 .bgimg {
@@ -57,8 +72,7 @@ body, html {
 
 main {
     padding: 10px;
-    background: lightblue;
-    alignment: center;
+    background: var(--main-background);
 }
 
 h1 {
@@ -67,6 +81,7 @@ h1 {
     text-align: left;
 }
 
+
 /* The container <div> - needed to position the dropdown content */
 
 .dropdown {
@@ -74,6 +89,7 @@ h1 {
     display: inline-block;
     max-width: 1em;
 }
+
 
 /* Dropdown Content (Hidden by Default) */
 
@@ -89,6 +105,7 @@ h1 {
     z-index: 1;
 }
 
+
 /* Links inside the dropdown */
 
 .dropdown-content a {
@@ -98,6 +115,7 @@ h1 {
     display: block;
 }
 
+
 /* Change color of dropdown links on hover */
 
 .dropdown-content a:hover {
@@ -105,11 +123,13 @@ h1 {
     background-color: grey;
 }
 
+
 /* Show the dropdown menu on hover */
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 
@@ -121,7 +141,8 @@ h1 {
     font-size: 21px;
 }
 
-#circle-down:hover {
+#circle-down:hover,
+#trash-bin:hover {
     color: red;
 }
 
@@ -129,14 +150,7 @@ h1 {
     color: green;
 }
 
-#trash-bin {
-    font-size: 1em;
-}
-
-#trash-bin:hover {
-    color: red
-}
-
+#trash-bin,
 #small-edit {
     font-size: 1em;
 }
@@ -145,7 +159,8 @@ h1 {
     color: blue;
 }
 
-#circle-down, #circle-up {
+#circle-down,
+#circle-up {
     font-size: 1.5em;
 }
 
@@ -194,7 +209,6 @@ nav {
     cursor: pointer;
     margin-left: 30px;
 }
-
 
 nav ul {
     width: 100%;
@@ -315,6 +329,7 @@ nav ul li a {
 
 
 /* CSS */
+
 .button-6 {
     align-items: center;
     background-color: #FFFFFF;
@@ -362,7 +377,9 @@ nav ul li a {
     transform: translateY(0);
 }
 
+
 /* CSS */
+
 .button-28 {
     appearance: none;
     background-color: transparent;
@@ -411,12 +428,15 @@ nav ul li a {
     border: none;
 }
 
-#search-page {
-    margin: 0px;
+.flex-center-column {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+}
+
+#search-page {
+    margin: 0px;
 }
 
 #add-tag-plus:hover {
@@ -425,13 +445,6 @@ nav ul li a {
 
 .content-right {
     text-align: right;
-}
-
-#about {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
 }
 
 .authors {
@@ -460,7 +473,7 @@ nav ul li a {
     margin-left: 12px;
 }
 
-.aside > a {
+.aside>a {
     /*background-color: #1d508d;*/
     padding: 12px;
     margin-top: 7px;
@@ -468,7 +481,6 @@ nav ul li a {
     /*color: #fff;*/
     font-size: 13px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", sans-serif;
-
 }
 
 .post-layout {
@@ -495,7 +507,7 @@ nav ul li a {
     margin-left: 0;
 }
 
-.vote-container > * {
+.vote-container>* {
     font-size: 2.1em;
 }
 
@@ -512,10 +524,10 @@ nav ul li a {
 }
 
 .link-button {
-  background: none;
-  border: none;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 1em;
-  display: contents;
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+    display: contents;
 }

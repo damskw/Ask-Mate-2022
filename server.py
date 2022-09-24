@@ -49,13 +49,13 @@ def search_results():
 def display_question(question_id):
     tag_ids_raw = data_manager.get_question_tag_ids(question_id)
     tag_ids = []
-    temp = [tag_ids.append(tag[config.TAG_ID]) for tag in tag_ids_raw]
+    [tag_ids.append(tag[config.TAG_ID]) for tag in tag_ids_raw]
     tags_for_question = []
     tags_for_question = data_manager.get_tags_from_tag_ids(tag_ids)
     question = data_manager.find_question(question_id)
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
-    temp = [answer_ids.append(answer[config.ID]) for answer in answers]
+    [answer_ids.append(answer[config.ID]) for answer in answers]
     question_comments = data_manager.get_comments_for_question(question_id)
     comments_for_answers = data_manager.get_comments_for_answers(answer_ids)
     if request.method == config.POST:
@@ -69,35 +69,38 @@ def display_question(question_id):
 
 @app.route("/add-question", methods=[config.GET, config.POST])
 def add_question():
-    if request.method == config.POST:
-        title = request.form[config.TITLE]
-        question = request.form[config.QUESTION]
-        now = datetime.now()
-        timestamp = int(datetime.timestamp(now))
-        img_filename = save_image_file(request, timestamp)
-        data_manager.add_question(now, title, question, img_filename)
-        return redirect('/')
-    return render_template('add_question.html')
+    if request.method == config.GET:
+        return render_template('add_question.html')
+
+    title = request.form[config.TITLE]
+    question = request.form[config.QUESTION]
+    now = datetime.now()
+    timestamp = int(datetime.timestamp(now))
+    img_filename = save_image_file(request, timestamp)
+    data_manager.add_question(now, title, question, img_filename)
+    return redirect('/')
 
 
 @app.route("/question/<question_id>/new-tag", methods=[config.GET, config.POST])
 def new_question_tag(question_id):
-    if request.method == config.POST:
-        tag = request.form[config.QUESTION_TAG]
-        if tag == "":
-            return redirect(f'/question/{question_id}')
-        full_tag = data_manager.find_tag_by_name(tag)
-        if full_tag is None:
-            data_manager.create_new_tag(tag)
-            full_tag = data_manager.find_tag_by_name(tag)
-        tag_id = full_tag[config.ID]
-        exist = data_manager.check_if_tag_id_already_in_question(question_id, tag_id)
-        print(exist)
-        if len(exist) == 0:
-            data_manager.add_tag_to_a_question(question_id, tag_id)
+
+    if request.method == config.GET:
+        all_tags = data_manager.get_all_tags()
+        return render_template('new_tag.html', tags=all_tags, question_id=question_id)
+
+    tag = request.form[config.QUESTION_TAG]
+    if tag == "":
         return redirect(f'/question/{question_id}')
-    all_tags = data_manager.get_all_tags()
-    return render_template('new_tag.html', tags=all_tags, question_id=question_id)
+    full_tag = data_manager.find_tag_by_name(tag)
+    if full_tag is None:
+        data_manager.create_new_tag(tag)
+        full_tag = data_manager.find_tag_by_name(tag)
+    tag_id = full_tag[config.ID]
+    exist = data_manager.check_if_tag_id_already_in_question(question_id, tag_id)
+    print(exist)
+    if len(exist) == 0:
+        data_manager.add_tag_to_a_question(question_id, tag_id)
+    return redirect(f'/question/{question_id}')
 
 
 def save_image_file(request, timestamp: int = None) -> str:

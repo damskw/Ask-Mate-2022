@@ -7,6 +7,21 @@ from data_handler import database_connection
 
 
 @database_connection.connection_handler
+def get_data(cursor, table_name, order_by = None):
+    variables = {}
+    query = f"SELECT * FROM {table_name}"
+
+    if order_by: 
+        query += " ORDER BY %(order_by)s"
+        variables['order_by'] = order_by
+    
+    cursor.execute(query, variables)
+    return cursor.fetchall()
+
+# get question: get_data('question')
+# get all tags: get_data('tag', 'id')
+
+@database_connection.connection_handler
 def get_questions(cursor):
     query = """
         SELECT *
@@ -88,18 +103,14 @@ def get_comments_for_question(cursor, question_id):
 
 @database_connection.connection_handler
 def get_comments_for_answers(cursor, answer_ids):
+    query = "SELECT * FROM comment"
+
     if len(answer_ids) > 1:
         answer_ids = tuple(answer_ids)
-        query = """
-            SELECT *
-            FROM comment
-            WHERE answer_id IN %(answer_ids)s"""
+        query += " WHERE answer_id IN %(answer_ids)s"
     elif len(answer_ids) == 1:
         answer_ids = answer_ids[0]
-        query = """
-            SELECT *
-            FROM comment
-            WHERE answer_id=%(answer_ids)s"""
+        query += " WHERE answer_id=%(answer_ids)s"
     else:
         return []
     cursor.execute(query, {"answer_ids": answer_ids})
@@ -363,18 +374,12 @@ def update_comment(cursor, comment_id, message):
 
 @database_connection.connection_handler
 def update_question_vote(cursor, question_id, direction):
-    if direction == config.UP:
-        query = """
-            UPDATE question
-            SET vote_number = vote_number + 1
-            WHERE id=%(question_id)s"""
-        cursor.execute(query, {"question_id": question_id})
-    elif direction == config.DOWN:
-        query = """
-            UPDATE question
-            SET vote_number = vote_number - 1
-            WHERE id=%(question_id)s"""
-        cursor.execute(query, {"question_id": question_id})
+    vote  = 1 if direction == config.UP else -1
+    query = """
+        UPDATE question
+        SET vote_number = vote_number + %(vote)s
+        WHERE id=%(question_id)s"""
+    cursor.execute(query, {"question_id": question_id, "vote": vote})
 
 
 @database_connection.connection_handler
