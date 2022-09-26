@@ -1,1 +1,14 @@
 {% extends "layout.html" %}
+{% block content %}
+    <div class="center-vertically center-horizontally" id="search-page">
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        <h2 id="header-center">Login here</h2>
+        <form action="/login" method="POST" class="search_form center-vertically center-horizontally">
+            <input class="login-register-input-box" type="email" name="email" id="q" placeholder="Email">
+            <input class="login-register-input-box" type="password" name="password" placeholder="Password">
+            <input type="submit" value="LOGIN" class="button-28" id="small-button">
+        </form>
+    </div>
+{% endblock %}

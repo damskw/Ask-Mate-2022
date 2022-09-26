@@ -21,8 +21,6 @@
                                                                    class="fa-solid fa-caret-down fa-2xl"></i></a>
             </div>
             <div class="post-content-container">
-
-
                 <div class="question-message">{{ question.message }}
                 </div>
                 <br><br>
@@ -34,9 +32,9 @@
                     <br><br>
                 {% endif %}
                 <hr>
-                <h3>Tags: <a href="/question/{{ question.id }}/new-tag"><i class="fa-regular fa-plus"
+                <h3>Tags: {% if session %}<a href="/question/{{ question.id }}/new-tag"><i class="fa-regular fa-plus"
                                                                            title="Add new tag"
-                                                                           id="add-tag-plus"></i></a></h3>
+                                                                           id="add-tag-plus"></i></a></h3> {% endif %}
                 <div class="all-tags">
                     {% for tag in tags_for_question %}
 
@@ -46,6 +44,7 @@
                     {% endfor %}
                 </div>
                 <hr>
+            {% if session %}
                 <div class="w3-small">
                     <a href="/question/{{ question.id }}/delete">
                         <button class="button-28" role="button" id="small-button">DELETE THIS QUESTION</button>
@@ -55,6 +54,7 @@
                     </a>
                     <br><br><br>
                 </div>
+            {% endif %}
                 <div class="content-right">
                     {% if question_comments|length == 0 %}
                         <h4>There are no comments for this question</h4>

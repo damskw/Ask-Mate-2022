@@ -297,6 +297,8 @@ def create_random_user_id():
 
 @app.route("/register", methods=[config.GET, config.POST])
 def register():
+    if session:
+        return redirect('/')
     if request.method == config.GET:
         return render_template('register.html')
     email = request.form.get('email')
@@ -312,6 +314,30 @@ def register():
         return render_template('register.html', message="Please check your password")
     data_manager.register_user(email, hash_password(password), now, name)
     return redirect('/')
+
+
+@app.route("/login", methods=[config.GET, config.POST])
+def login():
+    if session:
+        return redirect('/')
+    if request.method == config.GET:
+        return render_template('login.html')
+    email = request.form.get('email')
+    user = data_manager.login(email)
+    if not user:
+        return render_template('register.html', message="Unknown e-mail, please register.")
+    password = request.form.get('password')
+    if verify_password(password, user["password"]):
+        session["user_email"] = email
+        return redirect('/')
+    return render_template('login.html', message='Wrong password!')
+
+
+@app.route("/logout")
+def logout():
+    session.pop("user_email", None)
+    return redirect('/')
+
 
 @app.route("/404")
 def display_404():

@@ -7,16 +7,17 @@ from data_handler import database_connection
 
 
 @database_connection.connection_handler
-def get_data(cursor, table_name, order_by = None):
+def get_data(cursor, table_name, order_by=None):
     variables = {}
     query = f"SELECT * FROM {table_name}"
 
-    if order_by: 
+    if order_by:
         query += " ORDER BY %(order_by)s"
         variables['order_by'] = order_by
-    
+
     cursor.execute(query, variables)
     return cursor.fetchall()
+
 
 # get question: get_data('question')
 # get all tags: get_data('tag', 'id')
@@ -184,7 +185,6 @@ def find_comment(cursor, comment_id):
         WHERE id=%(comment_id)s"""
     cursor.execute(query, {"comment_id": comment_id})
     return cursor.fetchone()
-
 
 
 @database_connection.connection_handler
@@ -374,7 +374,7 @@ def update_comment(cursor, comment_id, message):
 
 @database_connection.connection_handler
 def update_question_vote(cursor, question_id, direction):
-    vote  = 1 if direction == config.UP else -1
+    vote = 1 if direction == config.UP else -1
     query = """
         UPDATE question
         SET vote_number = vote_number + %(vote)s
@@ -427,8 +427,19 @@ def check_if_user_email_in_database(cursor, email):
 
 
 @database_connection.connection_handler
+def login(cursor, email):
+    query = """
+        SELECT *
+        FROM public."user"
+        WHERE email=%(email)s"""
+    cursor.execute(query, {"email": email})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
 def register_user(cursor, email, hashed_password, creation_date, name):
     query = """
     INSERT INTO public.user(email, password, name, role, member_since, avatar, last_log_in, location, about_me, reputation)
     VALUES (%(email)s, %(hashed_password)s, %(name)s, 'user', %(creation_date)s, null, %(creation_date)s, null, null, 0)"""
-    cursor.execute(query, {'email': email, 'hashed_password': hashed_password, 'creation_date': creation_date, 'name': name})
+    cursor.execute(query,
+                   {'email': email, 'hashed_password': hashed_password, 'creation_date': creation_date, 'name': name})
