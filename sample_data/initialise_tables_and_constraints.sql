@@ -83,6 +83,7 @@ DROP TABLE IF EXISTS public.user;
 CREATE TABLE public.user (
     id serial  NOT NULL,
     email varchar(254),--https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address?_gl=1*sf2yv5*_ga*MTM5NTkzMTAyMS4xNjU2NjA3OTc5*_ga_S812YQPLT2*MTY2NDEyNTY5OS4xMS4xLjE2NjQxMjYwMjQuMC4wLjA.
+    password text  NOT NULL,
     name varchar(200)  NOT NULL,
     role user_role  NULL,
     member_since timestamp  NOT NULL,
