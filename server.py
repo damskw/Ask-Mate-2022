@@ -71,9 +71,10 @@ def display_question(question_id):
 
 @app.route("/add-question", methods=[config.GET, config.POST])
 def add_question():
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         return render_template('add_question.html')
-
     title = request.form[config.TITLE]
     question = request.form[config.QUESTION]
     now = datetime.now()
@@ -85,10 +86,11 @@ def add_question():
 
 @app.route("/question/<question_id>/new-tag", methods=[config.GET, config.POST])
 def new_question_tag(question_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         all_tags = data_manager.get_all_tags()
         return render_template('new_tag.html', tags=all_tags, question_id=question_id)
-
     tag = request.form[config.QUESTION_TAG]
     if tag == "":
         return redirect(f'/question/{question_id}')
@@ -119,6 +121,8 @@ def save_image_file(request, timestamp: int = None) -> str:
 
 @app.route("/question/<question_id>/add-answer", methods=[config.GET, config.POST])
 def add_answer(question_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         return render_template('add_answer.html', question_id=question_id)
 
@@ -132,6 +136,8 @@ def add_answer(question_id):
 
 @app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
 def delete_comment(comment_id):
+    if not session:
+        return redirect('/login')
     question = data_manager.find_question_id_from_comment(comment_id)
     redirect_id = question[config.QUESTION_ID]
     if not isinstance(redirect_id, int):
@@ -145,6 +151,8 @@ def delete_comment(comment_id):
 
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
 def add_comment_to_question(question_id):
+    if not session:
+        return redirect('/login')
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
     # timestamp = int(datetime.timestamp(now))
@@ -154,6 +162,8 @@ def add_comment_to_question(question_id):
 
 @app.route("/answer/<answer_id>/new-comment", methods=[config.GET, config.POST])
 def add_comment_to_answer(answer_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         return render_template('add_answer_comment.html', answer_id=answer_id)
 
@@ -168,6 +178,8 @@ def add_comment_to_answer(answer_id):
 
 @app.route("/question/<question_id>/delete", methods=[config.GET, config.POST])
 def delete_question(question_id):
+    if not session:
+        return redirect('/login')
     question = data_manager.get_question_image_name(question_id)
     image_name = question[config.IMAGE]
     answers = data_manager.find_answers_to_question(question_id)
@@ -182,6 +194,8 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete", methods=[config.GET, config.POST])
 def delete_answer(answer_id):
+    if not session:
+        return redirect('/login')
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     question = data_manager.get_answer_image_name(answer_id)
@@ -195,12 +209,16 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete", methods=[config.GET, config.POST])
 def delete_tag_from_question(question_id, tag_id):
+    if not session:
+        return redirect('/login')
     data_manager.remove_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/edit", methods=[config.GET, config.POST])
 def edit_question(question_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         question_to_be_edited = data_manager.find_question(question_id)
         return render_template('edit_question.html', question=question_to_be_edited)
@@ -214,6 +232,8 @@ def edit_question(question_id):
 
 @app.route("/answer/<answer_id>/edit", methods=[config.GET, config.POST])
 def edit_answer(answer_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         answer_to_be_edited = data_manager.find_answer(answer_id)
         return render_template('edit_answer.html', answer=answer_to_be_edited)
@@ -228,6 +248,8 @@ def edit_answer(answer_id):
 
 @app.route("/comment/<comment_id>/edit", methods=[config.GET, config.POST])
 def edit_comment(comment_id):
+    if not session:
+        return redirect('/login')
     if request.method == config.GET:
         comment_to_be_edited = data_manager.find_comment(comment_id)
         return render_template('edit_comment.html', comment=comment_to_be_edited)
@@ -246,6 +268,8 @@ def edit_comment(comment_id):
 
 @app.route("/question/<question_id>/vote-up", methods=[config.GET, config.POST])
 def vote_question_up(question_id):
+    if not session:
+        return redirect('/login')
     data_manager.update_question_vote(question_id, config.UP)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -254,6 +278,8 @@ def vote_question_up(question_id):
 
 @app.route("/question/<question_id>/vote-down", methods=[config.GET, config.POST])
 def vote_question_down(question_id):
+    if not session:
+        return redirect('/login')
     data_manager.update_question_vote(question_id, config.DOWN)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -262,6 +288,8 @@ def vote_question_down(question_id):
 
 @app.route("/answer/<answer_id>/vote-up", methods=[config.GET, config.POST])
 def vote_answer_up(answer_id):
+    if not session:
+        return redirect('/login')
     data_manager.update_answer_vote(answer_id, config.UP)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
@@ -270,6 +298,8 @@ def vote_answer_up(answer_id):
 
 @app.route("/answer/<answer_id>/vote-down", methods=[config.GET, config.POST])
 def vote_answer_down(answer_id):
+    if not session:
+        return redirect('/login')
     data_manager.update_answer_vote(answer_id, config.DOWN)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
