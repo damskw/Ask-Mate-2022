@@ -290,6 +290,11 @@ def vote_answer_down(answer_id):
     return redirect(f'/question/{question_id}')
 
 
+@app.route("/register")
+def register():
+    return render_template('register.html')
+
+
 @app.route("/404")
 def display_404():
     return render_template("404.html")

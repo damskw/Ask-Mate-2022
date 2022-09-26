@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="center-vertically center-horizontally" id="search-page">
+    <h2 id="header-center">Register here</h2>
+    <form action="/search" method="get" class="search_form center-vertically center-horizontally">
+        <input class = "login-register-input-box" type="email" name="email" id="q" placeholder="Email">
+        <input class = "login-register-input-box" type="password" name="password" placeholder="Password">
+        <input class = "login-register-input-box" type="password" name="repeat-password" placeholder="Repeat password">
+        <input type="submit" value="SUBMIT" class="button-28" id="small-button">
+    </form>
+</div>
+{% endblock %}
