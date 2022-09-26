@@ -1,11 +1,9 @@
 {% extends "layout.html" %} {% block title %}Search{% endblock %} {% block content %}
-<div class="position-middle flex-center-column" id="search-page">
+<div class="center-vertically center-horizontally" id="search-page">
     <h2 id="header-center">What are you looking for?</h2>
-    <br><br>
-    <form action="/search" method="get">
-        <input type="text" name="q" id="q" placeholder="Search in here...">
-        <br><br>
-        <input type="submit" value="Search" class="button-28" id="small-button" style="margin: 9px -11px;">
+    <form action="/search" method="get" class="search_form center-vertically center-horizontally">
+        <input type="text" name="q" id="q" placeholder="Type search phrase...">
+        <input type="submit" value="Search" class="button-28" id="small-button">
     </form>
 </div>
 {% endblock %}
