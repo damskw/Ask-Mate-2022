@@ -6,7 +6,7 @@ body,
 html {
     height: 100%;
     font-family: "Inconsolata", sans-serif;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .questions-all {
@@ -163,6 +163,7 @@ h1 {
 
 .single-question {
     border-bottom-style: groove;
+    margin-bottom: 2rem;
 }
 
 #small-button {
@@ -440,7 +441,7 @@ nav ul li a {
 }
 
 .authors {
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-align: center;
 }
 
@@ -465,7 +466,7 @@ nav ul li a {
     margin-left: 12px;
 }
 
-.aside>a {
+.aside > a {
     /*background-color: #1d508d;*/
     padding: 12px;
     margin-top: 7px;
@@ -499,7 +500,7 @@ nav ul li a {
     margin-left: 0;
 }
 
-.vote-container>* {
+.vote-container > * {
     font-size: 2.1em;
 }
 

@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         <link rel="stylesheet" href="/static/css/main.css">
         <script src="https://kit.fontawesome.com/22cd3c75e4.js" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
     {% endblock %}
 </head>
 <body>
@@ -26,32 +27,59 @@
         {#            <img src="{{url_for('static', filename='images/user.png')}}" class="user-pic" onclick="toggleMenu()">#}
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
-                <div class="user-info">
-                    <img src="{{ url_for('static', filename='images/profile/user.png') }}">
-                    <h3>Daenerys Targaryen</h3>
-                </div>
-                <hr>
-                <a href="#" class="sub-menu-link">
-                    <img src="{{ url_for('static', filename='images/profile/profile.png') }}">
-                    <p>Edit Profile</p>
-                    <span>></span>
-                </a>
-                <a href="#" class="sub-menu-link">
-                    <img src="{{ url_for('static', filename='images/profile/setting.png') }}">
-                    <p>Settings</p>
-                    <span>></span>
-                </a>
-                <a href="#" class="sub-menu-link">
-                    <img src="{{ url_for('static', filename='images/profile/help.png') }}">
-                    <p>Help & Privacy</p>
-                    <span>></span>
-                </a>
-                <a href="#" class="sub-menu-link">
-                    <img src="{{ url_for('static', filename='images/profile/logout.png') }}">
-                    <p>Logout</p>
-                    <span>></span>
-                </a>
-
+                {% set user_is_logged = False %}
+                {% if user_is_logged %}
+                    <div class="user-info">
+                        <img src="{{ url_for('static', filename='images/profile/user.png') }}">
+                        <h3>Daenerys Targaryen</h3>
+                    </div>
+                    <hr>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/profile.png') }}">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/setting.png') }}">
+                        <p>Settings</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/help.png') }}">
+                        <p>Help & Privacy</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/logout.png') }}">
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                {% else %}
+                    <div class="user-info">
+                        <h3>Log in to see your profile</h3>
+                    </div>
+                    <hr>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/profile.png') }}">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/setting.png') }}">
+                        <p>Log in</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/help.png') }}">
+                        <p>Help & Privacy</p>
+                        <span>></span>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile/logout.png') }}">
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </nav>
