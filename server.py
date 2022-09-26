@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+import random
+
+from flask import Flask, render_template, request, redirect, session
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import config
 import os
-from data_handler import data_handler, data_manager
-from utils import quote, convert_timestamp_to_utc
+from data_handler import data_manager
+import bcrypt as bcrypt
 
 UPLOAD_FOLDER = 'static/images'
 # app = Flask(__name__, static_url_path='/static')
 app = Flask(__name__)
+app.secret_key = "tabaluga"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -68,7 +71,6 @@ def display_question(question_id):
 
 @app.route("/add-question", methods=[config.GET, config.POST])
 def add_question():
-
     if request.method == config.GET:
         return render_template('add_question.html')
 
@@ -83,7 +85,6 @@ def add_question():
 
 @app.route("/question/<question_id>/new-tag", methods=[config.GET, config.POST])
 def new_question_tag(question_id):
-
     if request.method == config.GET:
         all_tags = data_manager.get_all_tags()
         return render_template('new_tag.html', tags=all_tags, question_id=question_id)
@@ -118,7 +119,6 @@ def save_image_file(request, timestamp: int = None) -> str:
 
 @app.route("/question/<question_id>/add-answer", methods=[config.GET, config.POST])
 def add_answer(question_id):
-
     if request.method == config.GET:
         return render_template('add_answer.html', question_id=question_id)
 
@@ -132,7 +132,6 @@ def add_answer(question_id):
 
 @app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
 def delete_comment(comment_id):
-
     question = data_manager.find_question_id_from_comment(comment_id)
     redirect_id = question[config.QUESTION_ID]
     if not isinstance(redirect_id, int):
@@ -146,7 +145,6 @@ def delete_comment(comment_id):
 
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
 def add_comment_to_question(question_id):
-
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
     # timestamp = int(datetime.timestamp(now))
@@ -156,7 +154,6 @@ def add_comment_to_question(question_id):
 
 @app.route("/answer/<answer_id>/new-comment", methods=[config.GET, config.POST])
 def add_comment_to_answer(answer_id):
-
     if request.method == config.GET:
         return render_template('add_answer_comment.html', answer_id=answer_id)
 
@@ -171,7 +168,6 @@ def add_comment_to_answer(answer_id):
 
 @app.route("/question/<question_id>/delete", methods=[config.GET, config.POST])
 def delete_question(question_id):
-
     question = data_manager.get_question_image_name(question_id)
     image_name = question[config.IMAGE]
     answers = data_manager.find_answers_to_question(question_id)
@@ -186,7 +182,6 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete", methods=[config.GET, config.POST])
 def delete_answer(answer_id):
-
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     question = data_manager.get_answer_image_name(answer_id)
@@ -200,14 +195,12 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete", methods=[config.GET, config.POST])
 def delete_tag_from_question(question_id, tag_id):
-
     data_manager.remove_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/edit", methods=[config.GET, config.POST])
 def edit_question(question_id):
-
     if request.method == config.GET:
         question_to_be_edited = data_manager.find_question(question_id)
         return render_template('edit_question.html', question=question_to_be_edited)
@@ -221,7 +214,6 @@ def edit_question(question_id):
 
 @app.route("/answer/<answer_id>/edit", methods=[config.GET, config.POST])
 def edit_answer(answer_id):
-
     if request.method == config.GET:
         answer_to_be_edited = data_manager.find_answer(answer_id)
         return render_template('edit_answer.html', answer=answer_to_be_edited)
@@ -234,10 +226,8 @@ def edit_answer(answer_id):
     return redirect(f'/question/{question_id}')
 
 
-
 @app.route("/comment/<comment_id>/edit", methods=[config.GET, config.POST])
 def edit_comment(comment_id):
-
     if request.method == config.GET:
         comment_to_be_edited = data_manager.find_comment(comment_id)
         return render_template('edit_comment.html', comment=comment_to_be_edited)
@@ -256,7 +246,6 @@ def edit_comment(comment_id):
 
 @app.route("/question/<question_id>/vote-up", methods=[config.GET, config.POST])
 def vote_question_up(question_id):
-
     data_manager.update_question_vote(question_id, config.UP)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -265,7 +254,6 @@ def vote_question_up(question_id):
 
 @app.route("/question/<question_id>/vote-down", methods=[config.GET, config.POST])
 def vote_question_down(question_id):
-
     data_manager.update_question_vote(question_id, config.DOWN)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -274,7 +262,6 @@ def vote_question_down(question_id):
 
 @app.route("/answer/<answer_id>/vote-up", methods=[config.GET, config.POST])
 def vote_answer_up(answer_id):
-
     data_manager.update_answer_vote(answer_id, config.UP)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
@@ -283,17 +270,48 @@ def vote_answer_up(answer_id):
 
 @app.route("/answer/<answer_id>/vote-down", methods=[config.GET, config.POST])
 def vote_answer_down(answer_id):
-
     data_manager.update_answer_vote(answer_id, config.DOWN)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     return redirect(f'/question/{question_id}')
 
 
-@app.route("/register")
-def register():
-    return render_template('register.html')
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
 
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+def is_loggedin():
+    return 'user_email' in session
+
+
+def create_random_user_id():
+    id = random.randint(1, 1000000000)
+    return id
+
+
+@app.route("/register", methods=[config.GET, config.POST])
+def register():
+    if request.method == config.GET:
+        return render_template('register.html')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    repeated_password = request.form.get('repeat-password')
+    now = datetime.now()
+    user_id = create_random_user_id()
+    name = "User" + str(user_id)
+    check_email = data_manager.check_if_user_email_in_database(email)
+    if check_email is not None:
+        return render_template('register.html', message="This e-mail is already registered")
+    if password != repeated_password:
+        return render_template('register.html', message="Please check your password")
+    data_manager.register_user(email, hash_password(password), now, name)
+    return redirect('/')
 
 @app.route("/404")
 def display_404():

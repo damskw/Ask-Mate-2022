@@ -414,3 +414,21 @@ def increase_comment_edit_number(cursor, comment_id):
         SET edited_count = edited_count + 1
         WHERE id=%(comment_id)s"""
     cursor.execute(query, {"comment_id": comment_id})
+
+
+@database_connection.connection_handler
+def check_if_user_email_in_database(cursor, email):
+    query = """
+        SELECT email
+        FROM public."user"
+        WHERE email=%(email)s"""
+    cursor.execute(query, {"email": email})
+    return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def register_user(cursor, email, hashed_password, creation_date, name):
+    query = """
+    INSERT INTO public.user(email, password, name, role, member_since, avatar, last_log_in, location, about_me, reputation)
+    VALUES (%(email)s, %(hashed_password)s, %(name)s, 'user', %(creation_date)s, null, %(creation_date)s, null, null, 0)"""
+    cursor.execute(query, {'email': email, 'hashed_password': hashed_password, 'creation_date': creation_date, 'name': name})
