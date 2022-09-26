@@ -535,3 +535,21 @@ nav ul li a {
 .search_form > input[type="text"] {
     padding: 0.3em 0.9em;
 }
+
+.roll-down-menu-icons {
+    margin-right: 1em;
+    display: flex;
+    width: 3em;
+    border: 8px solid lightgrey;
+    background: lightgrey;
+    border-radius: 5em;
+    flex-direction: row;
+    align-content: center;
+    height: 2.5em;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#inside-menu-icon {
+    font-size: 1.2em;
+}

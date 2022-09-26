@@ -56,27 +56,28 @@
                     </a>
                 {% else %}
                     <div class="user-info">
-                        <h3>Log in to see your profile</h3>
+                        <h3>Login to see your profile</h3>
                     </div>
                     <hr>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{ url_for('static', filename='images/profile/profile.png') }}">
-                        <p>Edit Profile</p>
+                    <a href="/login" class="sub-menu-link">
+                        <div class="roll-down-menu-icons">
+                            <i class="fa-solid fa-right-to-bracket" id="inside-menu-icon"></i>
+                        </div>
+                        <p>Login</p>
+                        <span>></span>
+                    </a>
+                    <a href="/register" class="sub-menu-link">
+                        <div class="roll-down-menu-icons">
+                            <i class="fa-solid fa-plus" id="inside-menu-icon"></i>
+                        </div>
+                        <p>Register</p>
                         <span>></span>
                     </a>
                     <a href="#" class="sub-menu-link">
-                        <img src="{{ url_for('static', filename='images/profile/setting.png') }}">
-                        <p>Log in</p>
-                        <span>></span>
-                    </a>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{ url_for('static', filename='images/profile/help.png') }}">
+                        <div class="roll-down-menu-icons">
+                            <i class="fa-solid fa-info" id="inside-menu-icon"></i>
+                        </div>
                         <p>Help & Privacy</p>
-                        <span>></span>
-                    </a>
-                    <a href="#" class="sub-menu-link">
-                        <img src="{{ url_for('static', filename='images/profile/logout.png') }}">
-                        <p>Logout</p>
                         <span>></span>
                     </a>
                 {% endif %}
