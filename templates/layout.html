@@ -19,6 +19,7 @@
         {#            <h1 class="logo" style="color: white">Ask Mate</h1>#}
         <ul>
             <li><a href="/"> Home </a></li>
+            <li><a href="/users"> Users </a></li>
             <li><a href="/search"> Search </a></li>
             <li><a href="/add-question"> Add Question </a></li>
             <li><a href="/about"> About </a></li>
@@ -29,9 +30,10 @@
             <div class="sub-menu">
                 {% set user_is_logged = False %}
                 {% if session %}
+                    {% set user_avatar='images/user_profile_images/' ~ session.avatar %}
                     <div class="user-info">
-                        <img src="{{ url_for('static', filename='images/profile/user.png') }}">
-                        <h3>Daenerys Targaryen</h3>
+                        <img src="{{ url_for('static', filename=user_avatar) }}">
+                        <h3>{{ session.name }}</h3>
                     </div>
                     <hr>
                     <a href="#" class="sub-menu-link">

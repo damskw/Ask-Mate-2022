@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS public.question;
 CREATE TABLE question (
     id serial  NOT NULL,
     author_id integer  NOT NULL,
+    author_name varchar(200)  NOT NULL,
     submission_time timestamp without time zone  NOT NULL,
     view_number bigint  NOT NULL,
     vote_number int  NOT NULL,
@@ -42,6 +43,7 @@ DROP TABLE IF EXISTS public.answer;
 CREATE TABLE answer (
     id serial  NOT NULL,
     author_id integer  NOT NULL,
+    author_name varchar(200) NOT NULL,
     submission_time timestamp without time zone  NOT NULL,
     vote_number integer  NOT NULL,
     question_id integer  NOT NULL,
@@ -55,6 +57,7 @@ DROP TABLE IF EXISTS public.comment;
 CREATE TABLE comment (
     id serial  NOT NULL,
     author_id integer  NOT NULL,
+    author_name varchar(200) NOT NULL,
     question_id integer  NULL,
     answer_id integer  NULL,
     message text  NOT NULL,
@@ -87,7 +90,7 @@ CREATE TABLE public.user (
     name varchar(200)  NOT NULL,
     role varchar(150)  NULL,
     member_since timestamp  NOT NULL,
-    avatar bytea  NULL,
+    avatar varchar(200)  NULL,
     last_log_in timestamp  NOT NULL,
     location varchar(200)  NULL,
     about_me varchar(1000)  NULL,

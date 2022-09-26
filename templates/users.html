@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="center-horizontally center-vertically">
+        {% for user in users %}
+            <div class="single-user-table">
+                {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
+                <img id="image-all-users" src="{{ url_for('static', filename=user_avatar) }}">
+                <a href="#">{{ user.name }}</a>
+                Created on: {{ user.member_since }}
+                Location: {{ user.location }}
+                Reputation: {{ user.reputation }}
+                Questions asked: 0
+                Answers given: 0
+                Comments given: 0
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

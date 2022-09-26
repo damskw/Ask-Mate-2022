@@ -44,9 +44,7 @@
     {% endif %}
 {% if search_phrase is defined %}
     {% set phrase = "'" ~ search_phrase ~ "'" %}
-    {#    <style onload="search({{ phrase }})"></style>#}
 {% endif %}
-{#            <h1 id="question-title-in-lists"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>#}
 {% for question in questions %}
     <div class="single-question">
         <form action="/question/{{ question.id }}" method="POST">
@@ -59,7 +57,7 @@
             </button>
         </form>
         Added on {{ question.submission_time }}, Views: {{ question.view_number }},
-        Votes: {{ question.vote_number }}
+        Votes: {{ question.vote_number }}, Added By: {{ question.author_name }}
         <br>
         <p>
         <div id="text" class="searched">

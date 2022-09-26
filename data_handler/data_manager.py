@@ -149,12 +149,15 @@ def get_tags_from_tag_ids(cursor, tag_ids):
 
 
 @database_connection.connection_handler
-def add_question(cursor, submission_time, title, message, image):
+def add_question(cursor, submission_time, title, message, image, author_id, author_name):
     query = """
-        INSERT INTO question(submission_time, view_number, vote_number, title, message, image)
-        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s)
+        INSERT INTO question(submission_time, view_number,
+                             vote_number, title, message, image, author_id, author_name)
+        VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s, %(author_id)s, %(author_name)s)
         """
-    cursor.execute(query, {"submission_time": submission_time, "title": title, "message": message, "image": image})
+    cursor.execute(query, {"submission_time": submission_time, "title": title,
+                           "message": message, "image": image,
+                           "author_id": author_id, "author_name": author_name})
 
 
 @database_connection.connection_handler
@@ -427,7 +430,7 @@ def check_if_user_email_in_database(cursor, email):
 
 
 @database_connection.connection_handler
-def login(cursor, email):
+def get_user_data(cursor, email):
     query = """
         SELECT *
         FROM public."user"
@@ -440,6 +443,15 @@ def login(cursor, email):
 def register_user(cursor, email, hashed_password, creation_date, name):
     query = """
     INSERT INTO public.user(email, password, name, role, member_since, avatar, last_log_in, location, about_me, reputation)
-    VALUES (%(email)s, %(hashed_password)s, %(name)s, 'user', %(creation_date)s, null, %(creation_date)s, null, null, 0)"""
+    VALUES (%(email)s, %(hashed_password)s, %(name)s, 'user', %(creation_date)s, 'user_default_image.png', %(creation_date)s, null, null, 0)"""
     cursor.execute(query,
                    {'email': email, 'hashed_password': hashed_password, 'creation_date': creation_date, 'name': name})
+
+
+@database_connection.connection_handler
+def get_all_users(cursor):
+    query = """
+        SELECT *
+        FROM public."user" """
+    cursor.execute(query)
+    return cursor.fetchall()

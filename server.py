@@ -75,12 +75,13 @@ def add_question():
         return redirect('/login')
     if request.method == config.GET:
         return render_template('add_question.html')
+    user = data_manager.get_user_data(session["user_email"])
     title = request.form[config.TITLE]
     question = request.form[config.QUESTION]
     now = datetime.now()
     timestamp = int(datetime.timestamp(now))
     img_filename = save_image_file(request, timestamp)
-    data_manager.add_question(now, title, question, img_filename)
+    data_manager.add_question(now, title, question, img_filename, user["id"], user["name"])
     return redirect('/')
 
 
@@ -331,9 +332,9 @@ def register():
         return redirect('/')
     if request.method == config.GET:
         return render_template('register.html')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    repeated_password = request.form.get('repeat-password')
+    email = request.form.get(config.EMAIL)
+    password = request.form.get(config.PASSWORD)
+    repeated_password = request.form.get(config.REPEAT_PASSWORD)
     now = datetime.now()
     user_id = create_random_user_id()
     name = "User" + str(user_id)
@@ -352,21 +353,32 @@ def login():
         return redirect('/')
     if request.method == config.GET:
         return render_template('login.html')
-    email = request.form.get('email')
-    user = data_manager.login(email)
+    email = request.form.get(config.EMAIL)
+    user = data_manager.get_user_data(email)
     if not user:
         return render_template('register.html', message="Unknown e-mail, please register.")
-    password = request.form.get('password')
-    if verify_password(password, user["password"]):
-        session["user_email"] = email
+    password = request.form.get(config.PASSWORD)
+    print(user)
+    if verify_password(password, user[config.PASSWORD]):
+        session[config.USER_EMAIL] = email
+        session[config.NAME] = user[config.NAME]
+        session[config.AVATAR] = user[config.AVATAR]
         return redirect('/')
     return render_template('login.html', message='Wrong password!')
 
 
 @app.route("/logout")
 def logout():
-    session.pop("user_email", None)
+    session.pop(config.USER_EMAIL, None)
+    session.pop(config.AVATAR, None)
+    session.pop(config.NAME, None)
     return redirect('/')
+
+
+@app.route("/users")
+def list_users():
+    users = data_manager.get_all_users()
+    return render_template("users.html", users=users)
 
 
 @app.route("/404")

@@ -560,3 +560,17 @@ nav ul li a {
     padding: 0.5em;
     width: 25em;
 }
+
+#image-all-users {
+    width: 5em;
+    border-radius: 2em;
+}
+
+.single-user-table {
+    width: 50em;
+    border-radius: 2em;
+    border: 2px black solid;
+    padding: 2em;
+    margin: 1em;
+
+}
