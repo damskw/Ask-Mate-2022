@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import config
 import os
-from data_handler import data_handler, id_generator, data_manager
+from data_handler import data_handler, data_manager
 from utils import quote, convert_timestamp_to_utc
 
 UPLOAD_FOLDER = 'static/images'
@@ -50,7 +50,6 @@ def display_question(question_id):
     tag_ids_raw = data_manager.get_question_tag_ids(question_id)
     tag_ids = []
     [tag_ids.append(tag[config.TAG_ID]) for tag in tag_ids_raw]
-    tags_for_question = []
     tags_for_question = data_manager.get_tags_from_tag_ids(tag_ids)
     question = data_manager.find_question(question_id)
     answers = data_manager.find_answers_to_question(question_id)
@@ -69,6 +68,7 @@ def display_question(question_id):
 
 @app.route("/add-question", methods=[config.GET, config.POST])
 def add_question():
+
     if request.method == config.GET:
         return render_template('add_question.html')
 
@@ -118,8 +118,10 @@ def save_image_file(request, timestamp: int = None) -> str:
 
 @app.route("/question/<question_id>/add-answer", methods=[config.GET, config.POST])
 def add_answer(question_id):
+
     if request.method == config.GET:
         return render_template('add_answer.html', question_id=question_id)
+
     answer = request.form[config.ANSWER]
     now = datetime.now()
     timestamp = int(datetime.timestamp(now))
@@ -130,6 +132,7 @@ def add_answer(question_id):
 
 @app.route("/comments/<comment_id>/delete", methods=[config.GET, config.POST])
 def delete_comment(comment_id):
+
     question = data_manager.find_question_id_from_comment(comment_id)
     redirect_id = question[config.QUESTION_ID]
     if not isinstance(redirect_id, int):
@@ -143,33 +146,37 @@ def delete_comment(comment_id):
 
 @app.route("/question/<question_id>/new-comment", methods=[config.POST])
 def add_comment_to_question(question_id):
+
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    timestamp = int(datetime.timestamp(now))
+    # timestamp = int(datetime.timestamp(now))
     data_manager.add_comment_to_question(question_id, comment, now)
     return redirect(f'/question/{question_id}')
 
 
 @app.route("/answer/<answer_id>/new-comment", methods=[config.GET, config.POST])
 def add_comment_to_answer(answer_id):
+
     if request.method == config.GET:
         return render_template('add_answer_comment.html', answer_id=answer_id)
+
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    timestamp = int(datetime.timestamp(now))
+    # timestamp = int(datetime.timestamp(now))
     data_manager.add_comment_to_answer(answer_id, comment, now)
     return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/delete", methods=[config.GET, config.POST])
 def delete_question(question_id):
+
     question = data_manager.get_question_image_name(question_id)
     image_name = question[config.IMAGE]
     answers = data_manager.find_answers_to_question(question_id)
     answer_ids = []
-    temp = [answer_ids.append(answer[config.ID]) for answer in answers]
+    [answer_ids.append(answer[config.ID]) for answer in answers]
     data_manager.delete_all_answer_comments(answer_ids)
     data_manager.delete_question(question_id)
     if image_name != "" and os.path.exists(f"static/images/{image_name}"):
@@ -179,6 +186,7 @@ def delete_question(question_id):
 
 @app.route("/answer/<answer_id>/delete", methods=[config.GET, config.POST])
 def delete_answer(answer_id):
+
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
     question = data_manager.get_answer_image_name(answer_id)
@@ -192,55 +200,63 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete", methods=[config.GET, config.POST])
 def delete_tag_from_question(question_id, tag_id):
+
     data_manager.remove_tag_from_question(question_id, tag_id)
     return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/edit", methods=[config.GET, config.POST])
 def edit_question(question_id):
-    if request.method == config.POST:
-        title = request.form[config.TITLE]
-        question = request.form[config.QUESTION]
-        img_filename = save_image_file(request)
-        data_manager.update_question(question_id, title, question, img_filename)
-        return redirect(f'/question/{question_id}')
-    question_to_be_edited = data_manager.find_question(question_id)
-    return render_template('edit_question.html', question=question_to_be_edited)
+
+    if request.method == config.GET:
+        question_to_be_edited = data_manager.find_question(question_id)
+        return render_template('edit_question.html', question=question_to_be_edited)
+
+    title = request.form[config.TITLE]
+    question = request.form[config.QUESTION]
+    img_filename = save_image_file(request)
+    data_manager.update_question(question_id, title, question, img_filename)
+    return redirect(f'/question/{question_id}')
 
 
 @app.route("/answer/<answer_id>/edit", methods=[config.GET, config.POST])
 def edit_answer(answer_id):
-    if request.method == config.POST:
-        question = data_manager.find_question_id_from_answer(answer_id)
-        question_id = question[config.QUESTION_ID]
-        answer = request.form[config.ANSWER]
-        img_filename = save_image_file(request)
-        data_manager.update_answer(answer_id, answer, img_filename)
-        return redirect(f'/question/{question_id}')
-    answer_to_be_edited = data_manager.find_answer(answer_id)
-    return render_template('edit_answer.html', answer=answer_to_be_edited)
+
+    if request.method == config.GET:
+        answer_to_be_edited = data_manager.find_answer(answer_id)
+        return render_template('edit_answer.html', answer=answer_to_be_edited)
+
+    question = data_manager.find_question_id_from_answer(answer_id)
+    question_id = question[config.QUESTION_ID]
+    answer = request.form[config.ANSWER]
+    img_filename = save_image_file(request)
+    data_manager.update_answer(answer_id, answer, img_filename)
+    return redirect(f'/question/{question_id}')
+
 
 
 @app.route("/comment/<comment_id>/edit", methods=[config.GET, config.POST])
 def edit_comment(comment_id):
-    if request.method == config.POST:
-        comment = request.form[config.COMMENT]
-        data_manager.update_comment(comment_id, comment)
-        data_manager.increase_comment_edit_number(comment_id)
-        comment = data_manager.find_comment(comment_id)
-        question_id = comment[config.QUESTION_ID]
-        if not isinstance(question_id, int):
-            answer_id = comment[config.ANSWER_ID]
-            question = data_manager.find_question_id_from_answer(answer_id)
-            question_id = question[config.QUESTION_ID]
-        return redirect(f'/question/{question_id}')
-    comment_to_be_edited = data_manager.find_comment(comment_id)
-    return render_template('edit_comment.html', comment=comment_to_be_edited)
 
+    if request.method == config.GET:
+        comment_to_be_edited = data_manager.find_comment(comment_id)
+        return render_template('edit_comment.html', comment=comment_to_be_edited)
+
+    comment = request.form[config.COMMENT]
+    data_manager.update_comment(comment_id, comment)
+    data_manager.increase_comment_edit_number(comment_id)
+    comment = data_manager.find_comment(comment_id)
+    question_id = comment[config.QUESTION_ID]
+    if not isinstance(question_id, int):
+        answer_id = comment[config.ANSWER_ID]
+        question = data_manager.find_question_id_from_answer(answer_id)
+        question_id = question[config.QUESTION_ID]
+    return redirect(f'/question/{question_id}')
 
 
 @app.route("/question/<question_id>/vote-up", methods=[config.GET, config.POST])
 def vote_question_up(question_id):
+
     data_manager.update_question_vote(question_id, config.UP)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -249,6 +265,7 @@ def vote_question_up(question_id):
 
 @app.route("/question/<question_id>/vote-down", methods=[config.GET, config.POST])
 def vote_question_down(question_id):
+
     data_manager.update_question_vote(question_id, config.DOWN)
     # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
     #  response
@@ -257,6 +274,7 @@ def vote_question_down(question_id):
 
 @app.route("/answer/<answer_id>/vote-up", methods=[config.GET, config.POST])
 def vote_answer_up(answer_id):
+
     data_manager.update_answer_vote(answer_id, config.UP)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
@@ -265,6 +283,7 @@ def vote_answer_up(answer_id):
 
 @app.route("/answer/<answer_id>/vote-down", methods=[config.GET, config.POST])
 def vote_answer_down(answer_id):
+
     data_manager.update_answer_vote(answer_id, config.DOWN)
     question = data_manager.find_question_id_from_answer(answer_id)
     question_id = question[config.QUESTION_ID]
