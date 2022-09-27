@@ -201,32 +201,35 @@ def find_answers_to_question(cursor, question_id):
 
 
 @database_connection.connection_handler
-def add_answer(cursor, submission_time, question_id, message, image):
+def add_answer(cursor, submission_time, question_id, message, image, author_id, author_name):
     query = """
-        INSERT INTO answer(submission_time, vote_number, question_id, message, image)
-        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)
+        INSERT INTO answer(submission_time, vote_number, question_id, message, image, author_id, author_name)
+        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s, %(author_id)s, %(author_name)s)
         """
     cursor.execute(query,
-                   {"submission_time": submission_time, "question_id": question_id, "message": message, "image": image})
+                   {"submission_time": submission_time, "question_id": question_id, "message": message,
+                    "image": image, "author_id": author_id, "author_name": author_name})
 
 
 @database_connection.connection_handler
-def add_comment_to_question(cursor, question_id, comment, submission_time):
+def add_comment_to_question(cursor, question_id, comment, submission_time, author_id, author_name):
     query = """
-        INSERT INTO comment(question_id,answer_id, message, submission_time, edited_count)
-        VALUES (%(question_id)s, NULL, %(comment)s, %(submission_time)s, 0)
+        INSERT INTO comment(question_id,answer_id, message, submission_time, edited_count, author_id, author_name)
+        VALUES (%(question_id)s, NULL, %(comment)s, %(submission_time)s, 0, %(author_id)s, %(author_name)s)
         """
     cursor.execute(query,
-                   {"question_id": question_id, "comment": comment, "submission_time": submission_time})
+                   {"question_id": question_id, "comment": comment, "submission_time": submission_time,
+                    "author_id": author_id, "author_name": author_name})
 
 
 @database_connection.connection_handler
-def add_comment_to_answer(cursor, answer_id, comment, submission_time):
+def add_comment_to_answer(cursor, answer_id, comment, submission_time, author_id, author_name):
     query = """
-        INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count)
-        VALUES (%(answer_id)s, NULL, %(comment)s, %(submission_time)s, 0)
+        INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count, author_id, author_name)
+        VALUES (%(answer_id)s, NULL, %(comment)s, %(submission_time)s, 0, %(author_id)s, %(author_name)s)
         """
-    cursor.execute(query, {"answer_id": answer_id, "comment": comment, "submission_time": submission_time})
+    cursor.execute(query, {"answer_id": answer_id, "comment": comment, "submission_time": submission_time,
+                           "author_id": author_id, "author_name": author_name})
 
 
 @database_connection.connection_handler
@@ -453,5 +456,16 @@ def get_all_users(cursor):
     query = """
         SELECT *
         FROM public."user" """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def count_users_asked_questions(cursor):
+    query = """
+        SELECT COUNT(q.id) AS questions_asked, u.id AS user_id
+        FROM question q 
+        JOIN public."user" u ON q.author_id = u.id
+        GROUP BY u.id"""
     cursor.execute(query)
     return cursor.fetchall()

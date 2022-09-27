@@ -9,7 +9,13 @@
                 Created on: {{ user.member_since }}
                 Location: {{ user.location }}
                 Reputation: {{ user.reputation }}
-                Questions asked: 0
+                {% set questions_asked = namespace(value=0) %}
+                {% for question_data in counted_questions %}
+                    {% if question_data.user_id == user.id %}
+                        {% set questions_asked.value = questions_asked.value + question_data.questions_asked %}
+                    {% endif %}
+                {% endfor %}
+                Questions asked: {{ questions_asked.value }}
                 Answers given: 0
                 Comments given: 0
             </div>

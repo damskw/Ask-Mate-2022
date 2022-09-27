@@ -76,6 +76,7 @@
                         {{ comment.message }}
                         <br>
                     {% endfor %}
+                {% if session %}
                     <button class="button-28" role="button" id="hidingButton" onclick="openForm()"
                             style="margin-left: 70%;">ADD COMMENT
                     </button>
@@ -91,6 +92,7 @@
                             </button>
                         </form>
                     </div>
+                {% endif %}
                 </div>
             </div>
         </div>
