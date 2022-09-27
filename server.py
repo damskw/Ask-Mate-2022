@@ -389,6 +389,15 @@ def list_users():
                            counted_answers=counted_answers, counted_comments=counted_comments)
 
 
+@app.route("/user/<user_id>/dashboard", methods=[config.GET, config.POST])
+def dashboard(user_id):
+    if not session:
+        return redirect('/login')
+    if session[config.USER_ID] != int(user_id):
+        return redirect('/')
+    return render_template('dashboard.html')
+
+
 @app.route("/404")
 def display_404():
     return render_template("404.html")
