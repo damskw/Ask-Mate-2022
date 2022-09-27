@@ -469,3 +469,25 @@ def count_users_asked_questions(cursor):
         GROUP BY u.id"""
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def count_users_posted_answers(cursor):
+    query = """
+        SELECT COUNT(a.id) AS answers_posted, u.id AS user_id
+        FROM answer a 
+        JOIN public."user" u ON a.author_id = u.id
+        GROUP BY u.id"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def count_users_posted_comments(cursor):
+    query = """
+        SELECT COUNT(c.id) AS comments_posted, u.id AS user_id
+        FROM comment c 
+        JOIN public."user" u ON c.author_id = u.id
+        GROUP BY u.id"""
+    cursor.execute(query)
+    return cursor.fetchall()

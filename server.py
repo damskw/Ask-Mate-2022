@@ -383,7 +383,10 @@ def logout():
 def list_users():
     users = data_manager.get_all_users()
     counted_questions = data_manager.count_users_asked_questions()
-    return render_template("users.html", users=users, counted_questions=counted_questions)
+    counted_answers = data_manager.count_users_posted_answers()
+    counted_comments = data_manager.count_users_posted_comments()
+    return render_template("users.html", users=users, counted_questions=counted_questions,
+                           counted_answers=counted_answers, counted_comments=counted_comments)
 
 
 @app.route("/404")
