@@ -119,8 +119,7 @@ CREATE TABLE public.user (
     location varchar(200)  NULL,
     about_me varchar(1000)  NULL,
     reputation int  NOT NULL,
-    has_been_deleted boolean NULL, -- if user tries to delete their account, the questions, answers, comments and votes of that user stay, their data is not visible publicly under the posts, their data is exported to a separate field in the db, also their account cannot be looked up and this flag is set to False, if the user confirms to delete the account permanently, the flag is set to True and exported data is deleted, otherwise they have possibility to revive their account.
-    exported_user_data text NULL,
+    has_been_deleted boolean NOT NULL DEFAULT False, -- if user tries to delete their account, the questions, answers, comments and votes of that user stay, their data is not visible publicly under the posts also their account cannot be looked up and this flag is set to True.
     CONSTRAINT pk_user_id PRIMARY KEY (id)
 );
 
