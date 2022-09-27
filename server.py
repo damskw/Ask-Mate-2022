@@ -363,6 +363,8 @@ def login():
         session[config.USER_EMAIL] = email
         session[config.NAME] = user[config.NAME]
         session[config.AVATAR] = user[config.AVATAR]
+        session[config.USER_ID] = user[config.ID]
+        session[config.ROLE] = user[config.ROLE]
         return redirect('/')
     return render_template('login.html', message='Wrong password!')
 
@@ -372,6 +374,8 @@ def logout():
     session.pop(config.USER_EMAIL, None)
     session.pop(config.AVATAR, None)
     session.pop(config.NAME, None)
+    session.pop(config.USER_ID, None)
+    session.pop(config.ROLE, None)
     return redirect('/')
 
 
