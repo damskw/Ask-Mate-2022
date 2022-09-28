@@ -61,7 +61,7 @@
             </button>
         </form>
         Added on {{ question.submission_time }}, Views: {{ question.view_number }},
-        Votes: {{ question.vote_number }}, Added By: {{ question.author_name }}
+        Votes: {{ question.vote_number }}, Added By: <a href="/user/{{ question.author_id }}">{{ question.author_name }}</a>
         <br>
         <p>
         <div id="text" class="searched">

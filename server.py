@@ -75,7 +75,7 @@ def add_question():
         return redirect('/login')
     if request.method == config.GET:
         return render_template('add_question.html')
-    user = data_manager.get_user_data(session["user_email"])
+    user = data_manager.get_user_data(config.EMAIL, session[config.USER_EMAIL])
     title = request.form[config.TITLE]
     question = request.form[config.QUESTION]
     now = datetime.now()
@@ -130,7 +130,7 @@ def add_answer(question_id):
     now = datetime.now()
     timestamp = int(datetime.timestamp(now))
     img_filename = save_image_file(request, timestamp)
-    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    user = data_manager.get_user_data(config.EMAIL, session[config.USER_EMAIL])
     data_manager.add_answer(now, question_id, answer, img_filename, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
@@ -156,7 +156,7 @@ def add_comment_to_question(question_id):
         return redirect('/login')
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    user = data_manager.get_user_data(config.EMAIL, session[config.USER_EMAIL])
     data_manager.add_comment_to_question(question_id, comment, now, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
@@ -172,7 +172,7 @@ def add_comment_to_answer(answer_id):
     question_id = question[config.QUESTION_ID]
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    user = data_manager.get_user_data(config.EMAIL, session[config.USER_EMAIL])
     data_manager.add_comment_to_answer(answer_id, comment, now, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
@@ -354,7 +354,7 @@ def login():
     if request.method == config.GET:
         return render_template('login.html')
     email = request.form.get(config.EMAIL)
-    user = data_manager.get_user_data(email)
+    user = data_manager.get_user_data(config.EMAIL, email)
     if not user:
         return render_template('register.html', message="Unknown e-mail, please register.")
     password = request.form.get(config.PASSWORD)
@@ -389,13 +389,14 @@ def list_users():
                            counted_answers=counted_answers, counted_comments=counted_comments)
 
 
-@app.route("/user/<user_id>/dashboard", methods=[config.GET, config.POST])
-def dashboard(user_id):
-    if not session:
-        return redirect('/login')
-    if session[config.USER_ID] != int(user_id):
-        return redirect('/')
-    return render_template('dashboard.html')
+@app.route("/user/<user_id>", methods=[config.GET, config.POST])
+def user_page(user_id):
+    user = data_manager.get_user_data(config.ID, user_id)
+    questions_data = data_manager.get_posted_count_by_user_id(config.QUESTION, user_id)
+    answers_data = data_manager.get_posted_count_by_user_id(config.ANSWER, user_id)
+    comments_data = data_manager.get_posted_count_by_user_id(config.COMMENT, user_id)
+    return render_template('user_page.html', user=user, questions_data=questions_data,
+                           answers_data=answers_data, comments_data=comments_data)
 
 
 @app.route("/404")

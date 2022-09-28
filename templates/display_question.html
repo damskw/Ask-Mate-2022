@@ -11,7 +11,7 @@
             </div>
         </div>
         <div>Added on {{ question.submission_time }}, Views: {{ question.view_number }}, Added
-            by: {{ question.author_name }}</div>
+            by: <a href="/user/{{ question.author_id }}">{{ question.author_name }}</a></div>
         <hr>
         <div class="single-question post-layout">
 
@@ -72,7 +72,7 @@
                     {% endif %}
                     {% for comment in question_comments %}
                         Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }}, Added by:
-                        {{ comment.author_name }}
+                        <a href="/user/{{ comment.author_id }}">{{ comment.author_name }}</a>
                         {% if session and (session.user_id == comment.author_id or session.role == "admin") %}
                         <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
                                 class="fa-solid fa-pen-to-square"
@@ -118,7 +118,7 @@
                 {% for answer in answers %}
                     <div class="single-question">
                         Added on {{ answer.submission_time }}, Vote Number: {{ answer.vote_number }}, Added
-                        by: {{ answer.author_name }}
+                        by: <a href="/user/{{ answer.author_id }}">{{ answer.author_name }}</a>
                         <br>
                         <a href='/answer/{{ answer.id }}/vote-up' title="Vote up"><i id="circle-up"
                                                                                      class="fa-sharp fa-solid fa-circle-up"></i></a>
@@ -159,7 +159,7 @@
                             {% endif %}
                             {% for comment in comments_for_this_answer %}
                                 <br>Added on {{ comment.submission_time }}, Edit numbers: {{ comment.edited_count }},
-                                Added by: {{ comment.author_name }}
+                                Added by: <a href="/user/{{ comment.author_id }}">{{ comment.author_name }}</a>
                                 {% if session and (session.user_id == comment.author_id or session.role == "admin") %}
                                 <a href="/comment/{{ comment.id }}/edit" title="Edit this comment"><i
                                         class="fa-solid fa-pen-to-square"

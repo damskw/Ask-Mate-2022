@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="center-horizontally center-vertically">
+        {% if session.user_id == user.id %}
+            <div class="edit-profile-button-user-page">
+                <button class="button-28">EDIT PROFILE</button>
+            </div>
+        {% endif %}
+        <div class="user-page-upper-table">
+            <div class="user-profile-photo-user-page">
+                {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
+                <img id="user-page-avatar" src="{{ url_for('static', filename=user_avatar) }}">
+            </div>
+            <div class="user-information-user-page">
+                <h1>{{ user.name }}</h1>
+                <h2>About me</h2>
+                {{ user.about_me }}
+                <div class="personal-detail-user-page">
+                    <b>Joining date:</b> {{ user.member_since }}
+                    <br>
+                    <b>Location:</b> {{ user.location }}
+                    <br>
+                    <b>Last seen:</b> {{ user.last_log_in }}
+                    <br>
+                    <b>Favourite tag:</b> CSS
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="user-page-bottom-stats-table">
+            <div class="questions-asked">
+                <h1>{{ questions_data.questions_asked }}</h1>
+                <h4>Asked Questions</h4>
+            </div>
+            <div class="answers-posted">
+                <h1>{{ answers_data.answers_posted }}</h1>
+                <h4>Answers posted</h4>
+            </div>
+            <div class="comments-posted">
+                <h1>{{ comments_data.comments_posted }}</h1>
+                <h4>Comments Posted</h4>
+            </div>
+            <div class="reputation-user-page-stats">
+                <h1>{{ user.reputation }}</h1>
+                <h4>Reputation points</h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

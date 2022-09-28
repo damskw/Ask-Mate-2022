@@ -433,14 +433,16 @@ def check_if_user_email_in_database(cursor, email):
 
 
 @database_connection.connection_handler
-def get_user_data(cursor, email):
+def get_user_data(cursor, data_type, value):
     query = """
         SELECT *
-        FROM public."user"
-        WHERE email=%(email)s"""
-    cursor.execute(query, {"email": email})
+        FROM public."user" """
+    if data_type == "email":
+        query += f"WHERE email=%(value)s"
+    elif data_type == "id":
+        query += f"WHERE id=%(value)s"
+    cursor.execute(query, {"value": value})
     return cursor.fetchone()
-
 
 @database_connection.connection_handler
 def register_user(cursor, email, hashed_password, creation_date, name):
@@ -491,3 +493,24 @@ def count_users_posted_comments(cursor):
         GROUP BY u.id"""
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def get_posted_count_by_user_id(cursor, counted, user_id):
+    if counted == "question":
+        query = """
+            SELECT COUNT(question.id) as questions_asked
+            FROM question
+            WHERE question.author_id = %(user_id)s"""
+    elif counted == "answer":
+        query = """
+            SELECT COUNT(answer.id) as answers_posted
+            FROM answer
+            WHERE answer.author_id = %(user_id)s"""
+    elif counted == "comment":
+        query = """
+            SELECT COUNT(comment.id) as comments_posted
+            FROM comment
+            WHERE comment.author_id = %(user_id)s"""
+    cursor.execute(query, {"user_id": user_id})
+    return cursor.fetchone()

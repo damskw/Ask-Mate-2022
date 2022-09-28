@@ -6,7 +6,7 @@
             <div class="single-user-table">
                 {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
                 <img id="image-all-users" src="{{ url_for('static', filename=user_avatar) }}">
-                <a href="#">{{ user.name }}</a>
+                <a href="/user/{{ user.id }}">{{ user.name }}</a>
                 Created on: {{ user.member_since }}
                 Location: {{ user.location }}
                 Reputation: {{ user.reputation }}
