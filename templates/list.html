@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Ask Mate{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for("static", filename="scripts/mark.es6.js") }}"></script>
+{#    <script src="{{ url_for("static", filename="scripts/highlight_search_results.js") }}"></script>#}
+{% endblock %}
 {% block content %}
     {% if search_phrase is defined %}
         <h1 id="header-center">Search results for:
@@ -78,20 +82,4 @@
     </div>
 {% endif %}
 </div>
-    <script>
-        function search(e) {
-            let searched = e;
-            if (e !== "") {
-                let texts = document.getElementsByClassName("searched");
-                let re = new RegExp(searched, "i"); // search for all instances
-                for (let i = 0; i < texts.length; i++) {
-                    let text = texts[i]
-                    console.log(text)
-                    let newText = text.innerHTML.replace(re, `<mark>${searched}</mark>`);
-                    text.innerHTML = newText;
-                }
-
-            }
-        }
-    </script>
 {% endblock %}
