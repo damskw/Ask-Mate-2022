@@ -126,12 +126,12 @@ def add_answer(question_id):
         return redirect('/login')
     if request.method == config.GET:
         return render_template('add_answer.html', question_id=question_id)
-
     answer = request.form[config.ANSWER]
     now = datetime.now()
     timestamp = int(datetime.timestamp(now))
     img_filename = save_image_file(request, timestamp)
-    data_manager.add_answer(now, question_id, answer, img_filename)
+    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    data_manager.add_answer(now, question_id, answer, img_filename, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
 
@@ -156,8 +156,8 @@ def add_comment_to_question(question_id):
         return redirect('/login')
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    # timestamp = int(datetime.timestamp(now))
-    data_manager.add_comment_to_question(question_id, comment, now)
+    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    data_manager.add_comment_to_question(question_id, comment, now, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
 
@@ -172,8 +172,8 @@ def add_comment_to_answer(answer_id):
     question_id = question[config.QUESTION_ID]
     comment = request.form[config.QUESTION_COMMENT]
     now = datetime.now()
-    # timestamp = int(datetime.timestamp(now))
-    data_manager.add_comment_to_answer(answer_id, comment, now)
+    user = data_manager.get_user_data(session[config.USER_EMAIL])
+    data_manager.add_comment_to_answer(answer_id, comment, now, user[config.ID], user[config.NAME])
     return redirect(f'/question/{question_id}')
 
 
@@ -358,11 +358,13 @@ def login():
     if not user:
         return render_template('register.html', message="Unknown e-mail, please register.")
     password = request.form.get(config.PASSWORD)
-    print(user)
+
     if verify_password(password, user[config.PASSWORD]):
         session[config.USER_EMAIL] = email
         session[config.NAME] = user[config.NAME]
         session[config.AVATAR] = user[config.AVATAR]
+        session[config.USER_ID] = user[config.ID]
+        session[config.ROLE] = user[config.ROLE]
         return redirect('/')
     return render_template('login.html', message='Wrong password!')
 
@@ -372,13 +374,28 @@ def logout():
     session.pop(config.USER_EMAIL, None)
     session.pop(config.AVATAR, None)
     session.pop(config.NAME, None)
+    session.pop(config.USER_ID, None)
+    session.pop(config.ROLE, None)
     return redirect('/')
 
 
 @app.route("/users")
 def list_users():
     users = data_manager.get_all_users()
-    return render_template("users.html", users=users)
+    counted_questions = data_manager.count_users_asked_questions()
+    counted_answers = data_manager.count_users_posted_answers()
+    counted_comments = data_manager.count_users_posted_comments()
+    return render_template("users.html", users=users, counted_questions=counted_questions,
+                           counted_answers=counted_answers, counted_comments=counted_comments)
+
+
+@app.route("/user/<user_id>/dashboard", methods=[config.GET, config.POST])
+def dashboard(user_id):
+    if not session:
+        return redirect('/login')
+    if session[config.USER_ID] != int(user_id):
+        return redirect('/')
+    return render_template('dashboard.html')
 
 
 @app.route("/404")

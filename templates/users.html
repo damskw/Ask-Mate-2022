@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% block title %}User list{% endblock %}
 {% block content %}
     <div class="center-horizontally center-vertically">
         {% for user in users %}
@@ -9,9 +10,27 @@
                 Created on: {{ user.member_since }}
                 Location: {{ user.location }}
                 Reputation: {{ user.reputation }}
-                Questions asked: 0
-                Answers given: 0
-                Comments given: 0
+                {% set questions_asked = namespace(value=0) %}
+                {% for question_data in counted_questions %}
+                    {% if question_data.user_id == user.id %}
+                        {% set questions_asked.value = questions_asked.value + question_data.questions_asked %}
+                    {% endif %}
+                {% endfor %}
+                {% set answers_posted = namespace(value=0) %}
+                {% for answer_data in counted_answers %}
+                    {% if answer_data.user_id == user.id %}
+                        {% set answers_posted.value = answers_posted.value + answer_data.answers_posted %}
+                    {% endif %}
+                {% endfor %}
+                {% set comments_posted = namespace(value=0) %}
+                {% for comment_data in counted_comments %}
+                    {% if comment_data.user_id == user.id %}
+                        {% set comments_posted.value = comments_posted.value + comment_data.comments_posted %}
+                    {% endif %}
+                {% endfor %}
+                Questions asked: {{ questions_asked.value }}
+                Answers posted: {{ answers_posted.value }}
+                Comments posted: {{ comments_posted.value }}
             </div>
         {% endfor %}
     </div>
