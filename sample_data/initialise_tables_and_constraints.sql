@@ -145,7 +145,7 @@ CREATE TABLE public.subscribed_tag (
 ------------------------------------------  CONSTRAINTS ----------------------------------------
 
 ALTER TABLE ONLY question
-    ADD CONSTRAINT fk_author FOREIGN KEY (author_id) REFERENCES public.user(id),
+    ADD CONSTRAINT fk_author_id FOREIGN KEY (author_id) REFERENCES public.user(id),
     ADD CONSTRAINT references_answer_id_if_answer_accepted
         CHECK ((has_accepted_answer = TRUE AND accepted_answer_id IS NOT NULL)
                    OR (has_accepted_answer = FALSE AND accepted_answer_id IS NULL)
