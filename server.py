@@ -7,6 +7,7 @@ import config
 import os
 from data_handler import data_manager
 import bcrypt as bcrypt
+import asyncio
 
 UPLOAD_FOLDER = 'static/images'
 # app = Flask(__name__, static_url_path='/static')
@@ -272,7 +273,7 @@ def vote_question_up(question_id):
     if not session:
         return redirect('/login')
     data_manager.update_question_vote(question_id, config.UP)
-    # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
+    # TODO: do not redirect, only send a request with JS and update value of DOM based on
     #  response
     return redirect(f'/question/{question_id}')
 
@@ -282,7 +283,7 @@ def vote_question_down(question_id):
     if not session:
         return redirect('/login')
     data_manager.update_question_vote(question_id, config.DOWN)
-    # TODO (in the farther futures): do not redirect, only send a request with JS and update value of DOM based on
+    # TODO: do not redirect, only send a request with JS and update value of DOM based on
     #  response
     return redirect(f'/question/{question_id}')
 
