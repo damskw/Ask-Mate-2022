@@ -514,3 +514,24 @@ def get_posted_count_by_user_id(cursor, counted, user_id):
             WHERE comment.author_id = %(user_id)s"""
     cursor.execute(query, {"user_id": user_id})
     return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def get_posted_items_by_user_id(cursor, item, user_id):
+    if item == "question":
+        query = """
+            SELECT *
+            FROM question
+            WHERE question.author_id = %(user_id)s"""
+    elif item == "answer":
+        query = """
+            SELECT *
+            FROM answer
+            WHERE answer.author_id = %(user_id)s"""
+    elif item == "comment":
+        query = """
+            SELECT *
+            FROM comment
+            WHERE comment.author_id = %(user_id)s"""
+    cursor.execute(query, {"user_id": user_id})
+    return cursor.fetchall()

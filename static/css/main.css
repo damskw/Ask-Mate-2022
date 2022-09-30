@@ -615,6 +615,7 @@ nav ul li a {
     box-shadow: 2px 2px 2px 2px black;
     flex-direction: row;
     justify-content: space-around;
+    margin-bottom: 2em;
 }
 
 .user-page-bottom-stats-table > * {
@@ -637,4 +638,26 @@ nav ul li a {
 
 .edit-profile-button-user-page > * {
     width: 12em;
+}
+
+.questions-posted-user-page, .answers-posted-user-page {
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+    box-shadow: 2px 2px 2px 2px black;
+    margin-bottom: 2em;
+}
+
+.single-question-posted-user-page {
+    padding-bottom: 1em;
+}
+
+#question-title-in-user-page {
+    color: black;
+}
+
+.single-answer-posted-user-page {
+    padding-top: 1em;
+    padding-bottom: 1em;
 }

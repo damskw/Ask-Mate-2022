@@ -31,7 +31,7 @@
         <div class="user-page-bottom-stats-table">
             <div class="questions-asked">
                 <h1>{{ questions_data.questions_asked }}</h1>
-                <h4>Asked Questions</h4>
+                <h4>Asked questions</h4>
             </div>
             <div class="answers-posted">
                 <h1>{{ answers_data.answers_posted }}</h1>
@@ -39,12 +39,50 @@
             </div>
             <div class="comments-posted">
                 <h1>{{ comments_data.comments_posted }}</h1>
-                <h4>Comments Posted</h4>
+                <h4>Comments posted</h4>
             </div>
             <div class="reputation-user-page-stats">
                 <h1>{{ user.reputation }}</h1>
                 <h4>Reputation points</h4>
             </div>
         </div>
+        {% if all_user_questions %}
+            <div class="questions-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="question-title-in-user-page">Questions posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-questions-posted-user-page">
+                    {% for question in all_user_questions %}
+                        <div class="single-question-posted-user-page">
+                            Added on {{ question.submission_time }}, Views: {{ question.view_number }},
+                            Votes: {{ question.vote_number }}
+                            <a href="/question/{{ question.id }}">
+                                <h3 class="center-horizontally"
+                                    id="question-title-in-user-page">{{ question.title }}</h3>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if all_user_answers %}
+            <div class="answers-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="question-title-in-user-page">Answers posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-answers-posted-user-page">
+                    {% for answer in all_user_answers %}
+                        <div class="single-answer-header-posted-user-page">
+                            Added on {{ answer.submission_time }}, Vote number {{ answer.vote_number }}
+                            <div class="single-answer-posted-user-page">
+                                <a href="/question/{{ answer.question_id }}">
+                                    {{ answer.message }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
