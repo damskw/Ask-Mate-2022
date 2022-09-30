@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Ask Mate{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for("static", filename="scripts/async_voting.js") }}"></script>
+{% endblock %}
 {% block content %}
     <div class="questions-all">
         <div class="question-header">
@@ -16,9 +19,9 @@
         <div class="single-question post-layout">
 
             <div class="vote-container">
-                <a href='/question/{{ question.id }}/vote-up'><i id="circle-up" class="fa-solid fa-caret-up fa-2xl"></i></a>
+                <a href='/question/{{ question.id }}/vote-up'><i id="vote-up" class="fa-solid fa-caret-up fa-2xl"></i></a>
                 <span class="vote-display">{{ question.vote_number }}</span>
-                <a href='/question/{{ question.id }}/vote-down'><i id="circle-down"
+                <a href='/question/{{ question.id }}/vote-down'><i id="vote-down"
                                                                    class="fa-solid fa-caret-down fa-2xl"></i></a>
             </div>
             <div class="post-content-container">
