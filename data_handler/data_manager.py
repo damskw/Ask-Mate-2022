@@ -226,7 +226,7 @@ def add_comment_to_question(cursor, question_id, comment, submission_time, autho
 def add_comment_to_answer(cursor, answer_id, comment, submission_time, author_id, author_name):
     query = """
         INSERT INTO comment(answer_id, question_id, message, submission_time, edited_count, author_id, author_name)
-        VALUES (%(answer_id)s, NULL, %(comment)s, %(submission_time)s, 0, %(author_id)s, %(author_name)s)
+        VALUES (%(answer_id)s, null, %(comment)s, %(submission_time)s, 0, %(author_id)s, %(author_name)s)
         """
     cursor.execute(query, {"answer_id": answer_id, "comment": comment, "submission_time": submission_time,
                            "author_id": author_id, "author_name": author_name})

@@ -33,7 +33,6 @@ function decreaseFontSize() {
 function changeFontSizeForTagNames(tagName, operation) {
     let allElements = document.querySelectorAll(tagName)
     allElements.forEach(element => {
-        console.log(element);
         let elementStyle = window.getComputedStyle(element, null).getPropertyValue('font-size');
         let currentElementSize = parseFloat(elementStyle);
         if (operation == "decrease") {

@@ -398,10 +398,12 @@ def user_page(user_id):
     comments_data = data_manager.get_posted_count_by_user_id(config.COMMENT, user_id)
     all_user_questions = data_manager.get_posted_items_by_user_id(config.QUESTION, user_id)
     all_user_answers = data_manager.get_posted_items_by_user_id(config.ANSWER, user_id)
+    all_user_comments = data_manager.get_posted_items_by_user_id(config.COMMENT, user_id)
     return render_template('user_page.html', user=user, questions_data=questions_data,
                            answers_data=answers_data, comments_data=comments_data,
                            all_user_questions=all_user_questions,
-                           all_user_answers=all_user_answers)
+                           all_user_answers=all_user_answers,
+                           all_user_comments=all_user_comments)
 
 
 @app.route("/404")

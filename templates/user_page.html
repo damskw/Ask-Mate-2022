@@ -49,7 +49,7 @@
         {% if all_user_questions %}
             <div class="questions-posted-user-page">
                 <div class="center-horizontally">
-                    <h2 id="question-title-in-user-page">Questions posted by {{ user.name }}</h2>
+                    <h2 id="header-title-in-user-page">Questions posted by {{ user.name }}</h2>
                 </div>
                 <div class="all-questions-posted-user-page">
                     {% for question in all_user_questions %}
@@ -58,7 +58,7 @@
                             Votes: {{ question.vote_number }}
                             <a href="/question/{{ question.id }}">
                                 <h3 class="center-horizontally"
-                                    id="question-title-in-user-page">{{ question.title }}</h3>
+                                    id="header-title-in-user-page">{{ question.title }}</h3>
                             </a>
                         </div>
                     {% endfor %}
@@ -68,7 +68,7 @@
         {% if all_user_answers %}
             <div class="answers-posted-user-page">
                 <div class="center-horizontally">
-                    <h2 id="question-title-in-user-page">Answers posted by {{ user.name }}</h2>
+                    <h2 id="header-title-in-user-page">Answers posted by {{ user.name }}</h2>
                 </div>
                 <div class="all-answers-posted-user-page">
                     {% for answer in all_user_answers %}
@@ -77,6 +77,25 @@
                             <div class="single-answer-posted-user-page">
                                 <a href="/question/{{ answer.question_id }}">
                                     {{ answer.message }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if all_user_comments %}
+            <div class="comments-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="header-title-in-user-page">Comments posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-comments-posted-user-page">
+                    {% for comment in all_user_comments %}
+                        <div class="single-comment-header-posted-user-page">
+                            Added on {{ comment.submission_time }}
+                            <div class="single-comment-posted-user-page">
+                                <a href="/question/{{ comment.question_id }}">
+                                    {{ comment.message }}
                                 </a>
                             </div>
                         </div>

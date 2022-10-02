@@ -640,7 +640,7 @@ nav ul li a {
     width: 12em;
 }
 
-.questions-posted-user-page, .answers-posted-user-page {
+.questions-posted-user-page, .answers-posted-user-page, .comments-posted-user-page {
     width: 60%;
     border: 1px solid black;
     border-radius: 1em;
@@ -653,11 +653,11 @@ nav ul li a {
     padding-bottom: 1em;
 }
 
-#question-title-in-user-page {
+#header-title-in-user-page {
     color: black;
 }
 
-.single-answer-posted-user-page {
+.single-answer-posted-user-page, .single-comment-posted-user-page {
     padding-top: 1em;
     padding-bottom: 1em;
 }
