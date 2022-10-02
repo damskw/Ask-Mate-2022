@@ -661,3 +661,27 @@ nav ul li a {
     padding-top: 1em;
     padding-bottom: 1em;
 }
+
+#increase-font-size, #decrease-font-size {
+    font-size: 2em;
+}
+
+.font-sizes-buttons {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+}
+
+.font-sizes-buttons > * {
+    padding-right: 1em;
+}
+
+#increase-font-size:hover {
+    color: blue;
+}
+
+#decrease-font-size:hover {
+    color: red;
+}
