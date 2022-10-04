@@ -4,7 +4,10 @@
     <div class="center-horizontally center-vertically">
         {% if session.user_id == user.id %}
             <div class="edit-profile-button-user-page">
-                <button class="button-28">EDIT PROFILE</button>
+            <form action="/user/{{ user.id }}/edit-profile">
+                <input type="submit" class="button-28" value="EDIT PROFILE" id="small-button">
+            </form>
+{#                <button class="button-28">EDIT PROFILE</button>#}
             </div>
         {% endif %}
         <div class="user-page-upper-table">

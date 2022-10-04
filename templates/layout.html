@@ -37,12 +37,12 @@
                         <h3>{{ session.name }}</h3>
                     </div>
                     <hr>
-                    <a href="#" class="sub-menu-link">
+                    <a href="/user/{{ session.user_id }}" class="sub-menu-link">
                         <img src="{{ url_for('static', filename='images/profile/profile.png') }}">
-                        <p>Dashboard</p>
+                        <p>View your profile</p>
                         <span>></span>
                     </a>
-                    <a href="#" class="sub-menu-link">
+                    <a href="/user/{{ session.user_id }}/edit-profile" class="sub-menu-link">
                         <img src="{{ url_for('static', filename='images/profile/setting.png') }}">
                         <p>Profile settings</p>
                         <span>></span>

@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Add Question{% endblock %}
 {% block content %}
-        <h1 id="header-center">Add your question here</h1>
-        <div class="w3-center">
-        <form action="/add-question" method="POST" enctype=multipart/form-data>
+    <h1 id="header-center">Add your question here</h1>
+    <div class="w3-center center-horizontally">
+        <form action="/add-question" method="POST" enctype=multipart/form-data id="add-question-form">
             <label for="title">Question's title:<br></label>
             <input name="title" id="title" type="text">
             <br><br>
@@ -15,5 +15,5 @@
             <br><br>
             <input type="submit" value="SUBMIT" class="button-28" id="small-button">
         </form>
-        </div>
+    </div>
 {% endblock %}

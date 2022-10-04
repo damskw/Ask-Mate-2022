@@ -631,7 +631,7 @@ nav ul li a {
 
 .edit-profile-button-user-page {
     display: flex;
-    width: 60%;
+    width: 56%;
     margin-bottom: 1.5em;
     justify-content: flex-end;
 }
@@ -684,4 +684,92 @@ nav ul li a {
 
 #decrease-font-size:hover {
     color: red;
+}
+
+.edit-page-upper-table {
+    padding: 2em;
+    display: flex;
+    border: 1px solid black;
+    border-bottom: 1px solid gray;
+    width: 60%;
+    height: 30em;
+    align-items: flex-start;
+    flex-direction: row;
+    border-radius: 1em;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#edit-page-avatar {
+    padding-top: 4em;
+    width: 11em;
+    border-radius: 1em;
+}
+
+.user-profile-photo-edit-page {
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+}
+
+#account-sign-edit-profile-page {
+    margin-top: 1em;
+    color: black;
+}
+
+.edit-page-bottom-table {
+    border: 1px solid black;
+    border-top: none;
+    width: 60%;
+    max-height: 40em;
+    border-radius: 1em;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    margin-bottom: 3em;
+    padding: 2em;
+}
+
+#edit-profile-form {
+    width: 100%;
+}
+
+#edit-profile-form label {
+    float: left;
+    clear: both;
+}
+
+#edit-profile-form > input[type="text"], input[type="email"],
+input[type="password"], textarea {
+    margin-bottom: 2em;
+    border-radius: 0.5em;
+    width: 60%;
+    border: 1px solid gray;
+    padding-left: 0.5em;
+    float: right;
+}
+
+
+#edit-profile-form input[readonly] {
+    background: lightgray;
+}
+
+#edit-profile-form input[type="submit"] {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-right: 2em;
+    width: 100%;
+}
+
+
+#submit-button-edit-profile {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 2em;
+}
+
+#img-input-edit-profile {
+    height: 1em;
+    margin-bottom: 1em;
+    margin-top: 2em;
+    border: none;
 }

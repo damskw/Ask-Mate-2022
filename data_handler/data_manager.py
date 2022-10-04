@@ -535,3 +535,12 @@ def get_posted_items_by_user_id(cursor, item, user_id):
             WHERE comment.author_id = %(user_id)s"""
     cursor.execute(query, {"user_id": user_id})
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def update_user_avatar(cursor, user_id, avatar):
+    query = """
+        UPDATE public."user"
+        SET avatar = %(avatar)s
+        WHERE id=%(user_id)s"""
+    cursor.execute(query, {"user_id": user_id, "avatar": avatar})

@@ -10,8 +10,8 @@ import bcrypt as bcrypt
 import asyncio
 
 UPLOAD_FOLDER = 'static/images'
-# app = Flask(__name__, static_url_path='/static')
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+# app = Flask(__name__)
 app.secret_key = "tabaluga"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -111,7 +111,6 @@ def new_question_tag(question_id):
 def save_image_file(request, timestamp: int = None) -> str:
     img_filename = ""
     if config.IMG in request.files and request.files[config.IMG].filename != '':
-        print("Detected img in the request.")
         if timestamp is None:
             now = datetime.now()
             timestamp = int(datetime.timestamp(now))
@@ -404,6 +403,24 @@ def user_page(user_id):
                            all_user_questions=all_user_questions,
                            all_user_answers=all_user_answers,
                            all_user_comments=all_user_comments)
+
+
+@app.route("/user/<user_id>/edit-profile", methods=[config.GET, config.POST])
+def edit_profile(user_id):
+    user = data_manager.get_user_data(config.ID, user_id)
+    return render_template('edit_profile.html', user=user)
+
+
+@app.route("/user/<user_id>/edit-photo", methods=[config.POST])
+def edit_photo(user_id):
+    now = datetime.now()
+    timestamp = int(datetime.timestamp(now))
+    img_filename = str(timestamp) + secure_filename(request.files[config.IMG].filename)
+    image = request.files[config.IMG]
+    print(os.chdir('.'))
+    image.save(os.path.join('static/images/user_profile_images/', img_filename))
+    data_manager.update_user_avatar(user_id, img_filename)
+    return redirect(f'/user/{user_id}')
 
 
 @app.route("/404")
