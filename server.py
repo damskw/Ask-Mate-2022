@@ -407,8 +407,21 @@ def user_page(user_id):
 
 @app.route("/user/<user_id>/edit-profile", methods=[config.GET, config.POST])
 def edit_profile(user_id):
-    user = data_manager.get_user_data(config.ID, user_id)
-    return render_template('edit_profile.html', user=user)
+    if request.method == config.GET:
+        user = data_manager.get_user_data(config.ID, user_id)
+        return render_template('edit_profile.html', user=user)
+    username = request.form[config.USERNAME]
+    location = request.form[config.LOCATION]
+    about_me = request.form[config.ABOUT_ME]
+    password = request.form[config.PASSWORD]
+    repeat_password = request.form[config.REPEAT_PASSWORD]
+    hashed_password = hash_password(password)
+    session[config.NAME] = username
+    if password != repeat_password:
+        user = data_manager.get_user_data(config.ID, user_id)
+        return render_template('edit_profile.html', user=user, message="Passwords don't match")
+    data_manager.update_user_details(user_id, username, location, about_me, hashed_password)
+    return redirect(f'/user/{user_id}')
 
 
 @app.route("/user/<user_id>/edit-photo", methods=[config.POST])

@@ -544,3 +544,13 @@ def update_user_avatar(cursor, user_id, avatar):
         SET avatar = %(avatar)s
         WHERE id=%(user_id)s"""
     cursor.execute(query, {"user_id": user_id, "avatar": avatar})
+
+
+@database_connection.connection_handler
+def update_user_details(cursor, user_id, username, location, about_me, password):
+    query = """
+        UPDATE public."user"
+        SET name=%(username)s, location=%(location)s, about_me=%(about_me)s, password=%(password)s
+        WHERE id=%(user_id)s"""
+    cursor.execute(query, {"user_id": user_id, "username": username, "location": location,
+                           "about_me": about_me, "password": password})

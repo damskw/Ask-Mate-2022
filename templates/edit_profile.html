@@ -2,6 +2,9 @@
 {% block title %}Edit your profile{% endblock %}
 {% block content %}
     <div class="center-horizontally center-vertically">
+        {% if message %}
+            {{ message }}
+        {% endif %}
         <div class="edit-page-upper-table">
             <div class="user-profile-photo-edit-page">
                 {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
@@ -29,13 +32,15 @@
         </div>
         <div class="edit-page-bottom-table">
             <div class="edit-page-bottom-table-column-inside">
-                <form id="edit-profile-form" action="/user/{{ user.id }}/edit-profile" method="POST" enctype=multipart/form-data>
+                <form id="edit-profile-form" action="/user/{{ user.id }}/edit-profile" method="POST"
+                      enctype=multipart/form-data>
 
                     <label for="username">Username</label>
                     <input class="input-edit-profile" name="username" type="text" value="{{ user.name }}">
 
                     <label for="e-mail">E-mail</label>
-                    <input class="input-edit-profile" name="e-mail" type="email" placeholder="{{ user.email }}" readonly>
+                    <input class="input-edit-profile" name="e-mail" type="email" placeholder="{{ user.email }}"
+                           readonly>
 
                     <label for="role">Role</label>
                     <input class="input-edit-profile" name="role" type="text" placeholder="{{ user.role }}" readonly>
@@ -44,7 +49,8 @@
                     <input class="input-edit-profile" name="location" type="text" value="{{ user.location }}">
 
                     <label for="about_me">About me</label>
-                    <textarea class="input-edit-profile" name="about_me" rows="4" cols="4">{{ user.about_me }}</textarea>
+                    <textarea class="input-edit-profile" name="about_me" rows="4"
+                              cols="4">{{ user.about_me }}</textarea>
 
                     <label for="password">Password</label>
                     <input class="input-edit-profile" name="password" type="password" placeholder="********">
