@@ -430,9 +430,9 @@ def edit_photo(user_id):
     timestamp = int(datetime.timestamp(now))
     img_filename = str(timestamp) + secure_filename(request.files[config.IMG].filename)
     image = request.files[config.IMG]
-    print(os.chdir('.'))
     image.save(os.path.join('static/images/user_profile_images/', img_filename))
     data_manager.update_user_avatar(user_id, img_filename)
+    session[config.AVATAR] = img_filename
     return redirect(f'/user/{user_id}')
 
 
