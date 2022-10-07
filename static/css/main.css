@@ -738,15 +738,15 @@ nav ul li a {
     clear: both;
 }
 
-#edit-profile-form > input[type="email"],
-input[type="password"], textarea {
-    margin-bottom: 2em;
-    border-radius: 0.5em;
-    width: 60%;
-    border: 1px solid gray;
-    padding-left: 0.5em;
-    float: right;
-}
+/*#edit-profile-form > input[type="email"],*/
+/*input[type="password"], textarea {*/
+/*    margin-bottom: 2em;*/
+/*    border-radius: 0.5em;*/
+/*    width: 60%;*/
+/*    border: 1px solid gray;*/
+/*    padding-left: 0.5em;*/
+/*    float: right;*/
+/*}*/
 
 .input-edit-profile {
     margin-bottom: 2em;
@@ -781,4 +781,13 @@ input[type="password"], textarea {
     margin-bottom: 1em;
     margin-top: 2em;
     border: none;
+}
+
+.accepted-answer {
+    border: 3px solid green;
+    padding: 1em;
+}
+
+.accepted-answer-q {
+    padding-bottom: 1em;
 }

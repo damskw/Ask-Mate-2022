@@ -39,3 +39,6 @@ ADMIN = "admin"
 USERNAME = "username"
 LOCATION = "location"
 ABOUT_ME = "about_me"
+ACCEPT = "accept"
+REMOVE = "remove"
+

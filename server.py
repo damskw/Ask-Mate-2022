@@ -365,6 +365,8 @@ def login():
         session[config.AVATAR] = user[config.AVATAR]
         session[config.USER_ID] = user[config.ID]
         session[config.ROLE] = user[config.ROLE]
+        now = datetime.now()
+        data_manager.update_user_last_seen(user[config.ID], now)
         return redirect('/')
     return render_template('login.html', message='Wrong password!')
 
@@ -435,6 +437,21 @@ def edit_photo(user_id):
     session[config.AVATAR] = img_filename
     return redirect(f'/user/{user_id}')
 
+
+@app.route("/answer/<answer_id>/accept", methods=[config.GET])
+def accept_answer(answer_id):
+    question = data_manager.find_question_id_from_answer(answer_id)
+    question_id = question[config.QUESTION_ID]
+    data_manager.accept_or_remove_answer(config.ACCEPT, answer_id, question_id)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/answer/<answer_id>/remove-accept", methods=[config.GET])
+def remove_accepted_answer(answer_id):
+    question = data_manager.find_question_id_from_answer(answer_id)
+    question_id = question[config.QUESTION_ID]
+    data_manager.accept_or_remove_answer(config.REMOVE, answer_id, question_id)
+    return redirect(f'/question/{question_id}')
 
 @app.route("/404")
 def display_404():

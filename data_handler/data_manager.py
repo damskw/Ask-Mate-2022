@@ -444,6 +444,7 @@ def get_user_data(cursor, data_type, value):
     cursor.execute(query, {"value": value})
     return cursor.fetchone()
 
+
 @database_connection.connection_handler
 def register_user(cursor, email, hashed_password, creation_date, name):
     query = """
@@ -550,7 +551,39 @@ def update_user_avatar(cursor, user_id, avatar):
 def update_user_details(cursor, user_id, username, location, about_me, password):
     query = """
         UPDATE public."user"
-        SET name=%(username)s, location=%(location)s, about_me=%(about_me)s, password=%(password)s
+        SET name = %(username)s, location = %(location)s, about_me = %(about_me)s, password = %(password)s
         WHERE id=%(user_id)s"""
     cursor.execute(query, {"user_id": user_id, "username": username, "location": location,
                            "about_me": about_me, "password": password})
+
+
+@database_connection.connection_handler
+def update_user_last_seen(cursor, user_id, last_log_in):
+    query = """
+        UPDATE public."user"
+        SET last_log_in = %(last_log_in)s
+        WHERE id=%(user_id)s"""
+    cursor.execute(query, {"last_log_in": last_log_in, "user_id": user_id})
+
+
+@database_connection.connection_handler
+def accept_or_remove_answer(cursor, method, answer_id, question_id):
+    if method == "accept":
+        query = """
+            UPDATE answer
+            SET is_accepted = True
+            WHERE id=%(answer_id)s;
+            
+            UPDATE question
+            SET accepted_answer_id = %(answer_id)s, has_accepted_answer = True
+            WHERE id=%(question_id)s"""
+    elif method == "remove":
+        query = """
+            UPDATE answer
+            SET is_accepted = False
+            WHERE id=%(answer_id)s;
+
+            UPDATE question
+            SET accepted_answer_id = null, has_accepted_answer = False
+            WHERE id=%(question_id)s"""
+    cursor.execute(query, {"answer_id": answer_id, "question_id": question_id})
