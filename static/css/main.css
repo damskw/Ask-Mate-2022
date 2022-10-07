@@ -567,12 +567,14 @@ nav ul li a {
 }
 
 .single-user-table {
+    display: flex;
     width: 50em;
     border-radius: 2em;
     border: 2px black solid;
     padding: 2em;
     margin: 1em;
-
+    flex-direction: row;
+    align-items: center;
 }
 
 .user-page-upper-table {
@@ -790,4 +792,8 @@ nav ul li a {
 
 .accepted-answer-q {
     padding-bottom: 1em;
+}
+
+.user-information-all-users {
+    padding-left: 1em;
 }

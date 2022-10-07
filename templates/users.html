@@ -5,32 +5,40 @@
         {% for user in users %}
             <div class="single-user-table">
                 {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
-                <img id="image-all-users" src="{{ url_for('static', filename=user_avatar) }}">
-                <a href="/user/{{ user.id }}">{{ user.name }}</a>
-                Created on: {{ user.member_since }}
-                Location: {{ user.location }}
-                Reputation: {{ user.reputation }}
-                {% set questions_asked = namespace(value=0) %}
-                {% for question_data in counted_questions %}
-                    {% if question_data.user_id == user.id %}
-                        {% set questions_asked.value = questions_asked.value + question_data.questions_asked %}
-                    {% endif %}
-                {% endfor %}
-                {% set answers_posted = namespace(value=0) %}
-                {% for answer_data in counted_answers %}
-                    {% if answer_data.user_id == user.id %}
-                        {% set answers_posted.value = answers_posted.value + answer_data.answers_posted %}
-                    {% endif %}
-                {% endfor %}
-                {% set comments_posted = namespace(value=0) %}
-                {% for comment_data in counted_comments %}
-                    {% if comment_data.user_id == user.id %}
-                        {% set comments_posted.value = comments_posted.value + comment_data.comments_posted %}
-                    {% endif %}
-                {% endfor %}
-                Questions asked: {{ questions_asked.value }}
-                Answers posted: {{ answers_posted.value }}
-                Comments posted: {{ comments_posted.value }}
+                <div class="user-photo-all-users">
+                    <img id="image-all-users" src="{{ url_for('static', filename=user_avatar) }}">
+                </div>
+                <div class="user-information-all-users">
+                    <a href="/user/{{ user.id }}">{{ user.name }}</a>
+                    <br>
+                    Created on: {{ user.member_since }}
+                    <br>
+                    Location: {{ user.location }}
+                    <br>
+                    Reputation: {{ user.reputation }}
+                    <br>
+                    {% set questions_asked = namespace(value=0) %}
+                    {% for question_data in counted_questions %}
+                        {% if question_data.user_id == user.id %}
+                            {% set questions_asked.value = questions_asked.value + question_data.questions_asked %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set answers_posted = namespace(value=0) %}
+                    {% for answer_data in counted_answers %}
+                        {% if answer_data.user_id == user.id %}
+                            {% set answers_posted.value = answers_posted.value + answer_data.answers_posted %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set comments_posted = namespace(value=0) %}
+                    {% for comment_data in counted_comments %}
+                        {% if comment_data.user_id == user.id %}
+                            {% set comments_posted.value = comments_posted.value + comment_data.comments_posted %}
+                        {% endif %}
+                    {% endfor %}
+                    Questions asked: {{ questions_asked.value }}
+                    Answers posted: {{ answers_posted.value }}
+                    Comments posted: {{ comments_posted.value }}
+                </div>
             </div>
         {% endfor %}
     </div>
