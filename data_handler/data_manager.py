@@ -587,3 +587,14 @@ def accept_or_remove_answer(cursor, method, answer_id, question_id):
             SET accepted_answer_id = null, has_accepted_answer = False
             WHERE id=%(question_id)s"""
     cursor.execute(query, {"answer_id": answer_id, "question_id": question_id})
+
+
+@database_connection.connection_handler
+def count_questions_asked_by_all_tags(cursor):
+    query = """
+        SELECT COUNT(q.id) AS questions_asked, t.tag_id
+        FROM question q 
+        JOIN question_tag t ON t.question_id = q.id 
+        GROUP BY t.tag_id"""
+    cursor.execute(query)
+    return cursor.fetchall()

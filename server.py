@@ -453,6 +453,13 @@ def remove_accepted_answer(answer_id):
     data_manager.accept_or_remove_answer(config.REMOVE, answer_id, question_id)
     return redirect(f'/question/{question_id}')
 
+
+@app.route("/tags", methods=[config.GET])
+def tags():
+    all_tags = data_manager.get_all_tags()
+    tags_data = data_manager.count_questions_asked_by_all_tags()
+    return render_template('tags.html', all_tags=all_tags, tags_data=tags_data)
+
 @app.route("/404")
 def display_404():
     return render_template("404.html")
