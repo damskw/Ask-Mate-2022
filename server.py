@@ -12,7 +12,7 @@ import asyncio
 UPLOAD_FOLDER = 'static/images'
 app = Flask(__name__, static_url_path='/static')
 # app = Flask(__name__)
-app.secret_key = "tabaluga"
+app.secret_key = os.environ.get('APP_KEY')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
