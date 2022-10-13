@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block title %}Edit your profile{% endblock %}
+{% block content %}
+    <div class="center-horizontally center-vertically">
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        <div class="edit-page-upper-table">
+            <div class="user-profile-photo-edit-page">
+                {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
+                <img id="edit-page-avatar" src="{{ url_for('static', filename=user_avatar) }}">
+                <form action="/user/{{ user.id }}/edit-photo" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="img" class="button-28" id="img-input-edit-profile">
+                    <input type="submit" value="CHANGE PHOTO" class="button-28" id="small-button">
+                </form>
+                <h2 id="account-sign-edit-profile-page">Account</h2>
+            </div>
+            <div class="user-information-user-page">
+                <h1>{{ user.name }}</h1>
+                <h2></h2>
+                {{ user.about_me }}
+                <div class="personal-detail-user-page">
+                    <b>Joining date:</b> {{ user.member_since }}
+                    <br>
+                    <b>Location:</b> {{ user.location }}
+                    <br>
+                    <b>Last seen:</b> {{ user.last_log_in }}
+                    <br>
+                    <b>Favourite tag:</b> CSS
+                </div>
+            </div>
+        </div>
+        <div class="edit-page-bottom-table">
+            <div class="edit-page-bottom-table-column-inside">
+                <form id="edit-profile-form" action="/user/{{ user.id }}/edit-profile" method="POST"
+                      enctype=multipart/form-data>
+
+                    <label for="username">Username</label>
+                    <input class="input-edit-profile" name="username" type="text" value="{{ user.name }}">
+
+                    <label for="e-mail">E-mail</label>
+                    <input class="input-edit-profile" name="e-mail" type="email" placeholder="{{ user.email }}"
+                           readonly>
+
+                    <label for="role">Role</label>
+                    <input class="input-edit-profile" name="role" type="text" placeholder="{{ user.role }}" readonly>
+
+                    <label for="location">Location</label>
+                    <input class="input-edit-profile" name="location" type="text" value="{{ user.location }}">
+
+                    <label for="about_me">About me</label>
+                    <textarea class="input-edit-profile" name="about_me" rows="4"
+                              cols="4">{{ user.about_me }}</textarea>
+
+                    <label for="password">Password</label>
+                    <input class="input-edit-profile" name="password" type="password" placeholder="********">
+
+                    <label for="repeat-password">Repeat password</label>
+                    <input class="input-edit-profile" name="repeat-password" type="password" placeholder="********">
+
+                    <input type="submit" value="SUBMIT" class="button-28" id="submit-button-edit-profile">
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

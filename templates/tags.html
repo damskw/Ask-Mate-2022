@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}User list{% endblock %}
+{% block content %}
+    <div class="center-horizontally center-vertically">
+        <h1>All tags and number of questions with that tag:</h1>
+        {% for tag in all_tags %}
+            {% for tag_data in tags_data %}
+                {% if tag_data.tag_id == tag.id %}
+                <h2>{{ tag.name }} ( {{ tag_data.questions_asked }} )</h2>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

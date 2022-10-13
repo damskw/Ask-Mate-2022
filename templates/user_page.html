@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="center-horizontally center-vertically">
+        {% if session.user_id == user.id %}
+            <div class="edit-profile-button-user-page">
+            <form action="/user/{{ user.id }}/edit-profile">
+                <input type="submit" class="button-28" value="EDIT PROFILE" id="small-button">
+            </form>
+{#                <button class="button-28">EDIT PROFILE</button>#}
+            </div>
+        {% endif %}
+        <div class="user-page-upper-table">
+            <div class="user-profile-photo-user-page">
+                {% set user_avatar='images/user_profile_images/' ~ user.avatar %}
+                <img id="user-page-avatar" src="{{ url_for('static', filename=user_avatar) }}">
+            </div>
+            <div class="user-information-user-page">
+                <h1>{{ user.name }}</h1>
+                <h2>About me</h2>
+                {{ user.about_me }}
+                <div class="personal-detail-user-page">
+                    <b>Joining date:</b> {{ user.member_since }}
+                    <br>
+                    <b>Location:</b> {{ user.location }}
+                    <br>
+                    <b>Last seen:</b> {{ user.last_log_in }}
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="user-page-bottom-stats-table">
+            <div class="questions-asked">
+                <h1>{{ questions_data.questions_asked }}</h1>
+                <h4>Asked questions</h4>
+            </div>
+            <div class="answers-posted">
+                <h1>{{ answers_data.answers_posted }}</h1>
+                <h4>Answers posted</h4>
+            </div>
+            <div class="comments-posted">
+                <h1>{{ comments_data.comments_posted }}</h1>
+                <h4>Comments posted</h4>
+            </div>
+            <div class="reputation-user-page-stats">
+                <h1>{{ user.reputation }}</h1>
+                <h4>Reputation points</h4>
+            </div>
+        </div>
+        {% if all_user_questions %}
+            <div class="questions-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="header-title-in-user-page">Questions posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-questions-posted-user-page">
+                    {% for question in all_user_questions %}
+                        <div class="single-question-posted-user-page">
+                            Added on {{ question.submission_time }}, Views: {{ question.view_number }},
+                            Votes: {{ question.vote_number }}
+                            <a href="/question/{{ question.id }}">
+                                <h3 class="center-horizontally"
+                                    id="header-title-in-user-page">{{ question.title }}</h3>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if all_user_answers %}
+            <div class="answers-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="header-title-in-user-page">Answers posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-answers-posted-user-page">
+                    {% for answer in all_user_answers %}
+                        <div class="single-answer-header-posted-user-page">
+                            Added on {{ answer.submission_time }}, Vote number {{ answer.vote_number }}
+                            <div class="single-answer-posted-user-page">
+                                <a href="/question/{{ answer.question_id }}">
+                                    {{ answer.message }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if all_user_comments %}
+            <div class="comments-posted-user-page">
+                <div class="center-horizontally">
+                    <h2 id="header-title-in-user-page">Comments posted by {{ user.name }}</h2>
+                </div>
+                <div class="all-comments-posted-user-page">
+                    {% for comment in all_user_comments %}
+                        <div class="single-comment-header-posted-user-page">
+                            Added on {{ comment.submission_time }}
+                            <div class="single-comment-posted-user-page">
+                                <a href="/question/{{ comment.question_id }}">
+                                    {{ comment.message }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

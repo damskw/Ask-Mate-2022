@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Ask Mate{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for("static", filename="scripts/mark.es6.js") }}"></script>
+{#    <script src="{{ url_for("static", filename="scripts/highlight_search_results.js") }}"></script>#}
+{% endblock %}
 {% block content %}
     {% if search_phrase is defined %}
         <h1 id="header-center">Search results for:
@@ -44,9 +48,7 @@
     {% endif %}
 {% if search_phrase is defined %}
     {% set phrase = "'" ~ search_phrase ~ "'" %}
-    {#    <style onload="search({{ phrase }})"></style>#}
 {% endif %}
-{#            <h1 id="question-title-in-lists"><a href="/question/{{ question.id }}">{{ question.title }}</a></h1>#}
 {% for question in questions %}
     <div class="single-question">
         <form action="/question/{{ question.id }}" method="POST">
@@ -59,7 +61,7 @@
             </button>
         </form>
         Added on {{ question.submission_time }}, Views: {{ question.view_number }},
-        Votes: {{ question.vote_number }}
+        Votes: {{ question.vote_number }}, Added By: <a href="/user/{{ question.author_id }}">{{ question.author_name }}</a>
         <br>
         <p>
         <div id="text" class="searched">
@@ -73,27 +75,11 @@
     <style onload="search({{ phrase }})"></style>
 {% endif %}
 {% if questions|length < 6 %}
-    <div class="position-middle">
+    <div class="center-horizontally">
         <a href="/list">
             <button class="button-28" id="small-button">LOAD ALL QUESTIONS</button>
         </a>
     </div>
 {% endif %}
 </div>
-    <script>
-        function search(e) {
-            let searched = e;
-            if (e !== "") {
-                let texts = document.getElementsByClassName("searched");
-                let re = new RegExp(searched, "i"); // search for all instances
-                for (let i = 0; i < texts.length; i++) {
-                    let text = texts[i]
-                    console.log(text)
-                    let newText = text.innerHTML.replace(re, `<mark>${searched}</mark>`);
-                    text.innerHTML = newText;
-                }
-
-            }
-        }
-    </script>
 {% endblock %}
